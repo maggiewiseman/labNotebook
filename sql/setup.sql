@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS student_reports;
+DROP TABLE IF EXISTS students_reports;
 DROP TABLE IF EXISTS discussions;
 DROP TABLE IF EXISTS calculations;
 DROP TABLE IF EXISTS data;
@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS titles;
 DROP TABLE IF EXISTS assignments;
 DROP TABLE IF EXISTS groups_students;
 DROP TABLE IF EXISTS groups;
-DROP TABLE IF EXISTS user_sections;
+DROP TABLE IF EXISTS users_sections;
 DROP TABLE IF EXISTS sections;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS users;
@@ -47,7 +47,7 @@ CREATE TABLE sections (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE user_sections (
+CREATE TABLE users_sections (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) NOT NULL,
     section_id INTEGER REFERENCES sections(id) NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE discussions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE student_reports (
+CREATE TABLE students_reports (
     id SERIAL PRIMARY KEY,
     student_id INTEGER REFERENCES users(id) NOT NULL,
     assignment_id INTEGER REFERENCES assignments(id) NOT NULL,
