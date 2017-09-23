@@ -1,8 +1,10 @@
+const path = require('path');
 
 var loggedOutRoutes = (app) => {
-    app.get('/', function(req, res){
-        res.sendFile(__dirname + '/index.html');
+
+    app.get('/', (req, res) => {
+        return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
 };
 
-module.exports.loggedOutRoutes = loggedOutRoutes;
+module.exports = loggedOutRoutes;

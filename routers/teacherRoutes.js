@@ -1,8 +1,9 @@
+const path = require('path');
 
 var teacherRoutes = (app) => {
-    // app.get('/', function(req, res){
-    //     res.sendFile(__dirname + '/index.html');
-    // });
+    app.get('/teacher', (req, res) => {
+        return res.sendFile( path.join( __dirname, '../index.html' ) );
+    });
 };
 
-module.exports.teacherRoutes = teacherRoutes;
+module.exports = teacherRoutes;
