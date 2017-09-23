@@ -45,8 +45,6 @@ app.use(function(req, res, next) {
 //get static files from public directory
 app.use(express.static(__dirname + '/public'));
 
-
-
 loggedOutRoutes(app);
 studentRoutes(app);
 teacherRoutes(app);
