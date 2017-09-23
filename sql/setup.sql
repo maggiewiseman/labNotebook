@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS student_reports;
+DROP TABLE IF EXISTS students_reports;
 DROP TABLE IF EXISTS discussions;
 DROP TABLE IF EXISTS calculations;
 DROP TABLE IF EXISTS data;
@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS titles;
 DROP TABLE IF EXISTS assignments;
 DROP TABLE IF EXISTS groups_students;
 DROP TABLE IF EXISTS groups;
-DROP TABLE IF EXISTS user_sections;
+DROP TABLE IF EXISTS users_sections;
 DROP TABLE IF EXISTS sections;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS users;
@@ -47,7 +47,7 @@ CREATE TABLE sections (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE user_sections (
+CREATE TABLE users_sections (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) NOT NULL,
     section_id INTEGER REFERENCES sections(id) NOT NULL,
@@ -72,21 +72,31 @@ CREATE TABLE groups_students (
 CREATE TABLE assignments (
     id SERIAL PRIMARY KEY,
     section_id INTEGER REFERENCES sections(id) NOT NULL,
-    group_id INTEGER REFERENCES groups(id),
     group_lab BOOLEAN NOT NULL,
+    group_id INTEGER REFERENCES groups(id),
     name VARCHAR(255) NOT NULL,
     instructions VARCHAR(255),
     due DATE,
     title VARCHAR(100),
+    default_title TEXT,
     abstract VARCHAR(100),
+    default_abstract TEXT,
     question VARCHAR(100),
+    default_question TEXT,
     hypothesis VARCHAR(100),
+    default_hypothesis TEXT,
     variables VARCHAR(100),
+    default_variables TEXT,
     materials VARCHAR(100),
+    default_materials TEXT,
     procedures VARCHAR(100),
+    default_procedures TEXT,
     data VARCHAR(100),
+    default_data TEXT,
     calculations VARCHAR(100),
+    default_calc TEXT,
     discussion VARCHAR(100),
+    default_discussion TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -200,7 +210,7 @@ CREATE TABLE discussions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE student_reports (
+CREATE TABLE students_reports (
     id SERIAL PRIMARY KEY,
     student_id INTEGER REFERENCES users(id) NOT NULL,
     assignment_id INTEGER REFERENCES assignments(id) NOT NULL,
