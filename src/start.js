@@ -38,11 +38,13 @@ const loggedOutRouter = (
 );
 
 const studentRouter = (
-    <Router history={browserHistory}>
-        <Route path="/student" component={StudentApp}>
-            <IndexRoute component={StudentDashboard}/>
-        </Route>
-    </Router>
+    <Provider store={store}>
+        <Router history={browserHistory}>
+            <Route path="/student" component={StudentApp}>
+                <IndexRoute component={StudentDashboard}/>
+            </Route>
+        </Router>
+    </Provider>
 )
 
 const teacherRouter = (
