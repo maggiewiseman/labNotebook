@@ -2,4 +2,5 @@ node_modules
 .DS_Store
 bundle.js
 package-lock.json
-scrap
+maggie_scrap
+secrets.json
