@@ -39,8 +39,8 @@ class AddSection extends React.Component{
                 {this.state.showDialog &&
                 <div>
                     <input type="text" name="sectionName" placeholder="Section Name" onChange={this.handleInput} ref={el => this.sectionNameInput = el}/>
-                    <input type="text" name="startDate" placeholder="Start Date (optional)" ref={el => this.startDateInput = el}/>
-                    <input type="text" name="endDate" placeholder="End Date (optional)" ref={el => this.endDateInput = el}/>
+                    <input type="text" name="startDate" placeholder="Start Date (optional)" onChange={this.handleInput} ref={el => this.startDateInput = el}/>
+                    <input type="text" name="endDate" placeholder="End Date (optional)" onChange={this.handleInput} ref={el => this.endDateInput = el}/>
                     <button onClick={this.submit}>Save New Course</button>
                 </div>}
             </div>

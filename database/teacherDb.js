@@ -3,7 +3,7 @@ var localUrl = '';
 
 if(!process.env.DATABASE_URL) {
     const secrets = require('../secrets.json');
-    localUrl = `postgres:${secrets.dbUser}:${secrets.pass}@localhost:5432/labnb`;
+    localUrl = `postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:5432/labnb`;
 }
 var dbUrl = process.env.DATABASE_URL || localUrl;
 

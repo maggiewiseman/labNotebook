@@ -10,6 +10,7 @@ var teacherRoutes = (app) => {
     /********** SECTIONS *********/
     app.post('/api/teacher/section', (req, res) => {
         let data = [req.body.courseId, req.body.name, req.body.start, req.body.end];
+        console.log(data);
         return saveNewSection(data).then(() => {
             res.json({
                 success: true
