@@ -35,19 +35,11 @@ class TeacherCourses extends React.Component {
         if(courses) {
             var courseList = courses.map(course => {
                 var link = '/teacher/course/' + course.id;
-                if(sections ) {
-                    var sectionForThisCourse = sections.filter(section => {
-                        return section.course_id = course.id;
-                    });
-                    var sectionList = sectionForThisCourse.map(section => {
-                        return (
-                            <li key={section.id.toString()}>
-                                <Link to={`/teacher/section/${section.section_id}`}>{section.name}
-                                </Link>
-                            </li>
-                        );
-                    });
-
+                if(sections) {
+                    console.log('there are sections');
+                    var sectionsForThisCourse = filterListByCourseId(sections, course.id);
+                    console.log(sectionsForThisCourse);
+                    var sectionList = makeList(sectionsForThisCourse);
                     return (
                         <li key={course.id.toString()}>
                             <Link to={link}>{course.name}</Link>
@@ -56,6 +48,10 @@ class TeacherCourses extends React.Component {
                             </ul>
                         </li>
                     );
+                } else {
+                    <li key={course.id.toString()}>
+                        <Link to={link}>{course.name}</Link>
+                    </li>
                 }
             });
         }
@@ -90,3 +86,29 @@ const mapStateToProps = function(state) {
     };
 }
 export default connect(mapStateToProps)(TeacherCourses);
+
+function filterListByCourseId(sections, courseId) {
+    console.log(sections);
+    console.log('id: ', courseId);
+    var filteredList = sections.filter(section => {
+        return section.course_id == courseId;
+    });
+    return filteredList;
+}
+
+function makeList(items) {
+    var itemList = items.map(item => {
+        console.log(item);
+        return (
+            <li key={item.id.toString()}>
+                <Link to={`/teacher/section/${item.id}`}>{item.name}
+                </Link>
+            </li>
+        );
+    });
+    return (
+        <ul>
+            {itemList}
+        </ul>
+    );
+}
