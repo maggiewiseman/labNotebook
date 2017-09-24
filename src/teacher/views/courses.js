@@ -6,6 +6,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { saveNewCourse } from '../actions';
+import { Link } from 'react-router';
 
 class TeacherCourses extends React.Component {
     constructor(props) {
@@ -24,6 +25,16 @@ class TeacherCourses extends React.Component {
         this.props.dispatch(saveNewCourse( this.state.courseName));
     }
     render() {
+        var { courses, sections} = this.props;
+
+        if(courses) {
+            var courseList = courses.map(course => {
+                var link = '/course/' + course.id;
+                return (
+                    <li><Link to={link}>{course.name}</Link></li>
+                );
+            });
+        }
         return (
             <div>
                 <header>
@@ -32,6 +43,16 @@ class TeacherCourses extends React.Component {
                 <input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput}/>
 
                 <button type="submit" onClick={this.submit}>Save new course</button>
+                {courses &&
+                    <div>
+                        <header>
+                            Course List
+                        </header>
+                        <ul>
+                            {courseList}
+                        </ul>
+                    </div>
+                }
             </div>
         );
     }
@@ -40,8 +61,8 @@ class TeacherCourses extends React.Component {
 {/********* CONNECTED COMPONENT ********/}
 const mapStateToProps = function(state) {
     return {
-        courses: state.courses,
-        sections: state.sections
+        courses: state.teachers.courses,
+        sections: state.teachers.sections
     };
 }
 export default connect(mapStateToProps)(TeacherCourses);
