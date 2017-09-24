@@ -26,6 +26,7 @@ class TeacherCourses extends React.Component {
     }
     submit() {
         this.props.dispatch(saveNewCourse( this.state.courseName));
+        this.courseNameInput.value = '';
     }
     render() {
         var { courses, sections} = this.props;
@@ -43,7 +44,7 @@ class TeacherCourses extends React.Component {
                 <header>
                     Make a new course
                 </header>
-                <input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput}/>
+                <input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
 
                 <button type="submit" onClick={this.submit}>Save new course</button>
                 {courses &&
