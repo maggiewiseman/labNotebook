@@ -15,7 +15,7 @@ class TeacherCourses extends React.Component {
         this.submit = this.submit.bind(this);
     }
     componentDidMount() {
-        //this.props.dispatch(getCourseList());
+        this.props.dispatch(getCourseList());
     }
     handleInput(e) {
         this.setState({
