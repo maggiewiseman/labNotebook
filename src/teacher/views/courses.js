@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { saveNewCourse, getCourseList } from '../actions';
+import { saveNewCourse, getCourseList, getAllSections } from '../actions';
 import { Link } from 'react-router';
 
 class TeacherCourses extends React.Component {
@@ -16,6 +16,7 @@ class TeacherCourses extends React.Component {
     }
     componentDidMount() {
         this.props.dispatch(getCourseList());
+        this.props.dispatch(getAllSections());
     }
     handleInput(e) {
         this.setState({
@@ -33,10 +34,29 @@ class TeacherCourses extends React.Component {
 
         if(courses) {
             var courseList = courses.map(course => {
-                var link = '/course/' + course.id;
-                return (
-                    <li><Link to={link}>{course.name}</Link></li>
-                );
+                var link = '/teacher/course/' + course.id;
+                if(sections ) {
+                    var sectionForThisCourse = sections.filter(section => {
+                        return section.course_id = course.id;
+                    });
+                    var sectionList = sectionForThisCourse.map(section => {
+                        return (
+                            <li key={section.id.toString()}>
+                                <Link to={`/teacher/section/${section.section_id}`}>{section.name}
+                                </Link>
+                            </li>
+                        );
+                    });
+
+                    return (
+                        <li key={course.id.toString()}>
+                            <Link to={link}>{course.name}</Link>
+                            <ul>
+                                {sectionList}
+                            </ul>
+                        </li>
+                    );
+                }
             });
         }
         return (
