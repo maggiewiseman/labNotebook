@@ -22,6 +22,7 @@
     "babel-preset-react": "^6.16.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.15.2",
+    "chai": "^4.1.2",
     "compression": "^1.7.0",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-alpha.2",
@@ -54,5 +55,8 @@
     "url": "https://github.com/maggiewiseman/labNotebook/issues"
   },
   "homepage": "https://github.com/maggiewiseman/labNotebook#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "mocha": "^3.5.3"
+  }
 }

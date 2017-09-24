@@ -21,7 +21,7 @@ class TeacherCourses extends React.Component {
         });
     }
     submit() {
-        this.props.dispatch(saveNewCourse(this.state.courseName, this.state.courseDesc));
+        this.props.dispatch(saveNewCourse( this.state.courseName));
     }
     render() {
         return (
@@ -30,7 +30,7 @@ class TeacherCourses extends React.Component {
                     Make a new course
                 </header>
                 <input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput}/>
-                <input type="text" name="courseDesc" placeholder="Description (optional)" onChange={this.handleInput}/>
+
                 <button type="submit" onClick={this.submit}>Save new course</button>
             </div>
         );
