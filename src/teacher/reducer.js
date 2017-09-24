@@ -1,13 +1,30 @@
-var SAVE_NEW_COURSE = 'SAVE_NEW_COURSE';
+const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
+    SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
+    ERROR = 'ERROR';
 
 
 export default function(state = {}, action) {
+    console.log('REDUCER: the action is: ', action);
 
-    if(action.type == SAVE_NEW_COURSE) {
-        console.log('REDUCER: saving new course');
-        Object.assign({}, state, {
-
+    if(action.type == SAVE_SECTION_LIST) {
+        console.log('REDUCER: saving section list');
+        state = Object.assign({}, state, {
+            sections: action.payload
         });
     }
+
+    if(action.type == SAVE_COURSE_LIST) {
+        console.log('REDUCER: saving course list');
+        state = Object.assign({}, state, {
+            courses: action.payload
+        });
+    }
+
+    if(action.type == ERROR) {
+        state = Object.assign({}, state, {
+            error: action.payload
+        });
+    }
+    console.log(state);
     return state;
 }
