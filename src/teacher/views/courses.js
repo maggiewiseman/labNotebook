@@ -10,6 +10,9 @@ import AddSection from '../components/addSection';
 class TeacherCourses extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            courseName: ''
+        };
         this.handleInput = this.handleInput.bind(this);
         this.submit = this.submit.bind(this);
     }
@@ -23,11 +26,20 @@ class TeacherCourses extends React.Component {
         });
     }
     submit() {
-        this.props.dispatch(saveNewCourse( this.state.courseName));
-        this.courseNameInput.value = '';
+        if(this.state.courseName){
+            this.props.dispatch(saveNewCourse( this.state.courseName));
+            this.courseNameInput.value = '';
+            this.setState({
+                courseName: ''
+            });
+        } else {
+            this.setState({
+                error: 'Please provide a course name.'
+            })
+        }
     }
     render() {
-        var { courses, sections} = this.props;
+        var { courses, sections, error } = this.props;
 
         if(courses) {
             var courseList = makeCourseList(courses, sections);
@@ -37,6 +49,8 @@ class TeacherCourses extends React.Component {
                 <header>
                     Make a new course
                 </header>
+                {this.state.error && <p>{this.state.error}</p>}
+                {error && <p>{error}</p>}
                 <input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
 
                 <button type="submit" onClick={this.submit}>Save new course</button>
@@ -59,7 +73,8 @@ class TeacherCourses extends React.Component {
 const mapStateToProps = function(state) {
     return {
         courses: state.teachers.courses,
-        sections: state.teachers.sections
+        sections: state.teachers.sections,
+        error: state.teachers.error
     };
 }
 export default connect(mapStateToProps)(TeacherCourses);

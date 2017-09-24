@@ -32,15 +32,16 @@ class AddSection extends React.Component{
         this.toggleShowDialog();
     }
     render() {
-        const { courseId } = this.props;
+        const { courseId, error } = this.props;
         return (
             <div>
+                {error && <p>{error}</p>}
                 {this.state.showDialog || <button onClick={this.toggleShowDialog}>Add New Section</button>}
                 {this.state.showDialog &&
                 <div>
                     <input type="text" name="sectionName" placeholder="Section Name" onChange={this.handleInput} ref={el => this.sectionNameInput = el}/>
                     <input type="text" name="startDate" placeholder="Start Date (optional)" onChange={this.handleInput} ref={el => this.startDateInput = el}/>
-                    <input type="text" name="endDate" placeholder="End Date (optional)" onChange={this.handleInput} ref={el => this.endDateInput = el}/>
+                    <input type="text" name="endDate" placeholder="End Date (optional)" onChange={this.handleInput}     ref={el => this.endDateInput = el}/>
                     <button onClick={this.submit}>Save New Course</button>
                 </div>}
             </div>
@@ -50,4 +51,9 @@ class AddSection extends React.Component{
 
 
 {/********* CONNECTED COMPONENT ********/}
-export default connect()(AddSection);
+const mapStateToProps = function(state) {
+    return {
+        error: state.teachers.error
+    };
+}
+export default connect(mapStateToProps)(AddSection);

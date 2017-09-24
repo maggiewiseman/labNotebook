@@ -1,5 +1,6 @@
 const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
-    SAVE_SECTION_LIST = 'SAVE_SECTION_LIST';
+    SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
+    ERROR = 'ERROR';
 
 
 export default function(state = {}, action) {
@@ -16,6 +17,12 @@ export default function(state = {}, action) {
         console.log('REDUCER: saving course list');
         state = Object.assign({}, state, {
             courses: action.payload
+        });
+    }
+
+    if(action.type == ERROR) {
+        state = Object.assign({}, state, {
+            error: action.payload
         });
     }
     console.log(state);

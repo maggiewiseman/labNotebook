@@ -1,13 +1,21 @@
 import axios from '../api/axios';
 
 const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
-    SAVE_SECTION_LIST = 'SAVE_SECTION_LIST';
+    SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
+    ERROR = 'ERROR';
 
 /************ SECTIONS *************/
 export function saveNewSection(courseId, name, start, end){
-    return axios.post('/api/teacher/section', {courseId, name, start, end}).then(() => {
-        return getAllSections();
-    });
+    if(name) {
+        return axios.post('/api/teacher/section', {courseId, name, start, end}).then(() => {
+            return getAllSections();
+        });
+    } else {
+        return {
+            type: ERROR,
+            payload: "You must give a name for the section"
+        };
+    }
 }
 export function getAllSections() {
     return axios.get('/api/teacher/sections').then(results => {
@@ -16,7 +24,10 @@ export function getAllSections() {
             payload: results.data.sections
         };
     }).catch(e => {
-        console.log('error: ', e);
+        return {
+            type: ERROR,
+            payload: e
+        };
     });
 }
 
