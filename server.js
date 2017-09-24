@@ -36,11 +36,11 @@ app.use(cookieSession({
 }));
 
 //csurf check
-app.use(csurf());
-app.use(function(req, res, next) {
-    res.cookie('north_Shore__Wave___Rider', req.csrfToken());
-    next();
-});
+// app.use(csurf());
+// app.use(function(req, res, next) {
+//     res.cookie('north_Shore__Wave___Rider', req.csrfToken());
+//     next();
+// });
 
 //get static files from public directory
 app.use(express.static(__dirname + '/public'));
