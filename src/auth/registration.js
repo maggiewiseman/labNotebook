@@ -53,7 +53,7 @@ export default class Registration extends React.Component {
                     error: true
                 } else {
 
-                    browserHistory.push('/student');
+                    location.replace('/student');
                 }
             })
             .catch((err) => {
@@ -83,7 +83,7 @@ export default class Registration extends React.Component {
                         error: true
                     } else {
 
-                        browserHistory.push('/teacher');
+                        location.replace('/teacher');
                     }
                 })
                 .catch((err) => {
