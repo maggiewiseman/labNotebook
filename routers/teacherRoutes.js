@@ -18,10 +18,11 @@ var teacherRoutes = (app) => {
                 error: e
             });
         })
-    })
+    });
 
-    app.get('/api/teacher/courses/:teacherId', (req,res) => {
-        let data = [req.params.teacherId];
+    app.get('/api/teacher/courses', (req,res) => {
+        //need to change to req.session.id once there's a session
+        let data = ['1'];
         //call db
         return getCoursesByTeacher(data).then((results) => {
             res.json({
