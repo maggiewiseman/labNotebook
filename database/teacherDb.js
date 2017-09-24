@@ -15,7 +15,7 @@ function saveNewCourse(data) {
     return db.query(queryStr, data);
 }
 
-module.exports.getCoursesByTeacher = (data) => {
+function getCoursesByTeacher(data){
     console.log('DBQUERY: saveNewCourse.');
     let queryStr = 'SELECT * FROM courses WHERE teacher_id = $1';
     return db.query(queryStr, data);
@@ -23,6 +23,11 @@ module.exports.getCoursesByTeacher = (data) => {
 
 module.exports.saveNewCourse = saveNewCourse;
 
+module.exports.getCoursesByTeacher = getCoursesByTeacher;
+
 
 
 //saveNewCourse([1, 'Biology']);
+// getCoursesByTeacher([1]).then((results) => {
+//     console.log(results.rows);
+// }).catch(e => console.error(e));
