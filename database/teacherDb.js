@@ -11,7 +11,7 @@ var db = spicedPg(dbUrl);
 /********** SECTIONS ************/
 function getAllSections(data) {
     console.log('DBQUERY: getAllSections,', data);
-    let queryStr = 'SELECT sections.id, sections.name, sections.start_date, sections.end_date, courses.teacher_id FROM sections JOIN courses ON courses.id = sections.course_id WHERE courses.teacher_id = $1';
+    let queryStr = 'SELECT sections.id AS section_id, sections.name, sections.start_date, sections.end_date, courses.teacher_id, courses.id AS course_id FROM sections JOIN courses ON courses.id = sections.course_id WHERE courses.teacher_id = $1';
     return db.query(queryStr, data);
 }
 
