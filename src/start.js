@@ -22,6 +22,8 @@ import StudentDashboard from './student/dashboard';
 import TeacherApp from './teacher/views/app';
 import TeacherDashboard from './teacher/views/dashboard';
 import TeacherCourses from './teacher/views/courses';
+import TeacherAssignments from './teacher/views/assignments';
+import TeacherNewAssignment from './teacher/views/newAssignment';
 
 
 
@@ -58,6 +60,8 @@ const teacherRouter = (
         <Router history={browserHistory}>
             <Route path="/teacher" component={TeacherApp}>
                 <Route path="/teacher/courses" component={TeacherCourses} />
+                <Route path="/teacher/assignments" component={TeacherAssignments}/>
+                <Route path="/teacher/new/assignment" component={TeacherNewAssignment} />
                 <IndexRoute component={TeacherDashboard}/>
             </Route>
         </Router>
