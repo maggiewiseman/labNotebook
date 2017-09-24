@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { saveNewSection } from '../actions';
 
-export default class AddSection extends React.Component{
+class AddSection extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -23,6 +25,10 @@ export default class AddSection extends React.Component{
         });
     }
     submit() {
+        this.props.dispatch(saveNewSection( this.props.courseId, this.state.sectionName, this.state.startDate, this.state.endDate));
+        this.sectionNameInput.value = '';
+        this.startDateInput.value = '';
+        this.endDateInput.value = '';
         this.toggleShowDialog();
     }
     render() {
@@ -32,15 +38,16 @@ export default class AddSection extends React.Component{
                 {this.state.showDialog || <button onClick={this.toggleShowDialog}>Add New Section</button>}
                 {this.state.showDialog &&
                 <div>
-                    <input type="text" name="sectionName" placeholder="Section Name" onChange={this.handleInput}/>
-                    <input type="text" name="startDate" placeholder="Start Date (optional)"/>
-                    <input type="text" name="endDate" placeholder="End Date (optional)" />
+                    <input type="text" name="sectionName" placeholder="Section Name" onChange={this.handleInput} ref={el => this.sectionNameInput = el}/>
+                    <input type="text" name="startDate" placeholder="Start Date (optional)" ref={el => this.startDateInput = el}/>
+                    <input type="text" name="endDate" placeholder="End Date (optional)" ref={el => this.endDateInput = el}/>
                     <button onClick={this.submit}>Save New Course</button>
-                </div>
-
-                }
-
+                </div>}
             </div>
         )
     }
 }
+
+
+{/********* CONNECTED COMPONENT ********/}
+export default connect()(AddSection);

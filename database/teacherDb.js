@@ -9,6 +9,11 @@ var dbUrl = process.env.DATABASE_URL || localUrl;
 
 var db = spicedPg(dbUrl);
 /********** SECTIONS ************/
+function saveNewSection(data) {
+    console.log('DBQUERY: saveNewSection,', data);
+    let queryStr = 'INSERT INTO sections (course_id, name, start_date, end_date) VALUES ($1, $2, $3, $4)';
+    return db.query(queryStr, data);
+}
 function getAllSections(data) {
     console.log('DBQUERY: getAllSections,', data);
     let queryStr = 'SELECT sections.id, sections.name, sections.start_date, sections.end_date, courses.teacher_id, courses.id AS course_id FROM sections JOIN courses ON courses.id = sections.course_id WHERE courses.teacher_id = $1';
@@ -42,6 +47,8 @@ function deleteCourse(id) {
 module.exports.saveNewCourse = saveNewCourse;
 module.exports.getCoursesByTeacher = getCoursesByTeacher;
 module.exports.deleteCourse = deleteCourse;
+
+module.exports.saveNewSection = saveNewSection;
 module.exports.getSectionsByCourseId = getSectionsByCourseId;
 module.exports.getAllSections = getAllSections;
 

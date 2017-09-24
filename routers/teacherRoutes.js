@@ -1,6 +1,6 @@
 const path = require('path');
 
-const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId} = require("../database/teacherDb.js");
+const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection} = require("../database/teacherDb.js");
 
 var teacherRoutes = (app) => {
     app.get('/teacher', (req, res) => {
@@ -8,6 +8,18 @@ var teacherRoutes = (app) => {
     });
 
     /********** SECTIONS *********/
+    app.post('/api/teacher/section', (req, res) => {
+        let data = [req.body.courseId, req.body.name, req.body.start, req.body.end];
+        return saveNewSection(data).then(() => {
+            res.json({
+                success: true
+            });
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
     //get all the sections a teacher has
     app.get('/api/teacher/sections', (req,res) => {
         //FIX: reset to req.session.id
@@ -51,7 +63,7 @@ var teacherRoutes = (app) => {
             res.json({
                 error: e
             });
-        })
+        });
     });
 
     app.get('/api/teacher/courses', (req,res) => {
