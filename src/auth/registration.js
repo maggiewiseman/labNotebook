@@ -37,13 +37,13 @@ export default class Registration extends React.Component {
 
     handleStudentRegistration(e) {
 
-        const {first, last, email, password, course} = this.state;
+        const {first_name, last_name, email, password, course} = this.state;
 
 
-        if(first && last && email && password && course) {
+        if(first_name && last_name && email && password && course) {
 
-            axios.post('/student/register', {
-                first, last, email, password, course
+            axios.post('/api/student/register', {
+                first_name, last_name, email, password, course
             })
             .then((res) => {
 
@@ -53,7 +53,7 @@ export default class Registration extends React.Component {
                     error: true
                 } else {
 
-                    location.replace('/');
+                    browserHistory.push('/student');
                 }
             })
             .catch((err) => {
@@ -67,13 +67,13 @@ export default class Registration extends React.Component {
     }
 
     handleTeacherRegistration(e) {
-        const {first, last, email, password, course} = this.state;
+        const {first_name, last_name, email, password, course} = this.state;
 
 
-        if (first && last && email && password) {
+        if (first_name && last_name && email && password) {
 
-            axios.post('/teacher/register', {
-                    first, last, email, password
+            axios.post('/api/teacher/register', {
+                    first_name, last_name, email, password
                 })
                 .then((res) => {
 
@@ -83,7 +83,7 @@ export default class Registration extends React.Component {
                         error: true
                     } else {
 
-                        location.replace('/');
+                        browserHistory.push('/teacher');
                     }
                 })
                 .catch((err) => {
@@ -99,8 +99,8 @@ export default class Registration extends React.Component {
         const studentRegistration = (
             <div>
                 <h3 className="signup-title">PLEASE SIGN UP</h3>
-                    <input className="reg-input" name="first" placeholder="First Name" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="last" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
+                    <input className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
+                    <input className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="course" placeholder="Course Code" onChange={e => this.handleChange(e)}/>
@@ -113,8 +113,8 @@ export default class Registration extends React.Component {
         const teacherRegistration = (
             <div>
                 <h3 className="signup-title">PLEASE SIGN UP</h3>
-                    <input className="reg-input" name="first" placeholder="First Name" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="last" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
+                    <input className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
+                    <input className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
 

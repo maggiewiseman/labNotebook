@@ -26,7 +26,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     profile_pic VARCHAR(255),
-    course VARCHAR(300),
+    bio VARCHAR(300),
     role VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

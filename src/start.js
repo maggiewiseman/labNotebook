@@ -37,7 +37,7 @@ const reducers = combineReducers({
 
 //Routers
 const loggedOutRouter = (
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
         <Route path="/" component={Welcome}>
             <IndexRoute component={Registration} />
             <Route path="login" component={Login} />
@@ -71,6 +71,7 @@ if (location.pathname == '/student') {
     console.log('using student router');
     route = studentRouter;
 } else if (location.pathname == '/teacher') {
+    console.log('using teacher router');
     route = teacherRouter;
 }
 

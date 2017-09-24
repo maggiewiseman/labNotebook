@@ -1,7 +1,7 @@
 var spicedPg = require('spiced-pg');
 var bcrypt = require('bcryptjs');
 const secrets = require('../secrets.json');
-const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.pass}@localhost:5432/labnotebook`);
+const db = spicedPg(`postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:5432/labnb`);
 
 
 
@@ -38,18 +38,17 @@ module.exports.checkPassword = function (textEnteredInLoginForm, hashedPasswordF
     });
 };
 
+module.exports.addStudent = function (first_name, last_name, email, password) {
 
-module.exports.addStudent = function (first, last, email, password, course) {
-
-    const insert = `INSERT INTO users (first_name, last_name, email, password, course, role) VALUES ($1, $2, $3, $4, $5, 'student') RETURNING id, first_name, last_name, email, role`;
-    const result = db.query(insert, [first, last, email, password, course]);
+    const insert = `INSERT INTO users (first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, 'student') RETURNING id, first_name, last_name, email, role `;
+    const result =  db.query(insert, [first_name, last_name, email, password]);
     return result;
 }
 
-module.exports.addTeacher = function (first, last, email, password) {
+module.exports.addTeacher = function (first_name, last_name, email, password) {
 
-    const insert = `INSERT INTO users (first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, 'teacher') RETURNING id, first_name, last_name, email, role`;
-    const result = db.query(insert, [first, last, email, password]);
+    const insert = `INSERT INTO users (first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, 'teacher') RETURNING id, first_name, last_name, email, role `;
+    const result = db.query(insert, [first_name, last_name, email, password]);
     return result;
 }
 
