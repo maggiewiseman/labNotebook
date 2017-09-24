@@ -8,6 +8,7 @@ export default class AddSection extends React.Component{
         }
         this.handleInput = this.handleInput.bind(this);
         this.toggleShowDialog = this.toggleShowDialog.bind(this);
+        this.submit = this.submit.bind(this);
     }
     toggleShowDialog() {
         this.setState({
@@ -21,6 +22,9 @@ export default class AddSection extends React.Component{
             console.log('Add Section: handleInput state:', this.state);
         });
     }
+    submit() {
+        this.toggleShowDialog();
+    }
     render() {
         const { courseId } = this.props;
         return (
@@ -31,7 +35,7 @@ export default class AddSection extends React.Component{
                     <input type="text" name="sectionName" placeholder="Section Name" onChange={this.handleInput}/>
                     <input type="text" name="startDate" placeholder="Start Date (optional)"/>
                     <input type="text" name="endDate" placeholder="End Date (optional)" />
-                    <button>Save New Course</button>
+                    <button onClick={this.submit}>Save New Course</button>
                 </div>
 
                 }
