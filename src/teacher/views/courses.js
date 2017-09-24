@@ -40,6 +40,7 @@ class TeacherCourses extends React.Component {
 {/********* CONNECTED COMPONENT ********/}
 const mapStateToProps = function(state) {
     return {
+        courses: state.courses,
         sections: state.sections
     };
 }

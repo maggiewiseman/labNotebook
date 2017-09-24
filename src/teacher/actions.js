@@ -1,6 +1,6 @@
 import axios from '../api/axios';
 
-var SAVE_NEW_COURSE = 'SAVE_NEW_COURSE';
+var SAVE_COURSE_LIST = 'SAVE_COURSE_LIST';
 
 export function saveNewCourse(name, desc) {
     console.log('ACTIONS: saveNewCourse');
@@ -12,8 +12,8 @@ export function saveNewCourse(name, desc) {
     }).then((results) => {
         console.log('Actions: back from getting courses');
         return {
-            type: SAVE_NEW_COURSE,
-            courseList: results.data.courses
+            type: SAVE_COURSE_LIST,
+            payload: results.data.courses
         };
     });
 
