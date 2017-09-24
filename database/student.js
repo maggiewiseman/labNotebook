@@ -10,5 +10,5 @@ var dbUrl = process.env.DATABASE_URL || localUrl;
 var db = spicedPg(dbUrl);
 
 module.exports.makeCourse = (data) => {
-    
+
 };
