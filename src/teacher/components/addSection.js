@@ -4,9 +4,15 @@ export default class AddSection extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            showAddSectionDialog: false
+            showDialog: false
         }
         this.handleInput = this.handleInput.bind(this);
+        this.toggleShowDialog = this.toggleShowDialog.bind(this);
+    }
+    toggleShowDialog() {
+        this.setState({
+            showDialog: !this.state.showDialog
+        });
     }
     handleInput(e) {
         this.setState({
@@ -19,8 +25,8 @@ export default class AddSection extends React.Component{
         const { courseId } = this.props;
         return (
             <div>
-                {this.state.showAddSectionDialog || <button>Add New Section</button>}
-                {this.state.showAddSectionDialog &&
+                {this.state.showDialog || <button onClick={this.toggleShowDialog}>Add New Section</button>}
+                {this.state.showDialog &&
                 <div>
                     <input type="text" name="sectionName" placeholder="Section Name" onChange={this.handleInput}/>
                     <input type="text" name="startDate" placeholder="Start Date (optional)"/>
