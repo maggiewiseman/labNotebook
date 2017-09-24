@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import { Provider } from 'react-redux';
@@ -11,8 +11,8 @@ import studentReducer from './student/reducer';
 
 //Component Import
 import Welcome from './auth/welcome';
-import Main from './auth/main';
 import Registration from './auth/registration';
+import Login from './auth/login';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 //Student Component Imports
@@ -39,9 +39,8 @@ const reducers = combineReducers({
 const loggedOutRouter = (
     <Router history={browserHistory}>
         <Route path="/" component={Welcome}>
-            <IndexRoute component={Main} />
-            <Route path="/register" component={Registration} />
-
+            <IndexRoute component={Registration} />
+            <Route path="login" component={Login} />
         </Route>
     </Router>
 );

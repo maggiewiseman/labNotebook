@@ -1,17 +1,13 @@
 var spicedPg = require('spiced-pg');
-var localUrl = '';
+var bcrypt = require('bcryptjs');
+const secrets = require('../secrets.json');
+const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.pass}@localhost:5432/labnotebook`);
 
-if(!process.env.DATABASE_URL) {
-    const secrets = require('../secrets.json');
-    localUrl = `postgres:${secrets.dbUser}:${secrets.pass}@localhost:5432/labnb`;
-}
-var dbUrl = process.env.DATABASE_URL || localUrl;
 
-var db = spicedPg(dbUrl);
 
 
 module.exports.hashPassword = function (plainTextPassword) {
-    console.log("about to hash", plainTextPassword);
+
     return new Promise(function (resolve, reject) {
         bcrypt.genSalt(function (err, salt) {
             if (err) {
@@ -23,7 +19,7 @@ module.exports.hashPassword = function (plainTextPassword) {
                     return reject(err);
                 }
                 resolve(hash);
-                console.log('users.js: hashPassword successful', hash)
+
 
             });
         });
@@ -43,11 +39,22 @@ module.exports.checkPassword = function (textEnteredInLoginForm, hashedPasswordF
 };
 
 
-module.exports.addUser = function (first, last, email, password, course, role) {
+module.exports.addStudent = function (first, last, email, password, course) {
 
-    const insert = `INSERT INTO users (first_name, last_name, email, password, course, role ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, first_name, last_name, email, role`;
+    const insert = `INSERT INTO users (first_name, last_name, email, password, course, role) VALUES ($1, $2, $3, $4, $5, 'student') RETURNING id, first_name, last_name, email, role`;
+    const result = db.query(insert, [first, last, email, password, course]);
+    return result;
+}
 
-    const result = db.query(insert);
+module.exports.addTeacher = function (first, last, email, password) {
 
+    const insert = `INSERT INTO users (first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, 'teacher') RETURNING id, first_name, last_name, email, role`;
+    const result = db.query(insert, [first, last, email, password]);
+    return result;
+}
+
+module.exports.getUserByEmail = function (email) {
+    const select  = `SELECT * FROM users WHERE email=$1`;
+    const result = db.query(select, [email]);
     return result;
 }

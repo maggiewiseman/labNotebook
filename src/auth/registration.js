@@ -1,12 +1,31 @@
 import React from 'react';
+import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import axios from 'axios';
-import {Link} from 'react-router'
 
 export default class Registration extends React.Component {
+
 
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+
+    handleTeacherSubmit(e) {
+
+        console.log('teacher button selected');
+        this.setState({
+            role: 'teacher'
+        })
+    };
+
+
+    handleStudentSubmit() {
+
+        console.log('student button selected');
+        this.setState({
+            role: 'student'
+        })
     }
 
     handleChange(e) {
@@ -16,12 +35,12 @@ export default class Registration extends React.Component {
         });
     }
 
-    handleSubmit(e) {
+    handleStudentRegistration(e) {
 
         const {first, last, email, password, course} = this.state;
 
 
-        if (this.state.role === 'student') {
+        if(first && last && email && password && course) {
 
             axios.post('/student/register', {
                 first, last, email, password, course
@@ -40,9 +59,20 @@ export default class Registration extends React.Component {
             .catch((err) => {
                 console.log(err);
             })
-        } else if (this.state.role === 'teacher') {
+        } else {
 
-                axios.post('/teacher/register', {
+            //change aler to adding a <div> w/ error message
+            alert('Something went wrong. Please try again.');
+        }
+    }
+
+    handleTeacherRegistration(e) {
+        const {first, last, email, password, course} = this.state;
+
+
+        if (first && last && email && password) {
+
+            axios.post('/teacher/register', {
                     first, last, email, password
                 })
                 .then((res) => {
@@ -60,15 +90,11 @@ export default class Registration extends React.Component {
                     console.log(err);
                 });
 
-        } else {
-
-            //change aler to adding a <div> w/ error message
-            alert('Something went wrong. Please try again.');
         }
 
     }
 
-    render() {
+    render () {
 
         const studentRegistration = (
             <div>
@@ -80,7 +106,7 @@ export default class Registration extends React.Component {
                     <input className="reg-input" name="course" placeholder="Course Code" onChange={e => this.handleChange(e)}/>
 
 
-                    <button className="reg-button" onClick={e => this.handleSubmit(e)}> Submit </button>
+                    <button className="reg-button" onClick={e => this.handleStudentRegistration(e)}> Submit </button>
             </div>
         )
 
@@ -92,16 +118,26 @@ export default class Registration extends React.Component {
                     <input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
 
-                    <button className="reg-button" onClick={e => this.handleSubmit(e)}> Submit </button>
+                    <button className="reg-button" onClick={e => this.handleTeacherRegistration(e)}> Submit </button>
             </div>
         )
 
         return (
-        <div>
-        HELLO
+            <div>
 
+            <h3>Please select one of the following to register:</h3>
 
-        </div>
-        );
+            <button className="teacher-button" onClick={e => this.handleTeacherSubmit(e)}> TEACHER </button>
+
+            <button className="teacher-button" onClick={e => this.handleStudentSubmit(e)}> STUDENT </button>
+
+            {this.state.role == 'student' && studentRegistration}
+            {this.state.role === 'teacher' && teacherRegistration}
+
+            <div>If already a member, please<Link to="/login"> LOGIN</Link></div>
+
+            </div>
+
+        )
     }
 }
