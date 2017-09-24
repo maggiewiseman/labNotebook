@@ -1,12 +1,11 @@
 //This will have 2 sections
 //A make a new course section
 //A list of current courses and sections
-
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
 import { Link } from 'react-router';
+import AddSection from '../components/addSection';
 
 class TeacherCourses extends React.Component {
     constructor(props) {
@@ -21,8 +20,6 @@ class TeacherCourses extends React.Component {
     handleInput(e) {
         this.setState({
             [e.target.name]: e.target.value
-        }, () => {
-            console.log('COURSES: handleInput state:', this.state);
         });
     }
     submit() {
@@ -33,27 +30,7 @@ class TeacherCourses extends React.Component {
         var { courses, sections} = this.props;
 
         if(courses) {
-            var courseList = courses.map(course => {
-                var link = '/teacher/course/' + course.id;
-                if(sections) {
-                    console.log('there are sections');
-                    var sectionsForThisCourse = filterListByCourseId(sections, course.id);
-                    console.log(sectionsForThisCourse);
-                    var sectionList = makeList(sectionsForThisCourse);
-                    return (
-                        <li key={course.id.toString()}>
-                            <Link to={link}>{course.name}</Link>
-                            <ul>
-                                {sectionList}
-                            </ul>
-                        </li>
-                    );
-                } else {
-                    <li key={course.id.toString()}>
-                        <Link to={link}>{course.name}</Link>
-                    </li>
-                }
-            });
+            var courseList = makeCourseList(courses, sections);
         }
         return (
             <div>
@@ -87,6 +64,7 @@ const mapStateToProps = function(state) {
 }
 export default connect(mapStateToProps)(TeacherCourses);
 
+/********** LIST MAKING FUNCTIONS ************/
 function filterListByCourseId(sections, courseId) {
     console.log(sections);
     console.log('id: ', courseId);
@@ -111,4 +89,29 @@ function makeList(items) {
             {itemList}
         </ul>
     );
+}
+
+function makeCourseList(courses, sections) {
+    return courses.map(course => {
+        var link = '/teacher/course/' + course.id;
+        if(sections) {
+            var sectionsForThisCourse = filterListByCourseId(sections, course.id);
+            var sectionList = makeList(sectionsForThisCourse);
+            return (
+                <li key={course.id.toString()}>
+                    <Link to={link}>{course.name}</Link>
+                    <AddSection courseId={course.id}/>
+                    <ul>
+                        {sectionList}
+                    </ul>
+                </li>
+            );
+        } else {
+            return (
+                <li key={course.id.toString()}>
+                    <Link to={link}>{course.name}</Link>
+                    </li>
+            );
+        }
+    });
 }
