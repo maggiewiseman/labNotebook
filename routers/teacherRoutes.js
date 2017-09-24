@@ -1,13 +1,47 @@
 const path = require('path');
 
-const {saveNewCourse, getCoursesByTeacher} = require("../database/teacherDb.js");
+const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId} = require("../database/teacherDb.js");
 
 var teacherRoutes = (app) => {
     app.get('/teacher', (req, res) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
 
+    /********** SECTIONS *********/
+    //get all the sections a teacher has
+    app.get('/api/teacher/sections', (req,res) => {
+        //FIX: reset to req.session.id
+        let data = [1];
+        return getAllSections(data).then(results => {
+            return res.json({
+                success: true,
+                sections: results.rows
+            });
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
+
+    //get only the sections for a particular course
+    app.get('/api/teacher/sections/:courseId', (req,res) => {
+        let data = [req.params.id];
+        return getSectionsByCourseId(data).then(results => {
+            return res.json({
+                success: true,
+                sections: results.rows
+            });
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
+
+    /******** COURSES ***********/
     app.post('/api/teacher/course', (req, res) => {
+        //FIX: reset num to req.session.id
         let data = [1, req.body.name];
         return saveNewCourse(data).then(() => {
             res.json({
@@ -21,7 +55,7 @@ var teacherRoutes = (app) => {
     });
 
     app.get('/api/teacher/courses', (req,res) => {
-        //need to change to req.session.id once there's a session
+        //FIX to req.session.id once there's a session
         let data = ['1'];
         //call db
         return getCoursesByTeacher(data).then((results) => {
@@ -33,7 +67,20 @@ var teacherRoutes = (app) => {
             res.json({
                 error: e
             });
-        })
+        });
+    });
+
+    app.delete('/api/teacher/course/:id', (req,res) => {
+        let data = [req.params.id];
+        return deleteCourse(data).then(() => {
+            res.json({
+                success: true
+            });
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
     });
 };
 
