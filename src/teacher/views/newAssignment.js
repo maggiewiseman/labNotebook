@@ -7,8 +7,16 @@ import { getAllSections, saveNewAssignment } from '../actions';
 class TeacherNewAssignment extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            assignmentInfo: {}
+        };
         this.handleInput = this.handleInput.bind(this);
         this.submit = this.submit.bind(this);
+    }
+    componentDidMount() {
+
+        this.props.dispatch(getAllSections());
+
     }
     handleInput(event) {
         const target = event.target;
@@ -18,22 +26,21 @@ class TeacherNewAssignment extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
+        var newState = Object.assign({}, this.state.assignmentInfo, {
+            [name]: value
+        });
+
         this.setState({
-          [name]: value
+          assignmentInfo: newState
         }, () => {
             console.log('New Assignment: handleInput state:', this.state);
         });
     }
-    componentDidMount() {
-
-        this.props.dispatch(getAllSections());
-
-    }
     submit() {
-        //this.props.dispatch(saveNewAssignment());
+        this.props.dispatch(saveNewAssignment(this.state.assignmentInfo));
         //validation!
         console.log(this.state);
-        //browserHistory.push('/teacher/assignments');
+        browserHistory.push('/teacher/assignments');
     }
     render() {
         const { sections } = this.props;
