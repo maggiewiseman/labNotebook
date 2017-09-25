@@ -20,8 +20,6 @@ class AddSection extends React.Component{
     handleInput(e) {
         this.setState({
             [e.target.name]: e.target.value
-        }, () => {
-            console.log('Add Section: handleInput state:', this.state);
         });
     }
     submit() {
