@@ -10,7 +10,6 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.dispatch = this.props.dispatch.bind(this);
     }
 
 
@@ -24,13 +23,16 @@ class App extends React.Component {
     render() {
 
         const{data} = this.props;
+        console.log('render component', data);
 
-        // if(!data) {
-        //     return null
-        // }
+        if(!data) {
+
+            return null
+        }
 
     return (
      <div>
+        {data.first_name}
                <nav>
                    <ul>
                       <Link to='/student'><li>Home</li></Link>
@@ -61,10 +63,10 @@ class App extends React.Component {
 }
 
 const mapStateToProps = function(state) {
-    console.log('mapStateToProps');
+    console.log('mapStateToProps', state);
 
     return {
-        data: state.data
-            }
+        data: state.students.data
     }
+}
 export default connect(mapStateToProps)(App);
