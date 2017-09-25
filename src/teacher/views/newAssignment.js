@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { getAllSections } from '../actions';
 
 
 class TeacherNewAssignment extends React.Component {
@@ -16,6 +17,11 @@ class TeacherNewAssignment extends React.Component {
         }, () => {
             console.log('Add Section: handleInput state:', this.state);
         });
+    }
+    componentDidMount() {
+        if(!this.props.sections) {
+            this.props.dispatch(getAllSections());
+        }
     }
     submit() {
         this.props.dispatch(saveNewAssignment());
@@ -49,6 +55,7 @@ class TeacherNewAssignment extends React.Component {
         return (
             <div>
                 <div>Sections list</div>
+                {makeSectionList(this.props.sections)}
                 <label forHtml="assignmentName">Assignment Name</label>
                 <input type="text" name="assignmentName" onChange={this.handleInput} />
                 <label forHtml="dueDate">Due Date (optional)</label>
@@ -68,7 +75,8 @@ class TeacherNewAssignment extends React.Component {
 /********* CONNECTED COMPONENT ********/
 const mapStateToProps = function(state) {
     return {
-        error: state.teachers.error
+        error: state.teachers.error,
+        sections: state.teachers.sections
     };
 }
 export default connect(mapStateToProps)(TeacherNewAssignment);
@@ -84,6 +92,22 @@ function createAssignmentCategoryDiv(category) {
             <input type="checkbox" name={`${category}Share`} />
         </div>
     )
+}
+
+function makeSectionList(items) {
+    var itemList = items.map(item => {
+        console.log(item);
+        return (
+            <li key={item.id.toString()}>
+                <input type="checkbox" name={`sectioncb${item.id}`}/>{item.name}
+            </li>
+        );
+    });
+    return (
+        <ul>
+            {itemList}
+        </ul>
+    );
 }
 
 /************** STYLES ****************/
