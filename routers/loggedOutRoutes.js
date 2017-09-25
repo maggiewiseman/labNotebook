@@ -1,13 +1,14 @@
 const path = require('path');
 const dbHashing = require('../database/hashing');
 const dbStudent = require('../database/student');
+const mw = require('./middleware');
 
 
 var loggedOutRoutes = (app) => {
 
 
 
-    app.get('/', (req, res) => {
+    app.get('/' , mw.registerLoginCheck, (req, res) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
 
@@ -142,9 +143,14 @@ var loggedOutRoutes = (app) => {
             console.log(err);
         })
     })
-};
 
 //should put app.get with restrictions for req.session.user to not access the teacher side and vice versa.
+
+    app.get('/logout', (req, res) => {
+        req.session = null;
+        res.redirect('/');
+    });
+};
 
 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Logout from '../../auth/logout.js';
 
 class App extends React.Component  {
     render() {
@@ -23,7 +24,7 @@ class App extends React.Component  {
                             <li>New Assignment</li>
                             <li>Help</li>
                             <li>Account</li>
-                            <li>Logout</li>
+                            <li><Logout /></li>
                         </ul>
                     </nav>
                     <sidebar>
@@ -31,7 +32,7 @@ class App extends React.Component  {
                             Menu
                         </header>
                         <ul>
-                            <li>Assignments</li>
+                            <li><Link to="/teacher/assignments">Assignments</Link></li>
                             <li><Link to="/teacher/courses">Courses</Link></li>
                             <li>Gradebook</li>
                             <li>Students</li>
