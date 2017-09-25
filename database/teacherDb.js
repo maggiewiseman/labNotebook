@@ -8,6 +8,13 @@ if(!process.env.DATABASE_URL) {
 var dbUrl = process.env.DATABASE_URL || localUrl;
 
 var db = spicedPg(dbUrl);
+/********** ASSIGNMENTS *********/
+/********** STUDENTS ************/
+function getStudentsBySectionId(data){
+    console.log('DBQUERY: getStudentsBySection,', data);
+    let queryStr = 'SELECT users_sections.user_id, users.first_name, users.last_name, users.profile_pic FROM users_sections JOIN users ON users_sections.user_id = users.id WHERE section_id = $1';
+    return db.query(queryStr, data);
+}
 /********** SECTIONS ************/
 function saveNewSection(data) {
     console.log('DBQUERY: saveNewSection,', data);
@@ -43,6 +50,9 @@ function deleteCourse(id) {
     let queryStr = 'DELETE FROM courses WHERE id=$1';
     return db.query(queryStr, id);
 }
+
+
+module.exports.getStudentsBySectionId = getStudentsBySectionId;
 
 module.exports.saveNewCourse = saveNewCourse;
 module.exports.getCoursesByTeacher = getCoursesByTeacher;
