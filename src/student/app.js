@@ -1,17 +1,41 @@
 import React from 'react';
+import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import {getStudentData} from './actions'
 
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.dispatch = this.props.dispatch.bind(this);
+    }
+
+
+    componentDidMount() {
+
+        this.props.dispatch(getStudentData());
+        console.log(this.props.data);
+
+    }
+
     render() {
+
+        const{data} = this.props;
+
+        // if(!data) {
+        //     return null
+        // }
+
     return (
-        <div>
+     <div>
                <nav>
                    <ul>
-                       <li>Home</li>
+                      <Link to='/student'><li>Home</li></Link>
                        <li>Courses</li>
-                       <li>Gradebook</li>
+                       <li>Gradebookrysjlktd</li>
                        <li>Account</li>
                        <li>Logout</li>
                    </ul>
@@ -28,11 +52,19 @@ class App extends React.Component {
                        <li>Messages</li>
                    </ul>
                </sidebar>
-               {props.children}
+               {this.props.children}
 
         </div>
 
-
     )
+    }
 }
-}
+
+const mapStateToProps = function(state) {
+    console.log('mapStateToProps');
+
+    return {
+        data: state.data
+            }
+    }
+export default connect(mapStateToProps)(App);

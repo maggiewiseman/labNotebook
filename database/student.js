@@ -1,13 +1,7 @@
 var spicedPg = require('spiced-pg');
-var localUrl = '';
-
-if(!process.env.DATABASE_URL) {
-    const secrets = require('../secrets.json');
-    localUrl = `postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:5432/labnb`;
-}
-var dbUrl = process.env.DATABASE_URL || localUrl;
-
-var db = spicedPg(dbUrl);
+var bcrypt = require('bcryptjs');
+const secrets = require('../secrets.json');
+const db = spicedPg(`postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:5432/labnb`);
 
 module.exports.makeCourse = function (user_id, code) {
 
@@ -18,7 +12,12 @@ module.exports.makeCourse = function (user_id, code) {
 
 module.exports.getStudentData = function (email) {
 
-    const select = `SELECT first_name, last_name, email, role, section_id, sections.id FROM users JOIN users_sections  ON users.id = users_sections.user_id JOIN sections ON section_id = sections.id WHERE email = $1`
+    const select = `SELECT users.id, first_name, last_name, user_id, section_id, sections.id, sections.id, sections.name, course_id, courses.id, courses.name, teacher_id
+    FROM users
+    JOIN users_sections ON users.id = user_id
+    JOIN sections ON section_id = sections.id JOIN courses ON course_id=courses.id WHERE email=$1`;
+
     const result = db.query(select, [email]);
+
     return result;
 }
