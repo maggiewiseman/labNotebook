@@ -9,7 +9,7 @@ var teacherRoutes = (app) => {
     });
 
     /********** SECTIONS *********/
-    app.post('/api/teacher/section', (req, res) => {
+    app.post('/api/teacher/section', mw.loggedInCheck, (req, res) => {
         let data = [req.body.courseId, req.body.name, req.body.start, req.body.end];
         console.log(data);
         return saveNewSection(data).then(() => {
@@ -23,7 +23,7 @@ var teacherRoutes = (app) => {
         });
     });
     //get all the sections a teacher has
-    app.get('/api/teacher/sections', (req,res) => {
+    app.get('/api/teacher/sections', mw.loggedInCheck, (req,res) => {
         //FIX: reset to req.session.id
         let data = [1];
         return getAllSections(data).then(results => {
@@ -39,7 +39,7 @@ var teacherRoutes = (app) => {
     });
 
     //get only the sections for a particular course
-    app.get('/api/teacher/sections/:courseId', (req,res) => {
+    app.get('/api/teacher/sections/:courseId', mw.loggedInCheck, (req,res) => {
         let data = [req.params.id];
         return getSectionsByCourseId(data).then(results => {
             return res.json({
@@ -54,7 +54,7 @@ var teacherRoutes = (app) => {
     });
 
     /******** COURSES ***********/
-    app.post('/api/teacher/course', (req, res) => {
+    app.post('/api/teacher/course', mw.loggedInCheck, (req, res) => {
         //FIX: reset num to req.session.id
         let data = [1, req.body.name];
         return saveNewCourse(data).then(() => {
@@ -68,7 +68,7 @@ var teacherRoutes = (app) => {
         });
     });
 
-    app.get('/api/teacher/courses', (req,res) => {
+    app.get('/api/teacher/courses', mw.loggedInCheck, (req,res) => {
         //FIX to req.session.id once there's a session
         let data = ['1'];
         //call db
@@ -84,7 +84,7 @@ var teacherRoutes = (app) => {
         });
     });
 
-    app.delete('/api/teacher/course/:id', (req,res) => {
+    app.delete('/api/teacher/course/:id', mw.loggedInCheck, (req,res) => {
         let data = [req.params.id];
         return deleteCourse(data).then(() => {
             res.json({
