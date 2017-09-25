@@ -10,32 +10,30 @@ class TeacherNewAssignment extends React.Component {
         this.handleInput = this.handleInput.bind(this);
         this.submit = this.submit.bind(this);
     }
-    handleInput(e) {
+    handleInput(event) {
+        const target = event.target;
+        if(target.type == 'checkbox') {
+            console.log(target.checked)
+        }
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
         this.setState({
-            [e.target.name]: e.target.value
+          [name]: value
         }, () => {
-            console.log('Add Section: handleInput state:', this.state);
+            console.log('New Assignment: handleInput state:', this.state);
         });
     }
     componentDidMount() {
 
         this.props.dispatch(getAllSections());
-        
+
     }
     submit() {
         //this.props.dispatch(saveNewAssignment());
         //validation!
         console.log(this.state);
         //browserHistory.push('/teacher/assignments');
-    }
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-          [name]: value
-        });
     }
     render() {
         const { sections } = this.props;
@@ -49,16 +47,16 @@ class TeacherNewAssignment extends React.Component {
                         <p>Students can edit?</p>
                         <p>Shared amongst groups?</p>
                     </div>
-                    {createAssignmentCategoryDiv('Title') }
-                    {createAssignmentCategoryDiv('Question')}
-                    {createAssignmentCategoryDiv('Abstract')}
-                    {createAssignmentCategoryDiv('Hypothesis')}
-                    {createAssignmentCategoryDiv('Variables')}
-                    {createAssignmentCategoryDiv('Materials')}
-                    {createAssignmentCategoryDiv('Procedures')}
-                    {createAssignmentCategoryDiv('Data')}
-                    {createAssignmentCategoryDiv('Calculations')}
-                    {createAssignmentCategoryDiv('Discussion')}
+                    {createAssignmentCategoryDiv('Title', this.handleInput) }
+                    {createAssignmentCategoryDiv('Question', this.handleInput)}
+                    {createAssignmentCategoryDiv('Abstract', this.handleInput)}
+                    {createAssignmentCategoryDiv('Hypothesis', this.handleInput)}
+                    {createAssignmentCategoryDiv('Variables', this.handleInput)}
+                    {createAssignmentCategoryDiv('Materials', this.handleInput)}
+                    {createAssignmentCategoryDiv('Procedures', this.handleInput)}
+                    {createAssignmentCategoryDiv('Data', this.handleInput)}
+                    {createAssignmentCategoryDiv('Calculations', this.handleInput)}
+                    {createAssignmentCategoryDiv('Discussion', this.handleInput)}
                 </div>;
         if(!sections) {
             return null;
@@ -66,7 +64,7 @@ class TeacherNewAssignment extends React.Component {
             return (
                 <div>
                     <div>Sections list</div>
-                    {makeSectionList(sections)}
+                    {makeSectionList(sections, this.handleInput)}
                     <label forHtml="assignmentName">Assignment Name</label>
                     <input type="text" name="assignmentName" onChange={this.handleInput} />
                     <label forHtml="dueDate">Due Date (optional)</label>
@@ -94,24 +92,24 @@ const mapStateToProps = function(state) {
 export default connect(mapStateToProps)(TeacherNewAssignment);
 
 
-function createAssignmentCategoryDiv(category) {
+function createAssignmentCategoryDiv(category, save) {
     return (
         <div style={assignmentGridStyle}>
-            <input type="checkbox" name={`include${category}checkbox`}/>
+            <input type="checkbox" name={`include${category}`} onChange={save}/>
             <label forHtml={`for${category}`}>{`${category}`}</label>
-            <input type="textbox" name={`${category}Input`} placeholder="Type default text here that will appear on all student assignments" />
-            <input type="checkbox" name={`${category}Editable`}/>
-            <input type="checkbox" name={`${category}Share`} />
+            <input type="text" name={`${category}Input`} placeholder="Type default text here that will appear on all student assignments"  onChange={save} style={inputStyle}/>
+            <input type="checkbox" name={`${category}Editable`} onChange={save}/>
+            <input type="checkbox" name={`${category}Share`} onChange={save} />
         </div>
     )
 }
 
-function makeSectionList(items) {
+function makeSectionList(items, save) {
     var itemList = items.map(item => {
         console.log(item);
         return (
             <li key={item.id.toString()}>
-                <input type="checkbox" name={`sectioncb${item.id}`}/>{item.name}
+                <input type="checkbox" name={`sectioncb${item.id}`} onChange={save}/>{item.name}
             </li>
         );
     });
@@ -126,4 +124,8 @@ function makeSectionList(items) {
 var assignmentGridStyle = {
     display: "grid",
     gridTemplateColumns: '100px 100px auto 100px 100px'
+}
+
+var inputStyle = {
+    width: '400px'
 }
