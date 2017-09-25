@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import { Provider } from 'react-redux';
@@ -12,6 +12,7 @@ import studentReducer from './student/reducer';
 //Component Import
 import Welcome from './auth/welcome';
 import Registration from './auth/registration';
+import Login from './auth/login';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 //Student Component Imports
@@ -38,9 +39,10 @@ const reducers = combineReducers({
 
 //Routers
 const loggedOutRouter = (
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
         <Route path="/" component={Welcome}>
             <IndexRoute component={Registration} />
+            <Route path="login" component={Login} />
         </Route>
     </Router>
 );
@@ -73,6 +75,7 @@ if (location.pathname == '/student') {
     console.log('using student router');
     route = studentRouter;
 } else if (location.pathname == '/teacher') {
+    console.log('using teacher router');
     route = teacherRouter;
 }
 

@@ -1,9 +1,10 @@
 const path = require('path');
+const mw = require('./middleware');
 
 const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection} = require("../database/teacherDb.js");
 
 var teacherRoutes = (app) => {
-    app.get('/teacher', (req, res) => {
+    app.get('/teacher', mw.loggedInCheck, (req, res) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
 
