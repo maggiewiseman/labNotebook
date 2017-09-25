@@ -22,10 +22,10 @@ var teacherRoutes = (app) => {
             });
         });
     });
+
     //get all the sections a teacher has
     app.get('/api/teacher/sections', mw.loggedInCheck, (req,res) => {
-        //FIX: reset to req.session.id
-        let data = [1];
+        let data = [req.session.user.id];
         return getAllSections(data).then(results => {
             return res.json({
                 success: true,
@@ -55,8 +55,7 @@ var teacherRoutes = (app) => {
 
     /******** COURSES ***********/
     app.post('/api/teacher/course', mw.loggedInCheck, (req, res) => {
-        //FIX: reset num to req.session.id
-        let data = [1, req.body.name];
+        let data = [req.session.user.id, req.body.name];
         return saveNewCourse(data).then(() => {
             res.json({
                 success: true
@@ -69,8 +68,7 @@ var teacherRoutes = (app) => {
     });
 
     app.get('/api/teacher/courses', mw.loggedInCheck, (req,res) => {
-        //FIX to req.session.id once there's a session
-        let data = ['1'];
+        let data = [req.session.user.id];
         //call db
         return getCoursesByTeacher(data).then((results) => {
             res.json({
