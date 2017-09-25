@@ -35,7 +35,7 @@ export default class Login extends React.Component {
                 console.log(data.role);
 
                 if (data.role == 'student'){
-                     location.replace('/student');
+                    location.replace('/student');
                  } else {
                       location.replace('/teacher');
                  }

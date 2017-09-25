@@ -113,6 +113,7 @@ var loggedOutRoutes = (app) => {
             .then((doesMatch) => {
                 if(!doesMatch) {
                     throw 'Password is incorrect.'
+                    alert('Your email or password are incorrect')
                 } else {
 
                     console.log('password is correct', result.rows);
@@ -127,6 +128,7 @@ var loggedOutRoutes = (app) => {
                         success: true,
                         role: role
                     });
+
                 }
 
             }).catch((err) => {
@@ -137,6 +139,7 @@ var loggedOutRoutes = (app) => {
         })
     })
 
+//should put app.get with restrictions for req.session.user to not access the teacher side and vice versa.
 
     app.get('/logout', (req, res) => {
         req.session = null;
