@@ -12,7 +12,18 @@ class TeacherNewAssignment extends React.Component {
             include: {},
             editable: {},
             shared: {},
-            defaults: {}
+            defaults: {
+                Title: "",
+                Question: "",
+                Abstract: "",
+                Hypothesis: "",
+                Variables: "",
+                Materials: "",
+                Procecures: "",
+                Data: "",
+                Calculations: "",
+                Discussion: "",
+            }
         };
         this.handleInput = this.handleInput.bind(this);
         this.submit = this.submit.bind(this);
