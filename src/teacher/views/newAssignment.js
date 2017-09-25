@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { getAllSections } from '../actions';
+import { getAllSections, saveNewAssignment } from '../actions';
 
 
 class TeacherNewAssignment extends React.Component {
@@ -10,7 +10,6 @@ class TeacherNewAssignment extends React.Component {
         this.handleInput = this.handleInput.bind(this);
         this.submit = this.submit.bind(this);
     }
-
     handleInput(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -19,15 +18,27 @@ class TeacherNewAssignment extends React.Component {
         });
     }
     componentDidMount() {
-        if(!this.props.sections) {
-            this.props.dispatch(getAllSections());
-        }
+
+        this.props.dispatch(getAllSections());
+        
     }
     submit() {
-        this.props.dispatch(saveNewAssignment());
-        browserHistory.push('/teacher/assignments');
+        //this.props.dispatch(saveNewAssignment());
+        //validation!
+        console.log(this.state);
+        //browserHistory.push('/teacher/assignments');
+    }
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+          [name]: value
+        });
     }
     render() {
+        const { sections } = this.props;
 
         var assignmentOptions =
                 <div >
@@ -49,26 +60,27 @@ class TeacherNewAssignment extends React.Component {
                     {createAssignmentCategoryDiv('Calculations')}
                     {createAssignmentCategoryDiv('Discussion')}
                 </div>;
+        if(!sections) {
+            return null;
+        }else {
+            return (
+                <div>
+                    <div>Sections list</div>
+                    {makeSectionList(sections)}
+                    <label forHtml="assignmentName">Assignment Name</label>
+                    <input type="text" name="assignmentName" onChange={this.handleInput} />
+                    <label forHtml="dueDate">Due Date (optional)</label>
+                    <input type="text" name="dueDate" onChange={this.handleInput} />
+                    <label forHtml="instructions">Instructions (optional)</label>
+                    <input type="textarea" rows="4" name="instructions" onChange={this.handleInput} />
 
+                    <h3>Assignment Details</h3>
+                    {assignmentOptions}
+                    <button onClick={this.submit}>Save assignment</button>
+                </div>
 
-
-        return (
-            <div>
-                <div>Sections list</div>
-                {makeSectionList(this.props.sections)}
-                <label forHtml="assignmentName">Assignment Name</label>
-                <input type="text" name="assignmentName" onChange={this.handleInput} />
-                <label forHtml="dueDate">Due Date (optional)</label>
-                <input type="text" name="dueDate" onChange={this.handleInput} />
-                <label forHtml="instructions">Instructions (optional)</label>
-                <input type="text" name="instructions" onChange={this.handleInput} />
-
-                <h3>Assignment Details</h3>
-                {assignmentOptions}
-
-            </div>
-        );
-
+            );
+        }
     }
 }
 
