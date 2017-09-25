@@ -31,7 +31,7 @@ class App extends React.Component  {
                             Menu
                         </header>
                         <ul>
-                            <li>Assignments</li>
+                            <li><Link to="/teacher/assignments">Assignments</Link></li>
                             <li><Link to="/teacher/courses">Courses</Link></li>
                             <li>Gradebook</li>
                             <li>Students</li>
