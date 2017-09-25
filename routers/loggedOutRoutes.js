@@ -136,8 +136,13 @@ var loggedOutRoutes = (app) => {
             console.log(err);
         })
     })
-};
 
+
+    app.get('/logout', (req, res) => {
+        req.session = null;
+        res.redirect('/');
+    });
+};
 
 
 

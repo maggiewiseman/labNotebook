@@ -6,6 +6,7 @@ const compression = require('compression');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const csurf = require('csurf');
+const mw = require('./routers/middleware');
 
 //route modules
 const loggedOutRoutes = require("./routers/loggedOutRoutes.js");
@@ -49,6 +50,12 @@ loggedOutRoutes(app);
 studentRoutes(app);
 teacherRoutes(app);
 
+app.get('*', mw.loggedInCheck, function(req, res) {
+    console.log('file not found');
+    return res.sendFile(__dirname + '/404.html');
+});
+
+
 app.listen(8080, function() {
-    console.log("I'm listening.")
+    console.log("I'm listening.");
 });
