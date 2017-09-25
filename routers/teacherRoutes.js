@@ -8,6 +8,18 @@ var teacherRoutes = (app) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
 
+    /********** ASSIGNMENTS *********/
+    //creates a new assignment.
+    // app.post('/api/teacher/assignment', mw.loggedInCheck, (req,res) {
+    //     //make assignment row in assignments database.
+    //     //then for each section clicked, get list of students and for each student make a student report
+    //         //for each student make a row in the appropriate category's table and return the id to the student report.
+    //
+    //         res.json({
+    //             success: true,
+    //             assignmentId: results.rows[0]
+    //         });
+    // });
     /********** SECTIONS *********/
     app.post('/api/teacher/section', mw.loggedInCheck, (req, res) => {
         let data = [req.body.courseId, req.body.name, req.body.start, req.body.end];
