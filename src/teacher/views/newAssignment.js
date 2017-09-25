@@ -98,10 +98,23 @@ class TeacherNewAssignment extends React.Component {
         });
     }
     submit() {
-        this.props.dispatch(saveNewAssignment(this.state));
+        if(this.checkSections()) {
+            this.props.dispatch(saveNewAssignment(this.state));
+        } else {
+            this.setState({
+                sectionError: "Please select a class"
+            });
+        }
+
         //validation!
         //console.log(this.state);
         //browserHistory.push('/teacher/assignments');
+    }
+    checkSections() {
+        if(this.state.sections.length > 0) {
+            return true;
+        }
+        return false;
     }
     render() {
         const { sections } = this.props;
@@ -139,6 +152,7 @@ class TeacherNewAssignment extends React.Component {
             return (
                 <div>
                     <div>Sections list</div>
+                    {this.state.sectionError && <p>{this.state.sectionError}</p>}
                     {makeSectionList(sections, this.handleSectionInput)}
                     <label forHtml="assignmentName">Assignment Name</label>
                     <input type="text" name="assignmentName" onChange={this.handleInput} />
