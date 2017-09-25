@@ -10,9 +10,9 @@ INSERT INTO sections (name, course_id ) VALUES ('1st Period', 1);
 
 INSERT INTO sections (name, course_id ) VALUES ('2nd Period', 1);
 
-INSERT INTO user_sections (user_id, section_id) VALUES (2, 1);
+INSERT INTO users_sections (user_id, section_id) VALUES (2, 1);
 
-INSERT INTO user_sections (user_id, section_id) VALUES (3, 1);
+INSERT INTO users_sections (user_id, section_id) VALUES (3, 1);
 
 INSERT INTO assignments (section_id, group_lab, name, instructions, title, abstract, question, hypothesis, variables, materials, procedures, data, calculations, discussion) VALUES (1, FALSE, 'Rutherford Lab', 'https://www.dropbox.com/s/nsd1xcine2zzvdm/Lab_Rutherford.pdf', 'individual', 'individual','individual','individual','individual','individual','individual','individual','individual','individual');
 
