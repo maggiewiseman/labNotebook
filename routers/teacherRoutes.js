@@ -1,7 +1,7 @@
 const path = require('path');
 const mw = require('./middleware');
 
-const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, saveNewAssignment} = require("../database/teacherDb.js");
+const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, saveNewAssignmentTemplate} = require("../database/teacherDb.js");
 
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, (req, res) => {
@@ -12,9 +12,10 @@ var teacherRoutes = (app) => {
     //creates a new assignment.
     app.post('/api/teacher/assignment', mw.loggedInCheck, (req,res)=> {
         //make assignment row in assignments database.
-        // req.body.assignmentInfo.sections.forEach((section) => {
-        //     makeNewAssignment(section, req.body.info);
-        // });
+        req.body.assignmentInfo.sections.forEach((section) => {
+            var assignmentId = makeNewAssignment(section, req.body.assignmentInfo);
+            console.log('assignmentId', assignmentId);
+        });
 
         //then for each section clicked, get list of students and for each student make a student report
         //for each student make a row in the appropriate category's table and return the id to the student report.
@@ -117,8 +118,48 @@ module.exports = teacherRoutes;
 /*************** UTILITY FUNCTIONS *****************/
 
 function makeNewAssignment(sectionId, info) {
-    const { include, editable, shared, defaults } = info;
+    const { include, shared, defaults } = info;
 
+    if(!info.group_lab) {
+        info.group_lab = false;
+    }
+
+    if(!info.due) {
+        info.due = null;
+    }
+
+    if(info.instructions) {
+        info.instructions = null;
+    }
+    var newInclude = massageIncludeObject(include, shared);
+
+    var data = [
+        sectionId,
+        info.group_lab,
+        info.assignmentName,
+        info.instructions,
+        info.due,
+        newInclude.title, defaults.default_title,
+        newInclude.abstract, defaults.default_abstract,
+        newInclude.question, defaults.default_question,
+        newInclude.hypothesis, defaults.default_hypothesis,
+        newInclude.variables, defaults.default_variables,
+        newInclude.materials, defaults.default_materials,
+        newInclude.procedures, defaults.default_procedures,
+        newInclude.data, defaults.default_data,
+        newInclude.calculations, defaults.default_calc,
+        newInclude.discussion, defaults.default_discussion
+    ];
+
+    return saveNewAssignmentTemplate(data).then((results) => {
+        console.log('Resulting AssignmentId: ', results)
+        return results;
+    }).catch(e => {
+        console.log(e);
+    });
+}
+
+function massageIncludeObject(include, shared){
     for (var key in include ) {
         if(include[key]) {
             if(shared[key]) {
@@ -132,20 +173,5 @@ function makeNewAssignment(sectionId, info) {
     }
 
     console.log(include);
-
-    var data = [
-        sectionId,
-        info.group_lab,
-        info.assignmentName,
-        info.instructions,
-        info.due,
-        title, default_title, abstract, default_abstract, question, default_question, hypothesis, default_hypothesis, variables, default_variables, materials, default_materials, procedures, default_procedures, data, default_data, calculations, default_calc, discussion, default_discussion
-    ];
-    //
-    // console.log(data);
-    //
-    // return saveNewAssignment(data).then((results) => {
-    //     var assignmentId = results[0].id;
-    // });
-
+    return include;
 }
