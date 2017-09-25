@@ -12,8 +12,14 @@ var teacherRoutes = (app) => {
     //creates a new assignment.
     app.post('/api/teacher/assignment', mw.loggedInCheck, (req,res)=> {
         //make assignment row in assignments database.
+        var sections = getSectionsFromAssignmentData(res.body.info);
+        sections.forEach((section) => {
+            makeNewAssignment(section, req.body.info);
+        });
+
         //then for each section clicked, get list of students and for each student make a student report
         //for each student make a row in the appropriate category's table and return the id to the student report.
+        console.log(req.body.info);
         res.json({
             success: true,
             assignmentId: 5
@@ -108,3 +114,52 @@ var teacherRoutes = (app) => {
 };
 
 module.exports = teacherRoutes;
+
+/*************** UTILITY FUNCTIONS *****************/
+function getSectionsFromAssignmentData(info) {
+    var sections = [];
+    for(var key in info) {
+
+        if(key.substring(0,9) == 'sectioncb'){
+            if(info[key] == true){
+                sections.push( key.substring(9, key.length));
+            }
+        }
+    }
+    return sections;
+}
+
+function makeNewAssignment(sectionId, info) {
+    var data = [
+        sectionId,
+        info.groupLabCb,
+        info.assignmentName,
+        info.instructions,
+        info.dueDate,
+        info.includeTitle,
+        info.TitleInput,
+        info.includeAbstract,
+        info.AbstractInput,
+        info.QuestionInput,
+        info.includeQuestion,
+        info.HypothesisInput,
+        info.includeHypothesis,
+        info.VariablesInput,
+        info.includeVariables,
+        info.MaterialsInput,
+        info.includeMaterials,
+        info.ProceduresInput,
+        info.includeProcedures,
+        info.DataInput,
+        info.includeData,
+        info.CalculationsInput,
+        info.includeCalculations,
+        info.DiscussionInput,
+        info.includeDiscussion
+    ];
+
+    console.log(data);
+
+    return data;
+
+}

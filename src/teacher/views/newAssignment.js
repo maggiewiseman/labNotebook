@@ -38,6 +38,7 @@ class TeacherNewAssignment extends React.Component {
             VariablesShare : false,
             assignmentName : "",
             dueDate :"",
+            groupLabCb: false,
             includeAbstract : false,
             includeCalculations : false,
             includeData : false,
@@ -68,7 +69,7 @@ class TeacherNewAssignment extends React.Component {
         }
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        
+
         this.setState({
           [name]: value
         }, () => {
@@ -76,7 +77,7 @@ class TeacherNewAssignment extends React.Component {
         });
     }
     submit() {
-        this.props.dispatch(saveNewAssignment(this.state.assignmentInfo));
+        this.props.dispatch(saveNewAssignment(this.state));
         //validation!
         //console.log(this.state);
         //browserHistory.push('/teacher/assignments');
