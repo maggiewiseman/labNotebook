@@ -15,12 +15,12 @@ function saveNewAssignmentTemplate(data) {
     return db.query(queryStr, data);
 }
 //Test
-saveNewAssignmentTemplate([1, false, '3moles', 'instructions', '1999-01-01', 'word', 'word', 'word8', 'word9', 'word9','word11', 'word9','word13', 'word9', 'word15', 'word9', 'word17', 'word9', 'word19', 'word20', 'word21', 'word22', 'word23', 'word24', 'word25'])
-    .then((results) => {
-        console.log(results.rows);
-    }).catch(e => {
-        console.log(e);
-    });
+// saveNewAssignmentTemplate([1, false, '3moles', 'instructions', '1999-01-01', 'word', 'word', 'word8', 'word9', 'word9','word11', 'word9','word13', 'word9', 'word15', 'word9', 'word17', 'word9', 'word19', 'word20', 'word21', 'word22', 'word23', 'word24', 'word25'])
+//     .then((results) => {
+//         console.log(results.rows);
+//     }).catch(e => {
+//         console.log(e);
+//     });
 
 // INSERT INTO assignments (section_id, group_lab, name, instructions, due, title, default_title, abstract, default_abstract, question, default_question, hypothesis, default_hypothesis, variables, default_variables, materials, default_materials, procedures, default_procedures, data, default_data, calculations, default_calc, discussion, default_discussion) VALUES (1, false, '3moles', '4no instructions', '1999-01-01', '$6', '$7', '$8', '$9', '10', '11', '12', '13', '14', '$15', '$16', '$17', '$18', '$19', '$20', '21', '22', '$23', '$24', '$25') RETURNING id;
 

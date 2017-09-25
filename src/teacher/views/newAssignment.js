@@ -9,20 +9,31 @@ class TeacherNewAssignment extends React.Component {
         super(props);
         this.state = {
             sections: [],
-            include: {},
+            include: {
+                title: false,
+                question: false,
+                abstract: false,
+                hypothesis: false,
+                variables: false,
+                materials: false,
+                procedures: false,
+                data: false,
+                calculations: false,
+                discussion:false
+            },
             editable: {},
             shared: {},
             defaults: {
-                Title: "",
-                Question: "",
-                Abstract: "",
-                Hypothesis: "",
-                Variables: "",
-                Materials: "",
-                Procecures: "",
-                Data: "",
-                Calculations: "",
-                Discussion: "",
+                defaults_title: "",
+                defaults_question: "",
+                defaults_abstract: "",
+                defaults_hypothesis: "",
+                defaults_variables: "",
+                defaults_materials: "",
+                defaults_procecures: "",
+                defaults_data: "",
+                defaults_calculations: "",
+                defaults_discussion: "",
             }
         };
         this.handleInput = this.handleInput.bind(this);
@@ -48,9 +59,10 @@ class TeacherNewAssignment extends React.Component {
         });
     }
     handleIncludeInput(event){
+
         const target = event.target;
         const value = target.checked;
-        const name = target.name.substring(0, name.substring(7,name.length));
+        const name = target.name;
 
         var include = Object.assign({}, this.state.include, {
             [name]: value
@@ -60,7 +72,7 @@ class TeacherNewAssignment extends React.Component {
         });
     }
     handleInput(event) {
-
+        const target = event.target;
         if(target.type == 'checkbox') {
             console.log(target.checked)
         }
@@ -75,7 +87,7 @@ class TeacherNewAssignment extends React.Component {
     }
     handleDefaults() {
         const value = event.target.value;
-        const name = event.target.name.substring(0, event.target.name.length-5);
+        const name = event.target.name;
 
         var defaults = Object.assign({}, this.state.defaults, {
             [name]: value
@@ -110,6 +122,7 @@ class TeacherNewAssignment extends React.Component {
     }
     submit() {
         if(this.checkSections()) {
+            console.log('dispatching');
             this.props.dispatch(saveNewAssignment(this.state));
         } else {
             this.setState({
@@ -122,6 +135,7 @@ class TeacherNewAssignment extends React.Component {
         //browserHistory.push('/teacher/assignments');
     }
     checkSections() {
+        console.log(console.log(this.state.sections.length));
         if(this.state.sections.length > 0) {
             return true;
         }
@@ -167,12 +181,12 @@ class TeacherNewAssignment extends React.Component {
                     {makeSectionList(sections, this.handleSectionInput)}
                     <label forHtml="assignmentName">Assignment Name</label>
                     <input type="text" name="assignmentName" onChange={this.handleInput} />
-                    <label forHtml="dueDate">Due Date (optional)</label>
-                    <input type="text" name="dueDate" onChange={this.handleInput} />
+                    <label forHtml="due">Due Date (optional)</label>
+                    <input type="text" name="due" onChange={this.handleInput} />
                     <label forHtml="instructions">Instructions (optional)</label>
                     <input type="textarea" rows="4" name="instructions" onChange={this.handleInput} />
-                    <label forHtml="groupLabCb">Group Lab?</label>
-                    <input type="checkbox" name="groupLabCb" onChange={this.handleInput}/>
+                    <label forHtml="group_lab">Group Lab?</label>
+                    <input type="checkbox" name="group_lab" onChange={this.handleInput}/>
 
                     <h3>Assignment Details</h3>
                     {assignmentOptions}
@@ -196,11 +210,11 @@ export default connect(mapStateToProps)(TeacherNewAssignment);
 function createAssignmentCategoryDiv(category, events) {
     return (
         <div style={assignmentGridStyle}>
-            <input type="checkbox" name={`include${category}`} onChange={events.include}/>
-            <label forHtml={`for${category}`}>{`${category}`}</label>
-            <input type="text" name={`${category}Input`} placeholder="Type default text here that will appear on all student assignments"  onChange={events.defaults} style={inputStyle}/>
-            <input type="checkbox" name={`${category}Editable`} onChange={events.editable}/>
-            <input type="checkbox" name={`${category}Share`} onChange={events.shared} />
+            <input type="checkbox" name={`${category.toLowerCase()}`} onChange={events.include}/>
+            <label forHtml={`${category}`}>{`${category}`}</label>
+            <input type="text" name={`default_${category.toLowerCase()}`} placeholder="Type default text here that will appear on all student assignments"  onChange={events.defaults} style={inputStyle}/>
+            <input type="checkbox" name={`${category.toLowerCase()}Editable`} onChange={events.editable}/>
+            <input type="checkbox" name={`${category.toLowerCase()}Share`} onChange={events.shared} />
         </div>
     )
 }

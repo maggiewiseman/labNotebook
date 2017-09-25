@@ -6,10 +6,10 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     ERROR = 'ERROR';
 
 /************ ASSIGNMENTS *************/
-export function saveNewAssignment(info) {
-    console.log('ACTIONS: in save assignment', info);
-    if(info) {
-        return axios.post('/api/teacher/assignment', {info}).then((results) => {
+export function saveNewAssignment(assignmentInfo) {
+    console.log('ACTIONS: in save assignment', assignmentInfo);
+    if(assignmentInfo) {
+        return axios.post('/api/teacher/assignment', {assignmentInfo}).then((results) => {
             if(results.data.success) {
                 return {
                     type: UPDATE_RECENT_ASSIGNMENTS,
