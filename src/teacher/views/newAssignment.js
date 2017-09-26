@@ -171,13 +171,14 @@ class TeacherNewAssignment extends React.Component {
         }else {
             return (
                 <div>
-                    <Card title="To which classes should the assignment be added?">
+                    <Row>
+                    <h5>To which classes should the assignment be added?</h5>
 
                         {this.state.sectionError && <p>{this.state.sectionError}</p>}
                         {makeSectionList(sections, this.handleSectionInput)}
-                    </Card>
+                    </Row>
                     <Row>
-                    <h3> Lab Report Basics</h3>
+                    <h5> Lab Report Basics</h5>
                         <Input m={12} type="text" name="assignmentName" onChange={this.handleInput} label="Assignment Name"/>
                         <Input m={6} type="text" name="due" onChange={this.handleInput} label="Due Date YYYY-MM-DD (optional)" />
                         <Input m={6} type="checkbox" name="group_lab" onChange={this.handleInput} label="Group Lab?"/>
@@ -185,7 +186,7 @@ class TeacherNewAssignment extends React.Component {
 
                     </Row>
                     <Row>
-                    <h3> Assignment Details</h3>
+                    <h5> Assignment Details</h5>
 
                         {assignmentOptions}
 
