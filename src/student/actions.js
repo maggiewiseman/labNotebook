@@ -38,3 +38,17 @@ export function getAssignment(id) {
     })
 
 }
+
+
+//*********************newAssignment*******************//
+
+export function newAssignment(id, part) {
+    return axios.post('/api/student/assignment/' + id + '/' + part, {
+    }).then((result) => {
+        return {
+            type:'NEW_ASSIGNMENT',
+            assignment: result.data.assignment
+        }
+    })
+
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import {getAssignment} from '../actions';
+import {getAssignment, saveAssignment} from '../actions';
 
 
 
@@ -12,6 +12,7 @@ class Assignment extends React.Component {
         super(props);
         this.state = {};
         console.log(this.props.sectionID);
+        this.handleChange = this.handleChange.bind(this);
 
     }
 
@@ -21,10 +22,21 @@ class Assignment extends React.Component {
         const {id} = this.props.params;
 
         this.props.dispatch(getAssignment(id));
-
-        console.log('ass view', this.state);
     }
 
+    handleChange(e) {
+        this.setState({
+            [e.target.name] : e.target.value
+        });
+    }
+
+
+    handleSave(e) {
+
+        console.log('YAWW');
+
+        const {id} = this.props.params;
+    }
 
     render() {
 
@@ -36,21 +48,19 @@ class Assignment extends React.Component {
             return null
         }
 
-        console.log(assignment.abstract.abstract_editable);
-
         var assignmentOptions =
 
                 <div>
-                    {editable(assignment.title, 'title')}
-                    {editable(assignment.question, 'question')}
-                    {editable(assignment.abstract, 'abstract')}
-                    {editable(assignment.hypothesis, 'hypothesis')}
-                    {editable(assignment.variable, 'variable')}
-                    {editable(assignment.material, 'material')}
-                    {editable(assignment.procedure, 'procedure')}
-                    {editable(assignment.data, 'data')}
-                    {editable(assignment.calculation, 'calculation')}
-                    {editable(assignment.discussion, 'discussion')}
+                    {editable(assignment.title, 'title',this.handleChange, this.handleSave)}
+                    {editable(assignment.question, 'question',this.handleChange, this.handleSave)}
+                    {editable(assignment.abstract, 'abstract',this.handleChange, this.handleSave)}
+                    {editable(assignment.hypothesis, 'hypothesis',this.handleChange, this.handleSave)}
+                    {editable(assignment.variable, 'variable',this.handleChange, this.handleSave)}
+                    {editable(assignment.material, 'material',this.handleChange, this.handleSave)}
+                    {editable(assignment.procedure, 'procedure',this.handleChange, this.handleSave)}
+                    {editable(assignment.data, 'data',this.handleChange, this.handleSave)}
+                    {editable(assignment.calculation, 'calculation',this.handleChange, this.handleSave)}
+                    {editable(assignment.discussion, 'discussion',this.handleChange, this.handleSave)}
                 </div>;
 
 
@@ -80,32 +90,25 @@ export default connect(mapStateToProps)(Assignment);
 
 
 
-function editable(section, category) {
-
-    console.log(section[section + '_editable']);
-
-
+function editable(section, category, handleChange, handleSave) {
 
     if(section[category + '_editable']) {
 
-        console.log('section true');
 
         return (
             <form>
                 <label>{category}:</label>
 
-                <textarea name="content" placeholder="Type here.." cols="30" rows="5" onChange={e => this.handleChange(e)} />
+                <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
 
-                <input type="submit" value="Save" />
+                <button name={category} onClick={handleSave}>Save</button>
             </form>
 
-        )
 
+        )
     } else if(section[category + '_editable'] === null || section[category + '_content'] === null) {
         return
     } else {
-        console.log('cannot edit', section[category + '_content']);
-
         return (
         <div>
         <h3>{category}:</h3>

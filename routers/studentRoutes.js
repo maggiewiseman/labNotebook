@@ -81,40 +81,58 @@ var studentRoutes = (app) => {
         const{id} = req.session.user;
         const{classID} = req.body;
 
+        dbStudent.checkStudentClasses(id).then((result) => {
+            console.log(result.rows);
 
-        console.log('course', req.body.classID)
+            if(result.rows.filter(section => section.section_id == classID)) {
+                throw 'Error student is already enrolled in this class'
+            } else {
+                dbStudent.addNewClass(id, classID).then((result) => {
+                    console.log('addNewClass post', result);
+                    const {section_id} = result.rows[0]
+                    console.log(section_id);
 
-        dbStudent.addNewClass(id, classID).then((result) => {
-            console.log('addNewClass post', result);
-            const {section_id} = result.rows[0]
-            console.log(section_id);
+                    dbStudent.updateClassList(id)
+                    .then((result) => {
 
-            dbStudent.updateClassList(id)
-            .then((result) => {
+                        const courses = result.rows.map((obj) => {
+                            var course = {
+                                course_id: obj.course_id,
+                                course_name: obj.course_name,
+                                section_id: obj.section_id
 
-            const courses = result.rows.map((obj) => {
-                var course = {
-                    course_name: obj.course_name,
-                    course_id: obj.course_id,
-                    section_id: obj.section_id
-                }
-                return course;
-            })
+                            }
+                            return course;
+                        });
 
-            console.log('HERE', courses);
-            res.json({
-                success: true,
-                courses: courses
-            })
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+                        return courses
+
+                    })
+                    .then((courses) => {
+
+                        dbStudent.getAssignmentList(id).then((result) => {
+
+                            courses.forEach(course => {
+                                course.assignments = result.rows.filter(ass => ass.section_id == course.section_id);
+                            });
+
+
+                            res.json({
+                                success: true,
+                                courses: courses
+                            })
+
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                    })
+                })
+            }
         })
         .catch((err) => {
             console.log(err);
         })
-
     });
 
 
@@ -182,6 +200,15 @@ var studentRoutes = (app) => {
             });
 
         })
+
+    })
+
+    app.post('/api/student/save-assignment/:id/:part', (req, res) => {
+        const paramsID = req.params.id;
+        const paramsPart = req.params.part;
+        const userID = req.session.user.id;
+
+        console.log('NAWWW');
 
     })
 
