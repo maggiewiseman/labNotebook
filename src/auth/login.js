@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import axios from 'axios';
+import { Row, Col, Input, Button, Card } from 'react-materialize';
 
 export default class Login extends React.Component {
 
@@ -46,14 +47,20 @@ export default class Login extends React.Component {
     }
 }
 
+
     render() {
         return (
-            <div className="reg-input-container">
-            <input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
-            <input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
-            <button className="reg-button" onClick={e => this.handleLogin(e)}> Login </button>
-            <Link className="wel-links" to='/' >REGISTER</Link>
-            </div>
+            <Row className="reg-input-container">
+                <Col m={6} s={12}>
+                    <Card className='darken-1' textClassName='white-text' title='Login'>
+                    <Input s={6} className="reg-input" name="email" placeholder="E-mail" label="E-mail" onChange={e => this.handleChange(e)}/>
+                    <Input s={6} className="reg-input" name="password" placeholder="Password" type="password" label="Password" onChange={e => this.handleChange(e)}/>
+                    <Button className="reg-button" onClick={e => this.handleLogin(e)}> Login </Button>
+                    </Card>
+                    <Link className="wel-links" to='/' >Register a New Account</Link>
+
+                </Col>
+            </Row>
         )
     }
 

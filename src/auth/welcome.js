@@ -4,7 +4,10 @@ export default function (props) {
 
     return (
         <div id="welcome">
-        <h3>Welcome to Lab Notebook...we need a catchy name</h3>
+        <figure>
+            <img src="/images/flaskIcon.png" alt="DreamLab NB log pink flask" />
+        </figure>
+        <h3>CloudNotebook</h3>
         {props.children}
         </div>
 
