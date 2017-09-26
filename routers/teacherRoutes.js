@@ -14,23 +14,24 @@ var teacherRoutes = (app) => {
     //creates a new assignment.
     app.post('/api/teacher/assignment', mw.loggedInCheck, (req,res)=> {
         //make assignment row in assignments database.
+        var assignments = [];
         req.body.assignmentInfo.sections.forEach((section) => {
-            return makeNewAssignment(section, req.body.assignmentInfo).then((assignmentId) => {
-                console.log('assignmentId', assignmentId);
-                console.log('sectionId', section);
-                //now get list of students and for each student make a student report, using user_id make student assignment
+            return makeNewAssignment(section, req.body.assignmentInfo).then(assignmentId => {
+            //now get list of students and for each student make a student report, using user_id make student assignment
+                assignments.push({section, assignmentId});
+
                 return getStudentIdsBySectionId([section]).then(results => {
+                    console.log('assignments: ', assignments);
+
                     var students = results.rows;
-                    console.log('students', students);
-                }).catch(e => {
-                    console.log(e);
+                    var { include, editable, defaults } = req.body.assignmentInfo;
+                    console.log('MAKING STUDENT ASSINGMENTS!!!');
+                    return makeStudentAssignments(students, section, assignmentId, include, editable, defaults);
                 });
-                //then for each include make a row in each categorie's table with student_id and stuff
+            }).catch(e => {
+                console.log(e); // end makeNewAssignment
             });
-
-
-        });
-
+        }); // end forEach
 
         //for each student make a row in the appropriate category's table and return the id to the student report.
         console.log(req.body);
@@ -194,7 +195,7 @@ function massageIncludeObject(include, shared){
 This function uses the list of included categories to make a row in each category table for each student
 At the end it calls the function make a row in the student report table
 */
-function makeStudentAssignments(students, assignmentId, include, editable, defaults) {
+function makeStudentAssignments(students, sectionId, assignmentId, include, editable, defaults) {
 
     students.forEach(student => {
         console.log('(((students)))', student);
@@ -277,7 +278,7 @@ function makeStudentAssignments(students, assignmentId, include, editable, defau
 
         return Promise.all(promiseArr).then(results => {
             console.log('Results from Promise.all', results);
-            return newStudentReport(student.user_id, assignmentId, results);
+            return newStudentReport(student.user_id, sectionId, assignmentId, results);
 
         }).catch(e => {
             console.log('Promise.all error: ', e);
@@ -287,7 +288,7 @@ function makeStudentAssignments(students, assignmentId, include, editable, defau
     }); //end forEach
 }
 
-function newStudentReport(studentId, assignmentId, categoryIds) {
+function newStudentReport(studentId, sectionId, assignmentId, categoryIds) {
 
     var categories = [
         "title",
@@ -304,7 +305,7 @@ function newStudentReport(studentId, assignmentId, categoryIds) {
 
     var group_id = null;
 
-    var data = [studentId, assignmentId, group_id];
+    var data = [studentId, sectionId, assignmentId, group_id];
     categories.forEach(category => {
         var gotOne = false;
         console.log('category: ', category)
@@ -324,125 +325,125 @@ function newStudentReport(studentId, assignmentId, categoryIds) {
     });
 
     console.log('STUDENT REPORT DATA:', data);
-    //cdreturn saveNewStudentReport(data);
+    return saveNewStudentReport(data);
 
 }
 
 
 //TESTS
-function makeNewAssignmentAll(req) {
-    var assignments = [];
-    req.body.assignmentInfo.sections.forEach((section) => {
-        return makeNewAssignment(section, req.body.assignmentInfo).then(assignmentId => {
-        //now get list of students and for each student make a student report, using user_id make student assignment
-            assignments.push({section, assignmentId});
-
-            return getStudentIdsBySectionId([section]).then(results => {
-                console.log('assignments: ', assignments);
-
-                var students = results.rows;
-                var { include, editable, defaults } = req.body.assignmentInfo;
-                console.log('MAKING STUDENT ASSINGMENTS!!!');
-                return makeStudentAssignments(students, assignmentId, include, editable, defaults);
-            });
-        }).catch(e => {
-            console.log(e); // end makeNewAssignment
-        });
-    }); // end forEach
-}
-
-
-const req = {
-    session: {
-        user: {
-            id: 1
-        }
-    },
-    body1: {
-        assignmentInfo: {
-            sections: [ '4' ],
-            include: {
-                title: 'individual',
-                question: null,
-                abstract: null,
-                hypothesis: null,
-                variables: null,
-                materials: null,
-                procedures: null,
-                data: null,
-                calculations: null,
-                discussion: null },
-            editable: {},
-            shared: {},
-            defaults: {
-                defaults_title: '',
-                defaults_question: '',
-                defaults_abstract: '',
-                defaults_hypothesis: '',
-                defaults_variables: '',
-                defaults_materials: '',
-                defaults_procecures: '',
-                defaults_data: '',
-                defaults_calculations: '',
-                defaults_discussion: '',
-                default_title: 'sdfasdf'
-            },
-            assignmentName: 'asd',
-            instructions: null,
-            group_lab: false,
-            due: null
-        }
-    },
-    body: {
-        assignmentInfo: {
-            sections: [ '3', '4' ],
-            include: {
-                title: 'group',
-                question: 'group',
-                abstract: null,
-                hypothesis: 'individual',
-                variables: null,
-                materials: 'group',
-                procedures: 'group',
-                data: 'group',
-                calculations: 'individual',
-                discussion: null
-            },
-            editable: {
-                materials: true,
-                procedures: true,
-                data: true,
-                calculations: true,
-                title: true,
-                question: true
-            },
-            shared:{
-                title: true,
-                question: true,
-                materials: true,
-                procedures: true,
-                data: true
-            },
-            defaults: {
-                defaults_title: '',
-                defaults_question: '',
-                defaults_abstract: '',
-                defaults_hypothesis: 'my starting hypothesis',
-                defaults_variables: '',
-                defaults_materials: '',
-                defaults_procecures: '',
-                defaults_data: '',
-                defaults_calculations: '',
-                defaults_discussion: '',
-                defaults_procedures: 'Follow the procedures on the handout.'
-            },
-            assignmentName: 'Soap lab',
-            due: '2017-10-10',
-            instructions: null,
-            group_lab: true
-        }
-    }
-};
+// function makeNewAssignmentAll(req) {
+//     var assignments = [];
+//     req.body.assignmentInfo.sections.forEach((section) => {
+//         return makeNewAssignment(section, req.body.assignmentInfo).then(assignmentId => {
+//         //now get list of students and for each student make a student report, using user_id make student assignment
+//             assignments.push({section, assignmentId});
+//
+//             return getStudentIdsBySectionId([section]).then(results => {
+//                 console.log('assignments: ', assignments);
+//
+//                 var students = results.rows;
+//                 var { include, editable, defaults } = req.body.assignmentInfo;
+//                 console.log('MAKING STUDENT ASSINGMENTS!!!');
+//                 return makeStudentAssignments(students, section, assignmentId, include, editable, defaults);
+//             });
+//         }).catch(e => {
+//             console.log(e); // end makeNewAssignment
+//         });
+//     }); // end forEach
+// }
 
 
-makeNewAssignmentAll(req);
+//const req = {
+//     session: {
+//         user: {
+//             id: 1
+//         }
+//     },
+//     body1: {
+//         assignmentInfo: {
+//             sections: [ '1', '2' ],
+//             include: {
+//                 title: 'individual',
+//                 question: null,
+//                 abstract: null,
+//                 hypothesis: null,
+//                 variables: null,
+//                 materials: null,
+//                 procedures: null,
+//                 data: null,
+//                 calculations: null,
+//                 discussion: null },
+//             editable: {},
+//             shared: {},
+//             defaults: {
+//                 defaults_title: '',
+//                 defaults_question: '',
+//                 defaults_abstract: '',
+//                 defaults_hypothesis: '',
+//                 defaults_variables: '',
+//                 defaults_materials: '',
+//                 defaults_procecures: '',
+//                 defaults_data: '',
+//                 defaults_calculations: '',
+//                 defaults_discussion: '',
+//                 default_title: 'sdfasdf'
+//             },
+//             assignmentName: 'asd',
+//             instructions: null,
+//             group_lab: false,
+//             due: null
+//         }
+//     },
+//     body: {
+//         assignmentInfo: {
+//             sections: [ '1', '2' ],
+//             include: {
+//                 title: 'group',
+//                 question: 'group',
+//                 abstract: null,
+//                 hypothesis: 'individual',
+//                 variables: null,
+//                 materials: 'group',
+//                 procedures: 'group',
+//                 data: 'group',
+//                 calculations: 'individual',
+//                 discussion: null
+//             },
+//             editable: {
+//                 materials: true,
+//                 procedures: true,
+//                 data: true,
+//                 calculations: true,
+//                 title: true,
+//                 question: true
+//             },
+//             shared:{
+//                 title: true,
+//                 question: true,
+//                 materials: true,
+//                 procedures: true,
+//                 data: true
+//             },
+//             defaults: {
+//                 defaults_title: '',
+//                 defaults_question: '',
+//                 defaults_abstract: '',
+//                 defaults_hypothesis: 'my starting hypothesis',
+//                 defaults_variables: '',
+//                 defaults_materials: '',
+//                 defaults_procecures: '',
+//                 defaults_data: '',
+//                 defaults_calculations: '',
+//                 defaults_discussion: '',
+//                 defaults_procedures: 'Follow the procedures on the handout.'
+//             },
+//             assignmentName: 'Soap lab',
+//             due: '2017-10-10',
+//             instructions: null,
+//             group_lab: true
+//         }
+//     }
+// };
+
+
+//makeNewAssignmentAll(req);

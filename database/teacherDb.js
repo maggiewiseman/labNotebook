@@ -59,7 +59,7 @@ function getCoursesByTeacher(data){
     console.log('TEACHER_DB: saveNewCourse.');
     let queryStr = 'SELECT * FROM courses WHERE teacher_id = $1';
     return db.query(queryStr, data);
-};
+}
 
 function deleteCourse(id) {
     console.log('TEACHER_DB: deleteCourse.');
