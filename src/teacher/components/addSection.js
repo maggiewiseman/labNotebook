@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { saveNewSection } from '../actions';
-import {Row, Col, Card, SideNav, SideNavItem, Button, Input} from 'react-materialize'
+import {Row, Col, Card, Modal, Button, Input} from 'react-materialize'
 
 class AddSection extends React.Component{
     constructor(props) {
@@ -32,17 +32,17 @@ class AddSection extends React.Component{
     }
     render() {
         const { courseId, error } = this.props;
+
         return (
-            <Card title="Make a New Section">
+            <Card>
                 {error && <p>{error}</p>}
-                {this.state.showDialog || <button onClick={this.toggleShowDialog}>Add New Section</button>}
-                {this.state.showDialog &&
-                <div>
+
+                <Modal header="Add New Section" trigger={<Button onClick={this.toggleShowDialog}>Add New Section</Button>}>
                     <Input s={12} type="text" name="sectionName" placeholder="Section Name" onChange={this.handleInput} ref={el => this.sectionNameInput = el}/>
                     <Input s={6} type="text" name="startDate" placeholder="Start Date (optional)" onChange={this.handleInput} ref={el => this.startDateInput = el}/>
                     <Input s={6} type="text" name="endDate" placeholder="End Date (optional)" onChange={this.handleInput}     ref={el => this.endDateInput = el}/>
                     <Button onClick={this.submit}>Save New Course</Button>
-                </div>}
+                </Modal>
             </Card>
         )
     }

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
 import { Link } from 'react-router';
 import AddSection from '../components/addSection';
-import {Row, Col, Container, SideNav, SideNavItem, Button, Input} from 'react-materialize'
+import {Row, Col, Container, Modal, Button, Input} from 'react-materialize'
 
 
 class TeacherCourses extends React.Component {
