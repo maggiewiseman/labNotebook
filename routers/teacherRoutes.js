@@ -1,7 +1,9 @@
 const path = require('path');
 const mw = require('./middleware');
 
-const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, saveNewAssignmentTemplate, getStudentIdsBySectionId} = require("../database/teacherDb.js");
+const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId} = require("../database/teacherDb");
+
+const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis,newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion} = require("../database/assignmentsDb")
 
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, (req, res) => {
@@ -189,15 +191,56 @@ function massageIncludeObject(include, shared){
 }
 
 
+/*
+saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis,newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion
+
+include: {
+    title: 'group',
+    question: 'group',
+    abstract: null,
+    hypothesis: null,
+    variables: null,
+    materials: 'group',
+    procedures: 'group',
+    data: 'group',
+    calculations: 'individual',
+    discussion: null
+},
+
+*/
+function makeStudentAssignments(students, includes) {
+    students.forEach(student => {
+        // need to know what to include...
+        for(var key in includes) {
+            if(includes[key]) {
+                var functionName = 'new' + key.charAt(0).toUpperCase() + key.slice(1);
+                console.log('functionName,', functionName);
+            }
+        }
+    })
+}
+
+
+
+
+
+//TESTS
 function makeNewAssignmentAll(req) {
+    var assignments = [];
     req.body.assignmentInfo.sections.forEach((section) => {
         return makeNewAssignment(section, req.body.assignmentInfo).then(assignmentId => {
             //now get list of students and for each student make a student report, using user_id make student assignment
+            assignments.push({section, assignmentId});
+
             return getStudentIdsBySectionId([section]);
         }).then(results => {
-            //then for each include make a row in each categorie's table with student_id and stuff
+            //then for each include make a row in each category's table with student_id and stuff
+            console.log('assignments: ', assignments);
             var students = results.rows;
-            console.log('students', students);
+
+            //get the list of items that are supposed to be included and then include them.
+            var includes = req.body.assignmentInfo.include
+            makeStudentAssignments(students, includes);
         }).catch(e => {
             console.log(e);
         });
@@ -205,7 +248,6 @@ function makeNewAssignmentAll(req) {
 }
 
 
-//TESTS
 const req = {
     session: {
         user: {
