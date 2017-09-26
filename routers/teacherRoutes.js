@@ -302,27 +302,29 @@ function newStudentReport(studentId, assignmentId, categoryIds) {
         "discussion",
     ];
 
+    var group_id = null;
 
-
-    var data = [studentId, assignmentId];
+    var data = [studentId, assignmentId, group_id];
     categories.forEach(category => {
         var gotOne = false;
         console.log('category: ', category)
         categoryIds.forEach(id => {
             console.log('id', id);
             if(id[category]) {
-                var gotOne = true;
+                gotOne = true;
+                console.log('got one');
                 data.push(id[category]);
             }
         });
         if(!gotOne) {
+            console.log('pusshing null')
             data.push(null);
         }
 
     });
 
     console.log('STUDENT REPORT DATA:', data);
-
+    //cdreturn saveNewStudentReport(data);
 
 }
 
