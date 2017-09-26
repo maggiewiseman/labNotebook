@@ -178,7 +178,7 @@ class TeacherNewAssignment extends React.Component {
                         {makeSectionList(sections, this.handleSectionInput)}
                     </Row>
                     <Row>
-                    <h5> Lab Report Basics</h5>
+                    <h5>Assignment Basics</h5>
                         <Input m={12} type="text" name="assignmentName" onChange={this.handleInput} label="Assignment Name"/>
                         <Input m={6} type="text" name="due" onChange={this.handleInput} label="Due Date YYYY-MM-DD (optional)" />
                         <Input m={6} type="checkbox" name="group_lab" onChange={this.handleInput} label="Group Lab?"/>
@@ -186,7 +186,7 @@ class TeacherNewAssignment extends React.Component {
 
                     </Row>
                     <Row>
-                    <h5> Assignment Details</h5>
+                    <h5>Assignment Details</h5>
 
                         {assignmentOptions}
 

@@ -35,7 +35,7 @@ class App extends React.Component  {
                     </Navbar>
 
                     <Row>
-                        <Col s={3} className='sidebar'>
+                        <Col s={2} className='sidebar'>
                             <ul>
                                 <li><Link to="/teacher/assignments">Assignments</Link></li>
                                 <li><Link to="/teacher/courses">Courses</Link></li>
@@ -44,7 +44,7 @@ class App extends React.Component  {
                                 <li>Messages</li>
                             </ul>
                         </Col>
-                        <Col s={9} className='mainContainer'>
+                        <Col s={10} className='mainContainer'>
                             {this.props.children}
                         </Col>
                     </Row>
