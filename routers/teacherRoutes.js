@@ -208,20 +208,94 @@ include: {
 },
 
 */
-function makeStudentAssignments(students, includes) {
+function makeStudentAssignments(students, assignmentId, includes, editable, defaults) {
     students.forEach(student => {
-        // need to know what to include...
+
+        var categoryIds = [];
+        var promiseArr = [];
+
         for(var key in includes) {
             if(includes[key]) {
-                var functionName = 'new' + key.charAt(0).toUpperCase() + key.slice(1);
-                console.log('functionName,', functionName);
-            }
-        }
-    })
+                //set data for this key
+                var group_id = null;
+
+                var editableBoolean = editable[key] ? editable[key] : false;
+
+                var data = [
+                    assignmentId,
+                    group_id,
+                    editableBoolean,
+                    defaults[key]
+                ];
+
+                console.log('make student assignment data', data);
+
+                if(key == 'title') {
+                    promiseArr.push(newTitle(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == 'question') {
+                    promiseArr.push(newQuestion(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "abstract"){
+                    promiseArr.push(newAbstract(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "hypothesis") {
+                    promiseArr.push(newHypothesis(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "variables") {
+                    promiseArr.push(newData(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "materials") {
+                    promiseArr.push(newMaterials(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "procedures") {
+                    promiseArr.push(newProcedure(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "data") {
+                    promiseArr.push(newData(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "caluclations") {
+                    promiseArr.push(newCalculations(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                }
+                if(key == "discussion") {
+                    promiseArr.push(newDiscussion(data).then(results => {
+                        categoryIds.push({ title: results.rows[0].id});
+                    }));
+                } //end long if check
+
+
+            } //end if(includes[key])
+        } //end for loop
+        //make new student assignment with categoryIds, student_id and assignment_id
+
+        return Promise.all(promiseArr).then(results => {
+            console.log('Results from Promise.all', results);
+            console.log('Category Ids', categoryIds);
+        }).catch(e => {
+            console.log('Promise.all error: ', e);
+        }); //end catch for promise.all
+
+
+    }); //end forEach
 }
-
-
-
 
 
 //TESTS
@@ -229,22 +303,20 @@ function makeNewAssignmentAll(req) {
     var assignments = [];
     req.body.assignmentInfo.sections.forEach((section) => {
         return makeNewAssignment(section, req.body.assignmentInfo).then(assignmentId => {
-            //now get list of students and for each student make a student report, using user_id make student assignment
+        //now get list of students and for each student make a student report, using user_id make student assignment
             assignments.push({section, assignmentId});
 
-            return getStudentIdsBySectionId([section]);
-        }).then(results => {
-            //then for each include make a row in each category's table with student_id and stuff
-            console.log('assignments: ', assignments);
-            var students = results.rows;
+            return getStudentIdsBySectionId([section]).then(results => {
+                console.log('assignments: ', assignments);
 
-            //get the list of items that are supposed to be included and then include them.
-            var includes = req.body.assignmentInfo.include
-            makeStudentAssignments(students, includes);
+                var students = results.rows;
+                var { includes, editable, defaults } = req.body.assignmentInfo;
+                makeStudentAssignments(students, assignmentId, includes, editable, defaults);
+            });
         }).catch(e => {
-            console.log(e);
+            console.log(e); // end makeNewAssignment
         });
-    });
+    }); // end forEach
 }
 
 

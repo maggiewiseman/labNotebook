@@ -78,7 +78,7 @@ function newDiscussion(data) {
 
 module.exports.saveNewStudentReport = saveNewStudentReport;
 module.exports.newTitle = newTitle;
-module.exports.newQuestion = newQuestion
+module.exports.newQuestion = newQuestion;
 module.exports.newAbstract = newAbstract;
 module.exports.newHypothesis = newHypothesis;
 module.exports.newVariables = newVariables;
@@ -89,11 +89,11 @@ module.exports.newCalculations = newCalculations;
 module.exports.newDiscussion = newDiscussion;
 
 //TEST:
-newAbstract([42, null, true, "Starting Abstract"]).then(results => {
-    console.log(results.rows);
-}).catch(e => {
-    console.log(e);
-});
+// newAbstract([42, null, true, "Starting Abstract"]).then(results => {
+//     console.log(results.rows);
+// }).catch(e => {
+//     console.log(e);
+// });
 
 //saveNewStudentReport([])
 /********** ASSIGNMENTS *********/
