@@ -190,35 +190,20 @@ function massageIncludeObject(include, shared){
     return include;
 }
 
-
 /*
-saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis,newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion
-
-include: {
-    title: 'group',
-    question: 'group',
-    abstract: null,
-    hypothesis: null,
-    variables: null,
-    materials: 'group',
-    procedures: 'group',
-    data: 'group',
-    calculations: 'individual',
-    discussion: null
-},
-
+This function uses the list of included categories to make a row in each category table for each student
+At the end it calls the function make a row in the student report table
 */
-function makeStudentAssignments(students, assignmentId, includes, editable, defaults) {
+function makeStudentAssignments(students, assignmentId, include, editable, defaults) {
 
     students.forEach(student => {
         console.log('(((students)))', student);
         console.log('defaults', defaults);
-        var categoryIds = [];
         var promiseArr = [];
 
-        for(var key in includes) {
+        for(var key in include) {
             console.log('***** makingStudentAssigns: key:', key);
-            if(includes[key]) {
+            if(include[key]) {
                 //set data for this key
                 var group_id = null;
 
@@ -292,13 +277,53 @@ function makeStudentAssignments(students, assignmentId, includes, editable, defa
 
         return Promise.all(promiseArr).then(results => {
             console.log('Results from Promise.all', results);
-            console.log('Category Ids', categoryIds);
+            return newStudentReport(student.user_id, assignmentId, results);
+
         }).catch(e => {
             console.log('Promise.all error: ', e);
         }); //end catch for promise.all
 
 
     }); //end forEach
+}
+
+function newStudentReport(studentId, assignmentId, categoryIds) {
+
+    var categories = [
+        "title",
+        "question",
+        "abstract",
+        "hypothesis",
+        "variables",
+        "materials",
+        "procedures",
+        "data",
+        "calculations",
+        "discussion",
+    ];
+
+
+
+    var data = [studentId, assignmentId];
+    categories.forEach(category => {
+        var gotOne = false;
+        console.log('category: ', category)
+        categoryIds.forEach(id => {
+            console.log('id', id);
+            if(id[category]) {
+                var gotOne = true;
+                data.push(id[category]);
+            }
+        });
+        if(!gotOne) {
+            data.push(null);
+        }
+
+    });
+
+    console.log('STUDENT REPORT DATA:', data);
+
+
 }
 
 
@@ -373,7 +398,7 @@ const req = {
                 title: 'group',
                 question: 'group',
                 abstract: null,
-                hypothesis: null,
+                hypothesis: 'individual',
                 variables: null,
                 materials: 'group',
                 procedures: 'group',
@@ -400,7 +425,7 @@ const req = {
                 defaults_title: '',
                 defaults_question: '',
                 defaults_abstract: '',
-                defaults_hypothesis: '',
+                defaults_hypothesis: 'my starting hypothesis',
                 defaults_variables: '',
                 defaults_materials: '',
                 defaults_procecures: '',
