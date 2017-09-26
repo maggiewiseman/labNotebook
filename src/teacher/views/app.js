@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Logout from '../../auth/logout.js';
 import { getTeacherInfo } from '../actions';
+import {Navbar, NavItem, Row, Col} from 'react-materialize'
 
 class App extends React.Component  {
     componentDidMount() {
@@ -23,28 +24,29 @@ class App extends React.Component  {
             // });
             return (
                 <div>
-                    <nav>
-                        <ul>
-                            <li><Link to="/teacher">Home</Link></li>
-                            <li>New Assignment</li>
-                            <li>Help</li>
-                            <li>Account</li>
-                            <li><Logout /></li>
-                        </ul>
-                    </nav>
-                    <sidebar>
-                        <header>
-                            Menu
-                        </header>
-                        <ul>
-                            <li><Link to="/teacher/assignments">Assignments</Link></li>
-                            <li><Link to="/teacher/courses">Courses</Link></li>
-                            <li>Gradebook</li>
-                            <li>Students</li>
-                            <li>Messages</li>
-                        </ul>
-                    </sidebar>
-                    {this.props.children}
+                    <Navbar>
+
+                            <NavItem href="/teacher">Home</NavItem>
+                            <NavItem>New Assignment</NavItem>
+                            <NavItem>Help</NavItem>
+                            <NavItem>Account</NavItem>
+                            <NavItem><Logout /></NavItem>
+
+                    </Navbar>
+                    <Row>
+                        <Col s={3} className='sidebar'>
+                            <ul>
+                                <li><Link to="/teacher/assignments">Assignments</Link></li>
+                                <li><Link to="/teacher/courses">Courses</Link></li>
+                                <li>Gradebook</li>
+                                <li>Students</li>
+                                <li>Messages</li>
+                            </ul>
+                        </Col>
+                        <Col s={9} className='mainContainer'>
+                            {this.props.children}
+                        </Col>
+                    </Row>
                 </div>
             );
         }
