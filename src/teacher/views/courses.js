@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
 import { Link } from 'react-router';
 import AddSection from '../components/addSection';
+import {Row, Col, Container, SideNav, SideNavItem, Button, Input} from 'react-materialize'
+
 
 class TeacherCourses extends React.Component {
     constructor(props) {
@@ -47,15 +49,15 @@ class TeacherCourses extends React.Component {
             var courseList = makeCourseList(courses, sections);
         }
         return (
-            <div>
+            <Container>
                 <header>
                     Make a new course
                 </header>
                 {this.state.error && <p>{this.state.error}</p>}
                 {error && <p>{error}</p>}
-                <input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
+                <Input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
 
-                <button type="submit" onClick={this.submit}>Save new course</button>
+                <Button onClick={this.submit}>Save new course</Button>
                 {courses &&
                     <div>
                         <header>
@@ -66,7 +68,7 @@ class TeacherCourses extends React.Component {
                         </ul>
                     </div>
                 }
-            </div>
+            </Container>
         );
     }
 }

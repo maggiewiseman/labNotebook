@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Logout from '../../auth/logout.js';
 import { getTeacherInfo } from '../actions';
-import {Navbar, NavItem, Row, Col} from 'react-materialize'
+import {Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Button} from 'react-materialize'
 
 class App extends React.Component  {
     componentDidMount() {
@@ -23,7 +23,7 @@ class App extends React.Component  {
             //
             // });
             return (
-                <div>
+                <Container>
                     <Navbar>
 
                             <NavItem href="/teacher">Home</NavItem>
@@ -33,6 +33,7 @@ class App extends React.Component  {
                             <NavItem><Logout /></NavItem>
 
                     </Navbar>
+
                     <Row>
                         <Col s={3} className='sidebar'>
                             <ul>
@@ -47,7 +48,7 @@ class App extends React.Component  {
                             {this.props.children}
                         </Col>
                     </Row>
-                </div>
+                </Container>
             );
         }
     };
