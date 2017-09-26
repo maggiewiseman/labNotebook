@@ -9,6 +9,7 @@ var loggedOutRoutes = (app) => {
 
 
     app.get('/' , mw.registerLoginCheck, (req, res) => {
+    
         return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
 
@@ -40,7 +41,7 @@ var loggedOutRoutes = (app) => {
                         role: role
                     }
 
-                    dbStudent.makeCourse(id, course);
+                    dbStudent.addNewClass(id, course);
 
                     res.json({
                         success: true
