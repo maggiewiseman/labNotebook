@@ -5,10 +5,36 @@ import axios from '../api/axios';
 
 export function getStudentData() {
     return axios.get('/api/student/data').then((result) => {
-        console.log('ACTION', result);
         return {
             type: 'GET_STUDENT_DATA',
-            data: result.data.studentData
+            studentInfo: result.data.studentInfo
         }
     })
+}
+
+//******************addCourse*****************//
+
+export function addNewClass(classID) {
+    return axios.post('/api/student/class', {
+        classID
+    }).then((result) => {
+
+        return {
+            type: 'ADD_CLASS',
+            newClassList: result.data.courses
+        }
+    })
+}
+
+//******************getAssignment*****************//
+
+export function getAssignment() {
+    return axios.post('/api/student/assignment', {
+    }).then((result) => {
+        return {
+            type:'GET_ASSIGNMENT',
+            assignment: result.data.assignment
+        }
+    })
+
 }
