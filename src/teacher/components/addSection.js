@@ -34,7 +34,7 @@ class AddSection extends React.Component{
         const { courseId, error } = this.props;
 
         return (
-            <Card>
+            <div>
                 {error && <p>{error}</p>}
 
                 <Modal header="Add New Section" trigger={<Button onClick={this.toggleShowDialog}>Add New Section</Button>}>
@@ -43,7 +43,7 @@ class AddSection extends React.Component{
                     <Input s={6} type="text" name="endDate" placeholder="End Date (optional)" onChange={this.handleInput}     ref={el => this.endDateInput = el}/>
                     <Button onClick={this.submit}>Save New Course</Button>
                 </Modal>
-            </Card>
+            </div>
         )
     }
 }

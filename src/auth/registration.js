@@ -127,9 +127,9 @@ export default class Registration extends React.Component {
             <Container>
                 <Card className='darken-1' title='Please select one of the following to register'>
                     <Row>
-                        <Col s={12} m={4} l={2}><Button className="teacher-button" onClick={e => this.handleTeacherSubmit(e)}> TEACHER </Button></Col>
+                        <Col s={12} m={3}><Button className="teacher-button" onClick={e => this.handleTeacherSubmit(e)}> TEACHER </Button></Col>
 
-                        <Col s={12} m={4} l={2}><Button className="teacher-button" onClick={e => this.handleStudentSubmit(e)}> STUDENT </Button></Col>
+                        <Col s={12} m={3} ><Button className="teacher-button" onClick={e => this.handleStudentSubmit(e)}> STUDENT </Button></Col>
                     </Row>
                 </Card>
 
