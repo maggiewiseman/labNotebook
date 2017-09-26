@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
 import { Link } from 'react-router';
 import AddSection from '../components/addSection';
-import {Row, Col, Container, Modal, Button, Input} from 'react-materialize'
+import {Row, Col, Container, Card, Modal, Button, Input, Collapsible, CollapsibleItem} from 'react-materialize'
 
 
 class TeacherCourses extends React.Component {
@@ -50,23 +50,19 @@ class TeacherCourses extends React.Component {
         }
         return (
             <Container>
-                <header>
-                    Make a new course
-                </header>
+            <Card>
+                <Modal header="Add A Course" trigger={<Button>Add A Course</Button>}>
                 {this.state.error && <p>{this.state.error}</p>}
                 {error && <p>{error}</p>}
                 <Input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
 
                 <Button onClick={this.submit}>Save new course</Button>
+                </Modal>
+            </Card>
                 {courses &&
-                    <div>
-                        <header>
-                            Course List
-                        </header>
-                        <ul>
-                            {courseList}
-                        </ul>
-                    </div>
+                    <Collapsible>
+                    	{courseList}
+                    </Collapsible>
                 }
             </Container>
         );
@@ -110,20 +106,20 @@ function makeList(items) {
     );
 }
 
+
+
 function makeCourseList(courses, sections) {
     return courses.map(course => {
-        var link = '/teacher/course/' + course.id;
         if(sections) {
             var sectionsForThisCourse = filterListByCourseId(sections, course.id);
             var sectionList = makeList(sectionsForThisCourse);
             return (
-                <li key={course.id.toString()}>
-                    <Link to={link}>{course.name}</Link>
+                <CollapsibleItem header={course.name}>
                     <AddSection courseId={course.id}/>
                     <ul>
                         {sectionList}
                     </ul>
-                </li>
+                </CollapsibleItem>
             );
         } else {
             return (
