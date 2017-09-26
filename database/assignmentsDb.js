@@ -1,0 +1,103 @@
+var spicedPg = require('spiced-pg');
+var localUrl = '';
+
+if(!process.env.DATABASE_URL) {
+    const secrets = require('../secrets.json');
+    localUrl = `postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:5432/labnb`;
+}
+var dbUrl = process.env.DATABASE_URL || localUrl;
+
+var db = spicedPg(dbUrl);
+/********** STUDENT REPORTS *********/
+function saveNewStudentReport(data) {
+    console.log('TEACHER_DB: saveNewStudentReport');
+    let queryStr = `INSERT INTO student_reports (student_id, assignment_id, group_id, abstract_id, question_id, hypothesis_id, variables_id, materials_id, procedures_id, data_id, calculations_id, discussion_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`;
+    return db.query(queryStr, data);
+}
+
+function newTitle(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO titles (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+
+function newQuestion(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO questions (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newAbstract(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO abstracts (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newHypothesis(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO hypotheses (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newVariables(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO variables (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newMaterials(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO materials (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newProcedure(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO procedures (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newData(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO data (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newCalculations(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO calculations (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+function newDiscussion(data) {
+    console.log('TEACHER_DB newAbstract');
+    let queryStr = `INSERT INTO discussions (assignment_id, group_id, editable, content) VALUES ($1, $2, $3, $4) RETURNING id`;
+    return db.query(queryStr, data);
+}
+
+//TEST:
+newAbstract([42, null, true, "Starting Abstract"]).then(results => {
+    console.log(results.rows);
+}).catch(e => {
+    console.log(e);
+});
+
+//saveNewStudentReport([])
+/********** ASSIGNMENTS *********/
+function saveNewAssignmentTemplate(data) {
+    console.log('TEACHER_DB: saveNewAssignmentTemplate,', data);
+    let queryStr = 'INSERT INTO assignments (section_id, group_lab, name, instructions, due, title, default_title, abstract, default_abstract, question, default_question, hypothesis, default_hypothesis, variables, default_variables, materials, default_materials, procedures, default_procedures, data, default_data, calculations, default_calc, discussion, default_discussion ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25) RETURNING id';
+    return db.query(queryStr, data);
+}
+//Test
+// saveNewAssignmentTemplate([1, false, '3moles', 'instructions', '1999-01-01', 'word', 'word', 'word8', 'word9', 'word9','word11', 'word9','word13', 'word9', 'word15', 'word9', 'word17', 'word9', 'word19', 'word20', 'word21', 'word22', 'word23', 'word24', 'word25'])
+//     .then((results) => {
+//         console.log(results.rows);
+//     }).catch(e => {
+//         console.log(e);
+//     });
+
+// INSERT INTO assignments (section_id, group_lab, name, instructions, due, title, default_title, abstract, default_abstract, question, default_question, hypothesis, default_hypothesis, variables, default_variables, materials, default_materials, procedures, default_procedures, data, default_data, calculations, default_calc, discussion, default_discussion) VALUES (1, false, '3moles', '4no instructions', '1999-01-01', '$6', '$7', '$8', '$9', '10', '11', '12', '13', '14', '$15', '$16', '$17', '$18', '$19', '$20', '21', '22', '$23', '$24', '$25') RETURNING id;
+
+module.exports.saveNewAssignmentTemplate = saveNewAssignmentTemplate;
