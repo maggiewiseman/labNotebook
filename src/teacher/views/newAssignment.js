@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getAllSections, saveNewAssignment } from '../actions';
-
+import {Row, Col, Button, Input, Card, Collection, CollectionItem } from 'react-materialize'
 
 class TeacherNewAssignment extends React.Component {
     constructor(props) {
@@ -152,14 +152,8 @@ class TeacherNewAssignment extends React.Component {
         }
 
         var assignmentOptions =
-                <div >
-                    <div style={assignmentGridStyle}>
-                        <p>Include</p>
-                        <p>Category</p>
-                        <p>Default values</p>
-                        <p>Students can edit?</p>
-                        <p>Shared amongst groups?</p>
-                    </div>
+                <Row>
+                    <Row>
                     {createAssignmentCategoryDiv('Title', events) }
                     {createAssignmentCategoryDiv('Question', events)}
                     {createAssignmentCategoryDiv('Abstract', events)}
@@ -170,27 +164,33 @@ class TeacherNewAssignment extends React.Component {
                     {createAssignmentCategoryDiv('Data', events)}
                     {createAssignmentCategoryDiv('Calculations', events)}
                     {createAssignmentCategoryDiv('Discussion', events)}
-                </div>;
+                    </Row>
+                </Row>;
         if(!sections) {
             return null;
         }else {
             return (
                 <div>
-                    <div>Sections list</div>
-                    {this.state.sectionError && <p>{this.state.sectionError}</p>}
-                    {makeSectionList(sections, this.handleSectionInput)}
-                    <label forHtml="assignmentName">Assignment Name</label>
-                    <input type="text" name="assignmentName" onChange={this.handleInput} />
-                    <label forHtml="due">Due Date (optional)</label>
-                    <input type="text" name="due" onChange={this.handleInput} />
-                    <label forHtml="instructions">Instructions (optional)</label>
-                    <input type="textarea" rows="4" name="instructions" onChange={this.handleInput} />
-                    <label forHtml="group_lab">Group Lab?</label>
-                    <input type="checkbox" name="group_lab" onChange={this.handleInput}/>
+                    <Card title="To which classes should the assignment be added?">
 
-                    <h3>Assignment Details</h3>
-                    {assignmentOptions}
-                    <button onClick={this.submit}>Save assignment</button>
+                        {this.state.sectionError && <p>{this.state.sectionError}</p>}
+                        {makeSectionList(sections, this.handleSectionInput)}
+                    </Card>
+                    <Row>
+                    <h3> Lab Report Basics</h3>
+                        <Input m={12} type="text" name="assignmentName" onChange={this.handleInput} label="Assignment Name"/>
+                        <Input m={6} type="text" name="due" onChange={this.handleInput} label="Due Date YYYY-MM-DD (optional)" />
+                        <Input m={6} type="checkbox" name="group_lab" onChange={this.handleInput} label="Group Lab?"/>
+                        <Input m={12} type="textarea" name="instructions" onChange={this.handleInput} label="Instructions (optional)" />
+
+                    </Row>
+                    <Row>
+                    <h3> Assignment Details</h3>
+
+                        {assignmentOptions}
+
+                        <Button onClick={this.submit}>Save assignment</Button>
+                    </Row>
                 </div>
 
             );
@@ -209,13 +209,13 @@ export default connect(mapStateToProps)(TeacherNewAssignment);
 
 function createAssignmentCategoryDiv(category, events) {
     return (
-        <div style={assignmentGridStyle}>
-            <input type="checkbox" name={`${category.toLowerCase()}`} onChange={events.include}/>
-            <label forHtml={`${category}`}>{`${category}`}</label>
-            <input type="text" name={`defaults_${category.toLowerCase()}`} placeholder="Type default text here that will appear on all student assignments"  onChange={events.defaults} style={inputStyle}/>
-            <input type="checkbox" name={`${category.toLowerCase()}Editable`} onChange={events.editable}/>
-            <input type="checkbox" name={`${category.toLowerCase()}Share`} onChange={events.shared} />
-        </div>
+        <Row>
+            <Input m={2} type="checkbox" name={`${category.toLowerCase()}`} onChange={events.include} label={category}/>
+            <Input m={2} type="checkbox" name={`${category.toLowerCase()}Editable`} onChange={events.editable} label={`Editable`}/>
+            <Input m={2} type="checkbox" name={`${category.toLowerCase()}Share`} onChange={events.shared} label={`Share ${category}`}/>
+            <Input m={6} type="text" name={`defaults_${category.toLowerCase()}`} placeholder={`Default ${category}. Will appear on all student assignments`}  onChange={events.defaults} />
+
+        </Row>
     )
 }
 
@@ -223,15 +223,14 @@ function makeSectionList(items, save) {
     var itemList = items.map(item => {
         console.log(item);
         return (
-            <li key={item.id.toString()}>
-                <input type="checkbox" name={`sectioncb${item.id}`} onChange={save}/>{item.name}
-            </li>
+            <Input type="checkbox" name={`sectioncb${item.id}`} onChange={save} label={item.name}/>
+
         );
     });
     return (
-        <ul>
+        <Row>
             {itemList}
-        </ul>
+        </Row>
     );
 }
 
