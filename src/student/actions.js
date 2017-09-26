@@ -28,8 +28,8 @@ export function addNewClass(classID) {
 
 //******************getAssignment*****************//
 
-export function getAssignment() {
-    return axios.post('/api/student/assignment', {
+export function getAssignment(id) {
+    return axios.get('/api/student/assignment/' + id, {
     }).then((result) => {
         return {
             type:'GET_ASSIGNMENT',
