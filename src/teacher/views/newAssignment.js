@@ -30,7 +30,7 @@ class TeacherNewAssignment extends React.Component {
                 defaults_hypothesis: "",
                 defaults_variables: "",
                 defaults_materials: "",
-                defaults_procecures: "",
+                defaults_procedures: "",
                 defaults_data: "",
                 defaults_calculations: "",
                 defaults_discussion: "",
@@ -212,7 +212,7 @@ function createAssignmentCategoryDiv(category, events) {
         <div style={assignmentGridStyle}>
             <input type="checkbox" name={`${category.toLowerCase()}`} onChange={events.include}/>
             <label forHtml={`${category}`}>{`${category}`}</label>
-            <input type="text" name={`default_${category.toLowerCase()}`} placeholder="Type default text here that will appear on all student assignments"  onChange={events.defaults} style={inputStyle}/>
+            <input type="text" name={`defaults_${category.toLowerCase()}`} placeholder="Type default text here that will appear on all student assignments"  onChange={events.defaults} style={inputStyle}/>
             <input type="checkbox" name={`${category.toLowerCase()}Editable`} onChange={events.editable}/>
             <input type="checkbox" name={`${category.toLowerCase()}Share`} onChange={events.shared} />
         </div>
