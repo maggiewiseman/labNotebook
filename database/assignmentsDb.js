@@ -76,6 +76,18 @@ function newDiscussion(data) {
     return db.query(queryStr, data);
 }
 
+module.exports.saveNewStudentReport = saveNewStudentReport;
+module.exports.newTitle = newTitle;
+module.exports.newQuestion = newQuestion
+module.exports.newAbstract = newAbstract;
+module.exports.newHypothesis = newHypothesis;
+module.exports.newVariables = newVariables;
+module.exports.newMaterials = newMaterials;
+module.exports.newProcedure = newProcedure;
+module.exports.newData = newData;
+module.exports.newCalculations = newCalculations;
+module.exports.newDiscussion = newDiscussion;
+
 //TEST:
 newAbstract([42, null, true, "Starting Abstract"]).then(results => {
     console.log(results.rows);
