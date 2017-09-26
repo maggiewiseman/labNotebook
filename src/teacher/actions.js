@@ -3,6 +3,7 @@ import axios from '../api/axios';
 const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
     UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
+    ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     ERROR = 'ERROR';
 
 /************ ASSIGNMENTS *************/
@@ -72,4 +73,17 @@ export function saveNewCourse(name, desc) {
         }
     });
 
+}
+
+export function getTeacherInfo() {
+    console.log('ACTIONS: getUserInfo');
+    return axios.get('/api/teacher').then(results => {
+        if(results.data.success) {
+            console.log('got teacher info:', results);
+            return {
+                type: ADD_TEACHER_INFO,
+                payload: results.data.teacherInfo
+            }
+        }
+    })
 }

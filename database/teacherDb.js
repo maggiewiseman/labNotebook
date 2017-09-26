@@ -9,6 +9,15 @@ var dbUrl = process.env.DATABASE_URL || localUrl;
 
 var db = spicedPg(dbUrl);
 
+/********** TEACHER ************/
+function getTeacherInfoById(data){
+    console.log('TEACHER_DB: getStudentIdBySection,', data);
+    let queryStr = 'SELECT first_name, last_name, email, password, profile_pic, bio, role FROM users WHERE id = $1';
+    return db.query(queryStr, data);
+}
+
+module.exports.getTeacherInfoById = getTeacherInfoById;
+
 /********** STUDENTS ************/
 function getStudentIdsBySectionId(data){
     console.log('TEACHER_DB: getStudentIdBySection,', data);

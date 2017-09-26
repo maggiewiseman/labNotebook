@@ -1,13 +1,28 @@
 const path = require('path');
 const mw = require('./middleware');
 
-const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId} = require("../database/teacherDb");
+const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId, getTeacherInfoById} = require("../database/teacherDb");
 
 const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis,newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion} = require("../database/assignmentsDb")
 
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, (req, res) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
+    });
+
+    /********** USERS *********/
+    app.get('/api/teacher', (req,res) => {
+        return getTeacherInfoById([req.session.user.id]).then(results => {
+            res.json({
+                success: true,
+                teacherInfo: results.rows
+            });
+        }).catch(e => {
+            console.log(e);
+            res.json({
+                error: e
+            });
+        });
     });
 
     /********** ASSIGNMENTS *********/
