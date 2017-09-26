@@ -1,10 +1,18 @@
 const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
+    UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
     ERROR = 'ERROR';
 
 
 export default function(state = {}, action) {
     console.log('REDUCER: the action is: ', action);
+
+    if(action.type == UPDATE_RECENT_ASSIGNMENTS) {
+        console.log('REDUCER: getting assignment list');
+        state = Object.assign({}, state, {
+            latestAssignment: action.payload
+        });
+    }
 
     if(action.type == SAVE_SECTION_LIST) {
         console.log('REDUCER: saving section list');

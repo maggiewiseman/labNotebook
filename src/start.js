@@ -60,7 +60,7 @@ const studentRouter = (
 const teacherRouter = (
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path="/teacher" component={StudentApp}>
+            <Route path="/teacher" component={TeacherApp}>
                 <Route path="/teacher/courses" component={TeacherCourses} />
                 <Route path="/teacher/assignments" component={TeacherAssignments}/>
                 <Route path="/teacher/new/assignment" component={TeacherNewAssignment} />
