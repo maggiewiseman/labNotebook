@@ -209,12 +209,15 @@ include: {
 
 */
 function makeStudentAssignments(students, assignmentId, includes, editable, defaults) {
-    students.forEach(student => {
 
+    students.forEach(student => {
+        console.log('(((students)))', student);
+        console.log('defaults', defaults);
         var categoryIds = [];
         var promiseArr = [];
 
         for(var key in includes) {
+            console.log('***** makingStudentAssigns: key:', key);
             if(includes[key]) {
                 //set data for this key
                 var group_id = null;
@@ -225,59 +228,59 @@ function makeStudentAssignments(students, assignmentId, includes, editable, defa
                     assignmentId,
                     group_id,
                     editableBoolean,
-                    defaults[key]
+                    defaults['default_' + key]
                 ];
 
                 console.log('make student assignment data', data);
 
                 if(key == 'title') {
                     promiseArr.push(newTitle(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { title: results.rows[0].id};
                     }));
                 }
                 if(key == 'question') {
                     promiseArr.push(newQuestion(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { question: results.rows[0].id};
                     }));
                 }
                 if(key == "abstract"){
                     promiseArr.push(newAbstract(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { abstract: results.rows[0].id};
                     }));
                 }
                 if(key == "hypothesis") {
                     promiseArr.push(newHypothesis(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { hypothesis: results.rows[0].id};
                     }));
                 }
                 if(key == "variables") {
                     promiseArr.push(newData(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { variables: results.rows[0].id};
                     }));
                 }
                 if(key == "materials") {
                     promiseArr.push(newMaterials(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { materials: results.rows[0].id};
                     }));
                 }
                 if(key == "procedures") {
                     promiseArr.push(newProcedure(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { procedures: results.rows[0].id};
                     }));
                 }
                 if(key == "data") {
                     promiseArr.push(newData(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { data: results.rows[0].id};
                     }));
                 }
                 if(key == "caluclations") {
                     promiseArr.push(newCalculations(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { calculations: results.rows[0].id};
                     }));
                 }
                 if(key == "discussion") {
                     promiseArr.push(newDiscussion(data).then(results => {
-                        categoryIds.push({ title: results.rows[0].id});
+                        return { discussion: results.rows[0].id};
                     }));
                 } //end long if check
 
@@ -310,8 +313,9 @@ function makeNewAssignmentAll(req) {
                 console.log('assignments: ', assignments);
 
                 var students = results.rows;
-                var { includes, editable, defaults } = req.body.assignmentInfo;
-                makeStudentAssignments(students, assignmentId, includes, editable, defaults);
+                var { include, editable, defaults } = req.body.assignmentInfo;
+                console.log('MAKING STUDENT ASSINGMENTS!!!');
+                return makeStudentAssignments(students, assignmentId, include, editable, defaults);
             });
         }).catch(e => {
             console.log(e); // end makeNewAssignment
@@ -402,7 +406,7 @@ const req = {
                 defaults_data: '',
                 defaults_calculations: '',
                 defaults_discussion: '',
-                default_procedures: 'Follow the procedures on the handout.'
+                defaults_procedures: 'Follow the procedures on the handout.'
             },
             assignmentName: 'Soap lab',
             due: '2017-10-10',
