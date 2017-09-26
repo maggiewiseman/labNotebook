@@ -92,15 +92,14 @@ class App extends React.Component {
                        Menu
                    </header>
                    <div>
-                   <ul>
 
+                   <ul>
                    {studentInfo.courses.map(course => (
 
                        <li>{course.course_name}
-                       <ul>
+                           <ul>
 
-
-                       {course.assignments.map(assignment => (
+                       {course.assignments && course.assignments.map(assignment => (
 
 
 
@@ -110,12 +109,11 @@ class App extends React.Component {
                        )}
                        </ul>
 
-
-
-                        </li>
+                       </li>
 
                    ))}
                    </ul>
+
 
 
                    </div>

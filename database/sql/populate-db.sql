@@ -36,11 +36,11 @@ INSERT INTO students_reports (student_id, section_id, assignment_id) VALUES (4, 
 
 INSERT INTO students_reports (student_id, section_id, assignment_id) VALUES (4, 2, 2);
 
-INSERT INTO assignments (sectaion_id, group_lab, name, instructions, title, abstract, question, hypothesis, variables, materials, procedures, data, calculations, discussion) VALUES (1, FALSE, 'Rutherford Lab', 'https://www.dropbox.com/s/nsd1xcine2zzvdm/Lab_Rutherford.pdf', 'individual', 'individual','individual','individual','individual','individual','individual','individual','individual','individual');
+INSERT INTO assignments (section_id, group_lab, name, instructions, title, abstract, question, hypothesis, variables, materials, procedures, data, calculations, discussion) VALUES (1, FALSE, 'Rutherford Lab', 'https://www.dropbox.com/s/nsd1xcine2zzvdm/Lab_Rutherford.pdf', 'individual', 'individual','individual','individual','individual','individual','individual','individual','individual','individual');
 
-INSERT INTO assignments (section_id, group_lab, name, instructions, title, abstract, question, hypothesis, variables, materials, procedures, data, calculations, discussion) VALUES (1, FALSE, 'Volume of Sugar Molecule', 'https://www.dropbox.com/s/o7kkoofi0zbpoq0/Lab_FindVolumeofMoleculeofSugar.pdf', 'individual', 'individual','individual','individual','individual','individual','individual','individual','individual','individual');
+INSERT INTO assignments (section_id, group_lab, name, instructions, title, abstract, question, hypothesis, variables, materials, procedures, data, calculations, discussion) VALUES (2, FALSE, 'Volume of Sugar Molecule', 'https://www.dropbox.com/s/o7kkoofi0zbpoq0/Lab_FindVolumeofMoleculeofSugar.pdf', 'individual', 'individual','individual','individual','individual','individual','individual','individual','individual','individual');
 
-INSERT INTO titles (assignment_id, editable, content) VALUES (1, TRUE);
+INSERT INTO titles (assignment_id, editable, content) VALUES (1, TRUE, 'test');
 INSERT INTO questions (assignment_id, editable) VALUES (1, TRUE);
 INSERT INTO abstracts (assignment_id, editable) VALUES (1, TRUE);
 INSERT INTO hypotheses (assignment_id, editable) VALUES (1, TRUE);

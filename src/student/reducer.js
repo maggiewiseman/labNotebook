@@ -9,7 +9,9 @@ export default function(state = {}, action) {
 
     if(action.type === 'ADD_CLASS') {
         state = Object.assign({}, state, {
-            courses: action.newClassList
+            studentInfo: Object.assign({}, state, {
+                courses: action.newClassList
+            })
 
         })
     }

@@ -101,6 +101,7 @@ var studentRoutes = (app) => {
                 return course;
             })
 
+            console.log('HERE', courses);
             res.json({
                 success: true,
                 courses: courses
