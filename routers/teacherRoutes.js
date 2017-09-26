@@ -228,7 +228,7 @@ function makeStudentAssignments(students, assignmentId, includes, editable, defa
                     assignmentId,
                     group_id,
                     editableBoolean,
-                    defaults['default_' + key]
+                    defaults['defaults_' + key]
                 ];
 
                 console.log('make student assignment data', data);
@@ -264,6 +264,7 @@ function makeStudentAssignments(students, assignmentId, includes, editable, defa
                     }));
                 }
                 if(key == "procedures") {
+                    console.log('adding procedures: ', data);
                     promiseArr.push(newProcedure(data).then(results => {
                         return { procedures: results.rows[0].id};
                     }));
