@@ -55,7 +55,6 @@ export function saveAssignment(id, part) {
 }
 
 export function commitAssignment(id, part) {
-    console.log(id, part);
     return axios.post('/api/student/commit-assignment/', {id, part
     }).then((result) => {
         return {
