@@ -22,6 +22,7 @@ export default function(state = {}, action) {
         })
     }
 
+
     console.log("state", state);
     return state;
 }

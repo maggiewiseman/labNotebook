@@ -226,6 +226,9 @@ CREATE TABLE students_reports (
     data_id INTEGER REFERENCES data(id),
     calculations_id INTEGER REFERENCES calculations(id),
     discussion_id INTEGER REFERENCES discussions(id),
+    status VARCHAR(100),
+    grade VARCHAR(255),
+    comments TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
