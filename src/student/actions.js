@@ -40,14 +40,26 @@ export function getAssignment(id) {
 }
 
 
-//*********************newAssignment*******************//
+//*********************saveAssignment*******************//
 
 export function saveAssignment(id, part) {
     console.log(id, part);
     return axios.post('/api/student/save-assignment/', {id, part
     }).then((result) => {
         return {
-            type:'NEW_ASSIGNMENT',
+            type:'UPDATE_ASSIGNMENT',
+            assignment: result.data.assignment
+        }
+    })
+
+}
+
+export function commitAssignment(id, part) {
+    console.log(id, part);
+    return axios.post('/api/student/commit-assignment/', {id, part
+    }).then((result) => {
+        return {
+            type:'COMMIT_ASSIGNMENT',
             assignment: result.data.assignment
         }
     })
