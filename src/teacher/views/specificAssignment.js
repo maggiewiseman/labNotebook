@@ -39,13 +39,15 @@ class SpecificAssignment extends React.Component {
                     <Input type="checkbox" label="Grade Anonymously" />
                     <Input type="checkbox" lable="Randomize Students" />
                     <Input type="checkbox" label="Grade By Group" />
-                    <Input type="checkbox" label="Grade By Section" onClick={this.showCategories} />
+                    <Input type="checkbox" label="Grade By Category" onClick={this.showCategories} />
+                    <Input type="checkbox" label="Grade All Sections"/>
                 </Row>
                 {showCategories && <div>
                     <Link to={`/teacher/assignment/${currAssignmentId}/title`}>Grade Titles</Link>
                     <Button>Grade Questions</Button>
                     <Button>Grade Hypotheses</Button>
                 </div>}
+                <p>Click a student to grade his/her report</p>
                 {studentHtmlList}
             </div>
         )
