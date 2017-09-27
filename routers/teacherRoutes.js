@@ -3,7 +3,7 @@ const mw = require('./middleware');
 
 const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId, getTeacherInfoById} = require("../database/teacherDb");
 
-const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis,newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion} = require("../database/assignmentsDb")
+const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection} = require("../database/assignmentsDb")
 
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, (req, res) => {
@@ -26,6 +26,21 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
+    app.get('/api/teacher/:sectionId', (req,res) => {
+        let data = [req.params.sectionId];
+        return getAssignmentNameIdBySection(data).then(results => {
+            console.log('Got Assignments Info', results.rows);
+            res.json({
+                success: true,
+                assignmentList: results.rows
+            });
+
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
     //creates a new assignment.
     app.post('/api/teacher/assignment', mw.loggedInCheck, (req,res)=> {
         //make assignment row in assignments database.
