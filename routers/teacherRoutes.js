@@ -3,7 +3,7 @@ const mw = require('./middleware');
 
 const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId, getTeacherInfoById} = require("../database/teacherDb");
 
-const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection} = require("../database/assignmentsDb")
+const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection, getStudentsAssignmentIdsBySection } = require("../database/assignmentsDb")
 
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
@@ -26,6 +26,21 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
+    app.get('/api/teacher/students/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+        let data = [req.params.sectionId];
+        return getStudentsAssignmentIdsBySection(data).then(results => {
+            console.log('Got Student Assignment List Info', results.rows);
+            res.json({
+                success: true,
+                studentList: results.rows
+            });
+
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
     //gets list of assignments for a section
     app.get('/api/teacher/assignments/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         console.log('TEACHER ROUTES: getting Assignments by section id');
@@ -34,7 +49,7 @@ var teacherRoutes = (app) => {
             console.log('Got Assignments Info', results.rows);
             res.json({
                 success: true,
-                assignmentList: results.rows
+                studentAssignmentList: results.rows
             });
 
         }).catch(e => {
