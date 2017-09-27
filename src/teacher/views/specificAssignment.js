@@ -28,10 +28,10 @@ class SpecificAssignment extends React.Component {
         });
     }
     render() {
-        const { assignmentId, showCategories } = this.state;
-        const { studentList } = this.props;
+        const { showCategories } = this.state;
+        const { studentList, currAssignmentId } = this.props;
         if(studentList) {
-            var studentHtmlList = makeInnerList(studentList, assignmentId)
+            var studentHtmlList = makeInnerList(studentList, currAssignmentId)
         }
         return (
             <div>
@@ -42,7 +42,7 @@ class SpecificAssignment extends React.Component {
                     <Input type="checkbox" label="Grade By Section" onClick={this.showCategories} />
                 </Row>
                 {showCategories && <div>
-                    <Link to={`/teacher/assignment/${assignmentId}/title`}>Grade Titles</Link>
+                    <Link to={`/teacher/assignment/${currAssignmentId}/title`}>Grade Titles</Link>
                     <Button>Grade Questions</Button>
                     <Button>Grade Hypotheses</Button>
                 </div>}
