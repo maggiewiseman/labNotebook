@@ -3,7 +3,9 @@ const mw = require('./middleware');
 
 const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId, getTeacherInfoById} = require("../database/teacherDb");
 
-const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection} = require("../database/assignmentsDb")
+const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection, getStudentsAssignmentIdsBySection } = require("../database/assignmentsDb")
+
+const { getCategoriesForGrading } = require("../database/gradingDb");
 
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
@@ -26,6 +28,40 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
+    //get all the students data for given category
+    app.get('/api/teacher/grading/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+        let data = [req.params.assignmentId, req.params.category];
+        return getCategoriesForGrading(data).then(results => {
+            console.log("TEACHER ROUTER: categories for grading:", results.rows);
+            res.json({
+                success: true,
+                categoryData: results.rows
+            });
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
+
+    //get all the students report ids by section
+    app.get('/api/teacher/students/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+        let data = [req.params.sectionId];
+        console.log('About to: getStudentsAssignmentIdsBySection');
+        return getStudentsAssignmentIdsBySection(data).then(results => {
+            console.log('Got Student Assignment List Info', results.rows);
+            res.json({
+                success: true,
+                studentList: results.rows
+            });
+
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
+    //gets list of assignments for a section
     app.get('/api/teacher/assignments/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         console.log('TEACHER ROUTES: getting Assignments by section id');
         let data = [req.params.sectionId];
@@ -33,7 +69,7 @@ var teacherRoutes = (app) => {
             console.log('Got Assignments Info', results.rows);
             res.json({
                 success: true,
-                assignmentList: results.rows
+                studentAssignmentList: results.rows
             });
 
         }).catch(e => {

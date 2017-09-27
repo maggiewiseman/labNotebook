@@ -3,10 +3,10 @@
 //A list of current courses and sections
 import React from 'react';
 import { connect } from 'react-redux';
-import { saveNewCourse, getCourseList, getAllSections, Collection, CollectionItem } from '../actions';
+import { saveNewCourse, getCourseList, getAllSections } from '../actions';
 import { Link } from 'react-router';
 import AddSection from '../components/addSection';
-import {Row, Col, Container, Card, Modal, Button, Input, Collapsible, CollapsibleItem} from 'react-materialize'
+import {Row, Col, Container, Card, Modal, Button, Input, Collapsible, CollapsibleItem, Collection, CollectionItem} from 'react-materialize'
 
 
 class TeacherCourses extends React.Component {
@@ -94,15 +94,24 @@ function makeList(items) {
         console.log(item);
         return (
             <li key={item.id.toString()}>
-                <Link to={`/teacher/section/${item.id}`}>{item.name}
-                </Link>
+                <CollectionItem>
+                    <Col s={3}>
+                        <Link to={`/teacher/section/${item.id}`}>{item.name}</Link>
+                    </Col>
+
+                    <Col s={9}>
+                        <p>Code For Students: {item.id}</p>
+                    </Col>
+
+                </CollectionItem>
+
             </li>
         );
     });
     return (
-        <ul>
+        <Collection>
             {itemList}
-        </ul>
+        </Collection>
     );
 }
 
@@ -123,9 +132,7 @@ function makeCourseList(courses, sections) {
             );
         } else {
             return (
-                <li key={course.id.toString()}>
-                    <Link to={link}>{course.name}</Link>
-                    </li>
+                <li key={course.id.toString()}>{course.name}</li>
             );
         }
     });
