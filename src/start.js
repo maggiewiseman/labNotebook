@@ -70,11 +70,13 @@ const teacherRouter = (
     </Provider>
 )
 
-let route = loggedOutRouter;
-if (location.pathname == '/student') {
+let route;
+if(location.pathname == '/' || location.pathname == '/register' || location.pathname == '/login') {
+    route = loggedOutRouter;
+} else if (location.pathname.substring(0,8) == '/student') {
     console.log('using student router');
     route = studentRouter;
-} else if (location.pathname == '/teacher') {
+} else if (location.pathname.substring(0,8) == '/teacher') {
     console.log('using teacher router');
     route = teacherRouter;
 }

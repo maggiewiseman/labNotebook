@@ -15,7 +15,8 @@ function registerLoginCheck(req, res, next) {
 function loggedInCheck(req, res, next) {
     if(req.session.user) {
         //logged in!
-
+        console.log('user is logged in sending to next');
+        
         next();
     } else {
         res.redirect('/');

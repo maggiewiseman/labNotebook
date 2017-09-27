@@ -80,8 +80,8 @@ function makeCourseList(courses, sections) {
         } else {
             return (
                 <li key={course.id.toString()}>
-                    <Link to={link}>{course.name}</Link>
-                    </li>
+                    {course.name}
+                </li>
             );
         }
     });
