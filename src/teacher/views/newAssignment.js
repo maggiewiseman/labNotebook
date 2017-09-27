@@ -122,8 +122,15 @@ class TeacherNewAssignment extends React.Component {
     }
     submit() {
         if(this.checkSections()) {
-            console.log('dispatching');
-            this.props.dispatch(saveNewAssignment(this.state));
+            if(this.state.assignmentName){
+                console.log('dispatching');
+                this.props.dispatch(saveNewAssignment(this.state));
+                
+            } else {
+                this.setState({
+                    assignError: 'The assignment must have a name'
+                });
+            }
         } else {
             this.setState({
                 sectionError: "Please select a class"
@@ -174,11 +181,12 @@ class TeacherNewAssignment extends React.Component {
                     <Row>
                     <h5>To which classes should the assignment be added?</h5>
 
-                        {this.state.sectionError && <p>{this.state.sectionError}</p>}
+                        {this.state.sectionError && <p className='red-text darken-4'>{this.state.sectionError}</p>}
                         {makeSectionList(sections, this.handleSectionInput)}
                     </Row>
                     <Row>
                     <h5>Assignment Basics</h5>
+                    {this.state.assignError && <p className='red-text darken-4'>{this.state.assignError}</p>}
                         <Input m={12} type="text" name="assignmentName" onChange={this.handleInput} label="Assignment Name"/>
                         <Input m={6} type="text" name="due" onChange={this.handleInput} label="Due Date YYYY-MM-DD (optional)" />
                         <Input m={6} type="checkbox" name="group_lab" onChange={this.handleInput} label="Group Lab?"/>
