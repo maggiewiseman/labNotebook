@@ -14,11 +14,14 @@ export default class AssignmentList extends React.Component{
     }
     componentDidMount() {
         console.log('Component did mount: Asssignment List');
+        var url ='/api/teacher/assignments/' + this.props.sectionId;
+        console.log('URL', url);
         axios.get('/api/teacher/assignments/' + this.props.sectionId).then(results => {
+            console.log('Back from getting assignments:,', results);
             if(results.data.success) {
                 console.log(results.data.assignmentList);
                 this.setState({
-                    assignmentList: results.data.assignmentList
+                    assignmentList: results.data.studentAssignmentList
                 });
             } else {
                 this.setState({
@@ -36,6 +39,7 @@ export default class AssignmentList extends React.Component{
         if(!this.state.assignmentList){
             return null;
         } else {
+            console.log('AssignmentList state:', this.state);
             const { assignmentList } = this.state;
             var listAssignments = makeListAssignments(assignmentList);
 
@@ -56,13 +60,26 @@ function makeListAssignments(items) {
         console.log(item);
         return (
             <CollectionItem key={item.id.toString()}>
+
                 <Link to={`/teacher/assignment/${item.id}`}>{item.name}</Link>
+                    <p style={dueStyle}>Due: {item.due}</p>
+
             </CollectionItem>
         );
     });
     return (
-        <Collection>
-            {itemList}
-        </Collection>
+        <div>
+            <Collection>
+                {itemList}
+            </Collection>
+        </div>
     );
+}
+
+/******* STYLES **********/
+
+var dueStyle = {
+    display: 'inline',
+    paddingLeft: '40px'
+
 }

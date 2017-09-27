@@ -26,6 +26,8 @@ import TeacherDashboard from './teacher/views/dashboard';
 import TeacherCourses from './teacher/views/courses';
 import TeacherAssignments from './teacher/views/assignments';
 import TeacherNewAssignment from './teacher/views/newAssignment';
+import SpecificAssignment from './teacher/views/specificAssignment';
+import GradeACategory from './teacher/views/gradeCategory';
 
 
 
@@ -66,6 +68,8 @@ const teacherRouter = (
                 <Route path="/teacher/courses" component={TeacherCourses} />
                 <Route path="/teacher/assignments" component={TeacherAssignments}/>
                 <Route path="/teacher/new/assignment" component={TeacherNewAssignment} />
+                <Route path="/teacher/assignment/:id" component={SpecificAssignment} />
+                <Route path="/teacher/assignment/:assignmentid/:category" component={GradeACategory} />
                 <IndexRoute component={TeacherDashboard}/>
             </Route>
         </Router>
