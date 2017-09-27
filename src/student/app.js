@@ -56,12 +56,11 @@ class App extends React.Component {
         console.log('e');
     }
 
-    showAssignment() {
+    showAssignment(e) {
+        console.log(e.target.id);
+
         this.setState({
             assignmentVisible: true
-
-        }, () => {
-            console.log(this.state.assignmentVisible);
         })
     }
 
@@ -93,26 +92,28 @@ class App extends React.Component {
                        Menu
                    </header>
                    <div>
-                   <ul>
 
+                   <ul>
                    {studentInfo.courses.map(course => (
 
                        <li>{course.course_name}
-                       <ul>
+                           <ul>
+
+                       {course.assignments && course.assignments.map(assignment => (
 
 
-                       {course.assignments.map(assignment => (
-                           <li onClick={e => this.showAssignment(e)}>{assignment.assignment_name}</li>
+
+                          <li onClick={e => this.showAssignment(e)}  id={assignment.assignment_id}><Link to={`/student/assignment/${assignment.assignment_id}`} > {assignment.assignment_name}</Link>
+                          </li>
                            )
                        )}
                        </ul>
 
-
-
-                        </li>
+                       </li>
 
                    ))}
                    </ul>
+
 
 
                    </div>
@@ -124,8 +125,6 @@ class App extends React.Component {
 
                 <button className="new-class-button" onClick={e => this.newClass(e)}> Submit </button>
                {this.props.children}
-
-               {this.state.assignmentVisible && <AssignmentView />}
 
 
         </div>

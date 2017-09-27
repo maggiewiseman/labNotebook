@@ -9,16 +9,18 @@ export default function(state = {}, action) {
 
     if(action.type === 'ADD_CLASS') {
         state = Object.assign({}, state, {
-            courses: action.newClassList
+            studentInfo: Object.assign({}, state, {
+                courses: action.newClassList
+            })
 
         })
     }
 
-    // if(action.type === 'GET_ASSIGNMENTS') {
-    //     state = Object.assign({}, state,{
-    //         assignments: action.assignments
-    //     })
-    // }
+    if(action.type === 'GET_ASSIGNMENT') {
+        state = Object.assign({}, state,{
+            assignment: action.assignment
+        })
+    }
 
     console.log("state", state);
     return state;

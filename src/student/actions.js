@@ -28,11 +28,26 @@ export function addNewClass(classID) {
 
 //******************getAssignment*****************//
 
-export function getAssignment() {
-    return axios.post('/api/student/assignment', {
+export function getAssignment(id) {
+    return axios.get('/api/student/assignment/' + id, {
     }).then((result) => {
         return {
             type:'GET_ASSIGNMENT',
+            assignment: result.data.assignment
+        }
+    })
+
+}
+
+
+//*********************newAssignment*******************//
+
+export function saveAssignment(id, part) {
+    console.log(id, part);
+    return axios.post('/api/student/save-assignment/', {id, part
+    }).then((result) => {
+        return {
+            type:'NEW_ASSIGNMENT',
             assignment: result.data.assignment
         }
     })

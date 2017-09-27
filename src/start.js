@@ -18,6 +18,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 //Student Component Imports
 import StudentApp from './student/app';
 import StudentDashboard from './student/dashboard';
+import AssignmentView from './student/components/AssignmentView'
 
 //Teacher Component Imports
 import TeacherApp from './teacher/views/app';
@@ -53,6 +54,7 @@ const studentRouter = (
         <Router history={browserHistory}>
             <Route path="/student" component={StudentApp}>
                 <IndexRoute component={StudentDashboard}/>
+                <Route path="/student/assignment/:id" component={AssignmentView} />
             </Route>
         </Router>
     </Provider>
