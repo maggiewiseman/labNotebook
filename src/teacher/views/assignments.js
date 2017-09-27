@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
 import { Collapsible, CollapsibleItem} from 'react-materialize';
+import AssignmentList from '../components/assignmentList';
 
 
 class TeacherAssignments extends React.Component {
@@ -24,6 +25,7 @@ class TeacherAssignments extends React.Component {
         const { courses, sections } = this.props
 
         if(courses) {
+            console.log('making courses call');
             var courseList = makeCourseList(courses, sections);
         }
 
@@ -54,7 +56,7 @@ export default connect(mapStateToProps)(TeacherAssignments);
 /********** LIST MAKING FUNCTIONS ************/
 function filterListByCourseId(sections, courseId) {
     console.log(sections);
-    console.log('id: ', courseId);
+    console.log('Assignments: Filter list by course id: ', courseId);
     var filteredList = sections.filter(section => {
         return section.course_id == courseId;
     });
@@ -65,10 +67,11 @@ function makeCourseList(courses, sections) {
     return courses.map(course => {
         if(sections) {
             var sectionsForThisCourse = filterListByCourseId(sections, course.id);
+            console.log('calling make inner courses');
             var sectionList = makeInnerList(sectionsForThisCourse);
             return (
                 <CollapsibleItem header={course.name}>
-        
+
                     <ul>
                         {sectionList}
                     </ul>
@@ -87,10 +90,11 @@ function makeCourseList(courses, sections) {
 function makeInnerList(items) {
     var itemList = items.map(item => {
         console.log(item);
+
         return (
             <li key={item.id.toString()}>
-                <Link to={`/teacher/section/${item.id}`}>{item.name}
-                </Link>
+                {item.name}
+                <AssignmentList sectionId={item.id} />
             </li>
         );
     });

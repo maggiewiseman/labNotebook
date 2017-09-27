@@ -26,7 +26,8 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
-    app.get('/api/teacher/:sectionId', (req,res) => {
+    app.get('/api/teacher/assignments/:sectionId', (req,res) => {
+        console.log('TEACHER ROUTES: getting Assignments by section id');
         let data = [req.params.sectionId];
         return getAssignmentNameIdBySection(data).then(results => {
             console.log('Got Assignments Info', results.rows);
