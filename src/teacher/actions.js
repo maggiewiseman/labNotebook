@@ -1,4 +1,5 @@
 import axios from '../api/axios';
+import { browserHistory } from 'react-router';
 
 const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
@@ -12,6 +13,7 @@ export function saveNewAssignment(assignmentInfo) {
     if(assignmentInfo) {
         return axios.post('/api/teacher/assignment', {assignmentInfo}).then((results) => {
             if(results.data.success) {
+                browserHistory.push('/teacher/assignments')
                 return {
                     type: UPDATE_RECENT_ASSIGNMENTS,
                     payload: results.data.assignmentId
