@@ -14,7 +14,7 @@ export function getCategoriesForGrading(assignmentId, category){
     return axios.get(`/api/teacher/${assignmentId}/${category}`).then(results => {
         console.log("Back grom getting Category Data");
         return {
-            action: UPDATE_STUDENT_CATEGORY_DATA,
+            type: UPDATE_STUDENT_CATEGORY_DATA,
             payload: results.data.studentDataForGrading
         };
     }).catch(e => {
