@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import {getAssignment, saveAssignment} from '../actions';
+import {getAssignment, saveAssignment, udpateAssignmentStatus, commitAssignment} from '../actions';
 
 
 
@@ -16,6 +16,7 @@ class Assignment extends React.Component {
         this.props.dispatch = this.props.dispatch.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleSaveAll = this.handleSaveAll.bind(this);
+        this.handleCommit = this.handleCommit.bind(this);
     }
 
 
@@ -35,15 +36,23 @@ class Assignment extends React.Component {
 
     handleSave(e) {
 
-        var field = [e.target.name]
+        var field = e.target.name
 
-
+        console.log('dield', field);
 
         var send = {
-            [e.target.name]: this.state[field]
+            [field]: this.state[field]
         }
+        console.log('send', send);
         const {id} = this.props.params;
         this.props.dispatch(saveAssignment(id, send));
+    }
+
+    handleCommit(e) {
+        const {id} = this.props.params;
+
+        this.props.dispatch(getAssignment(id));
+        this.props.dispatch(commitAssignment(id, this.state))
 
     }
 
@@ -56,15 +65,17 @@ class Assignment extends React.Component {
 
     render() {
 
-
+        var form;
         const{assignment, studentInfo} = this.props;
 
 
         if(!assignment) {
             return null
         }
+        console.log('STATUS', assignment.status);
 
         var assignmentOptions =
+        <div>
 
                 <div>
                     {editable(assignment.title, 'title',this.handleChange, this.handleSave)}
@@ -77,20 +88,45 @@ class Assignment extends React.Component {
                     {editable(assignment.data, 'data',this.handleChange, this.handleSave)}
                     {editable(assignment.calculation, 'calculation',this.handleChange, this.handleSave)}
                     {editable(assignment.discussion, 'discussion',this.handleChange, this.handleSave)}
-                </div>;
+                </div>
+
+                <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
+
+                <button name='commit' onClick={this.handleCommit}>Commit</button>
+        </div>
+
+        var committedAssignment =
+                <div>
+                    {committed (assignment.title, 'title')}
+                    {committed (assignment.question, 'question')}
+                    {committed (assignment.abstract, 'abstract')}
+                    {committed (assignment.hypothesis, 'hypothesis')}
+                    {committed (assignment.variable, 'variable')}
+                    {committed (assignment.material, 'material')}
+                    {committed (assignment.procedure, 'procedure')}
+                    {committed (assignment.data, 'data')}
+                    {committed (assignment.calculation, 'calculation')}
+                    {committed (assignment.discussion, 'discussion')}
 
 
+                </div>
+
+         if(assignment.status === "COMMITTED" || assignment.status === "GRADED" || assignment.status === "PENDING") {
+
+             form = committedAssignment;
+         } else {
+              form = assignmentOptions;
+        }
 
         return (
             <div>
 
             <h3>Complete the following assignment</h3>
 
-            {assignmentOptions}
+                {form}
 
-
-            <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
             </div>
+
         )
 
     }
@@ -108,15 +144,14 @@ export default connect(mapStateToProps)(Assignment);
 
 
 
-function editable(section, category, handleChange, handleSave) {
+function editable(section, category, handleChange, handleSave, handleSaveAll, handleCommit) {
     console.log(section[category + '_content']);
 
     if(section[category + '_editable']) {
         if(section[category + '_content']) {
-            console.log("YAAAW");
-
 
             return (
+
                 <div>
                     <label>{category}:</label>
 
@@ -124,11 +159,10 @@ function editable(section, category, handleChange, handleSave) {
 
                     <button name={category} onClick={handleSave}>Save</button>
                 </div>
-
-
             )
         } else {
         return (
+
             <div>
                 <label>{category}:</label>
 
@@ -136,17 +170,32 @@ function editable(section, category, handleChange, handleSave) {
 
                 <button name={category} onClick={handleSave}>Save</button>
             </div>
+
+
             )
         }
     } else if(section[category + '_editable'] === null || section[category + '_content'] === null) {
         return
     } else {
         return (
+            <div>
+            <h3>{category}:</h3>
+            <p>{section[category + '_content']}</p>
+            </div>
+        )
+    }
+
+}
+
+function committed (section, category) {
+
+    if(section[category + '_content']) {
+
+    return (
         <div>
         <h3>{category}:</h3>
         <p>{section[category + '_content']}</p>
         </div>
-    )
+        )
     }
-
 }

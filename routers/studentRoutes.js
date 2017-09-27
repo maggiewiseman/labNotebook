@@ -148,7 +148,7 @@ var studentRoutes = (app) => {
         .then((result) => {
             console.log('assignment', result.rows);
 
-            const {assignment_id, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
+            const {assignment_id, status, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
 
 
 
@@ -195,7 +195,7 @@ var studentRoutes = (app) => {
             res.json({
                 success: true,
                 assignment: {
-                    assignment_id,
+                    assignment_id, status,
                     title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
                 }
             });
@@ -210,96 +210,125 @@ var studentRoutes = (app) => {
         const assignmentID = req.body.id;
         const {part} = req.body;
         const {id}= req.session.user;
+        console.log(id, assignmentID);
 
-        console.log(assignmentID, part, id);
+        dbStudent.getAssignmentStatus(id, assignmentID)
+        .then((result) => {
+            const status=result.rows[0].status;
 
-        for(var prop in part) {
-            if(prop==='title') {
-                dbStudent.updateTitles(assignmentID, part[prop]).then((result) => {
-                    const title = result.rows[0].content;
-                    res.json({
-                        success: true
+            if(status === null) {
+                dbStudent.updateAssignmentStatus(id, assignmentID, 'IN PROGRESS')
+                .then((result) => {
+                    console.log('in progress', result);
+                })
+            }
 
-                    })
-                })
-            }
-            if(prop==='question') {
-                dbStudent.updateQuestions(assignmentID, part[prop]).then((result) => {
-                    const question = result.rows[0].content;
-                    res.json({
-                        success: true
+            for(var prop in part) {
+                if(prop==='title') {
+                    dbStudent.updateTitles(assignmentID, part[prop]).then((result) => {
+                        const title = result.rows[0].content;
+                        res.json({
+                            success: true
 
+                        })
                     })
-                })
-            }
-            if(prop==='abstract') {
-                dbStudent.updateAbstracts(assignmentID, part[prop]).then((result) => {
-                    const abstract= result.rows[0].content;
-                    res.json({
-                        success: true
+                }
+                if(prop==='question') {
+                    dbStudent.updateQuestions(assignmentID, part[prop]).then((result) => {
+                        const question = result.rows[0].content;
+                        res.json({
+                            success: true
+
+                        })
                     })
-                })
-            }
-            if(prop==='hypothesis') {
-                console.log('yaa', part[prop]);
-                dbStudent.updateHypotheses(assignmentID, part[prop]).then((result) => {
-                    console.log(result);
-                    const hypothesis = result.rows[0].content;
-                    res.json({
-                        success: true
+                }
+                if(prop==='abstract') {
+                    dbStudent.updateAbstracts(assignmentID, part[prop]).then((result) => {
+                        const abstract= result.rows[0].content;
+                        res.json({
+                            success: true
+                        })
                     })
-                })
-            }
-            if(prop==='variable') {
-                dbStudent.updateVariables(assignmentID, part[prop]).then((result) => {
-                    return {
-                        variable: result.rows[0].content
-                    }
-                })
-            }
-            if(prop==='material') {
-                dbStudent.updateMaterials(assignmentID, part[prop]).then((result) => {
-                    const material = result.rows[0].content;
-                    res.json({
-                        success: true
+                }
+                if(prop==='hypothesis') {
+                    console.log('yaa', part[prop]);
+                    dbStudent.updateHypotheses(assignmentID, part[prop]).then((result) => {
+                        console.log(result);
+                        const hypothesis = result.rows[0].content;
+                        res.json({
+                            success: true
+                        })
                     })
-                })
-            }
-            if(prop==='procedure') {
-                dbStudent.updateProcedures(assignmentID, part[prop]).then((result) => {
-                    const procedure = result.rows[0].content;
-                    res.json({
-                        success: true
+                }
+                if(prop==='variable') {
+                    dbStudent.updateVariables(assignmentID, part[prop]).then((result) => {
+                        return {
+                            variable: result.rows[0].content
+                        }
                     })
-                })
-            }
-            if(prop==='data') {
-                dbStudent.updateData(assignmentID, part[prop]).then((result) => {
-                    const data = result.rows[0].content;
-                    res.json({
-                        success: true
+                }
+                if(prop==='material') {
+                    dbStudent.updateMaterials(assignmentID, part[prop]).then((result) => {
+                        const material = result.rows[0].content;
+                        res.json({
+                            success: true
+                        })
                     })
-                })
-            }
-            if(prop==='calculation') {
-                dbStudent.updateCalculations(assignmentID, part[prop]).then((result) => {
-                    const calculation = result.rows[0].content;
-                    res.json({
-                        success: true
+                }
+                if(prop==='procedure') {
+                    dbStudent.updateProcedures(assignmentID, part[prop]).then((result) => {
+                        const procedure = result.rows[0].content;
+                        res.json({
+                            success: true
+                        })
                     })
-                })
-            }
-            if(prop==='discussion') {
-                dbStudent.updateDiscussions(assignmentID, part[prop]).then((result) => {
-                    const discussion = result.rows[0].content;
-                    res.json({
-                        success: true
+                }
+                if(prop==='data') {
+                    dbStudent.updateData(assignmentID, part[prop]).then((result) => {
+                        const data = result.rows[0].content;
+                        res.json({
+                            success: true
+                        })
                     })
-                })
+                }
+                if(prop==='calculation') {
+                    dbStudent.updateCalculations(assignmentID, part[prop]).then((result) => {
+                        const calculation = result.rows[0].content;
+                        res.json({
+                            success: true
+                        })
+                    })
+                }
+                if(prop==='discussion') {
+                    dbStudent.updateDiscussions(assignmentID, part[prop]).then((result) => {
+                        const discussion = result.rows[0].content;
+                        res.json({
+                            success: true
+                        })
+                    })
+                }
             }
-        }
+        });
 
     })
+
+    app.post('/api/student/commit-assignment/', (req, res) => {
+        console.log('server committing');
+
+        const assignmentID = req.body.id;
+        const {part} = req.body;
+        const {id}= req.session.user;
+
+        dbStudent.updateAssignmentStatus(id, assignmentID, 'COMMITTED')
+        .then((result) => {
+            console.log('committed', result);
+
+                res.redirect('/api/student/assignment/'+assignmentID);
+            })
+    })
+
+
+
 };
 
 module.exports = studentRoutes;
