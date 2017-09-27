@@ -3,9 +3,11 @@
 //A list of current courses and sections
 import React from 'react';
 import { connect } from 'react-redux';
-import { saveNewCourse, getCourseList, getAllSections } from '../actions';
+import { saveNewCourse, getCourseList, getAllSections, Collection, CollectionItem } from '../actions';
 import { Link } from 'react-router';
 import AddSection from '../components/addSection';
+import {Row, Col, Container, Card, Modal, Button, Input, Collapsible, CollapsibleItem} from 'react-materialize'
+
 
 class TeacherCourses extends React.Component {
     constructor(props) {
@@ -47,26 +49,22 @@ class TeacherCourses extends React.Component {
             var courseList = makeCourseList(courses, sections);
         }
         return (
-            <div>
-                <header>
-                    Make a new course
-                </header>
+            <Container>
+            <Card>
+                <Modal header="Add A Course" trigger={<Button>Add A Course</Button>}>
                 {this.state.error && <p>{this.state.error}</p>}
                 {error && <p>{error}</p>}
-                <input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
+                <Input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
 
-                <button type="submit" onClick={this.submit}>Save new course</button>
+                <Button onClick={this.submit}>Save new course</Button>
+                </Modal>
+            </Card>
                 {courses &&
-                    <div>
-                        <header>
-                            Course List
-                        </header>
-                        <ul>
-                            {courseList}
-                        </ul>
-                    </div>
+                    <Collapsible>
+                    	{courseList}
+                    </Collapsible>
                 }
-            </div>
+            </Container>
         );
     }
 }
@@ -108,20 +106,20 @@ function makeList(items) {
     );
 }
 
+
+
 function makeCourseList(courses, sections) {
     return courses.map(course => {
-        var link = '/teacher/course/' + course.id;
         if(sections) {
             var sectionsForThisCourse = filterListByCourseId(sections, course.id);
             var sectionList = makeList(sectionsForThisCourse);
             return (
-                <li key={course.id.toString()}>
-                    <Link to={link}>{course.name}</Link>
+                <CollapsibleItem header={course.name}>
                     <AddSection courseId={course.id}/>
                     <ul>
                         {sectionList}
                     </ul>
-                </li>
+                </CollapsibleItem>
             );
         } else {
             return (

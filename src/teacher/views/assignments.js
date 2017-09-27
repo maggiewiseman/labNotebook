@@ -4,6 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
+import { Collapsible, CollapsibleItem, Collection, CollectionItem} from 'react-materialize';
+import AssignmentList from '../components/assignmentList';
 
 
 class TeacherAssignments extends React.Component {
@@ -22,16 +24,22 @@ class TeacherAssignments extends React.Component {
     render() {
         const { courses, sections } = this.props
 
+        if(courses) {
+            console.log('making courses call');
+            var courseList = makeCourseList(courses, sections);
+        }
+
         return (
             <div>
-                <ul>
-                    <li>Courses will eventually be listed here... <Link to='/teacher/new/assignment'>New Assignment</Link>
-                        <ul>
-                            <li>Assignments will eventually be listed here...</li>
-                        </ul>
-                    </li>
-                </ul>
+                <Link to='/teacher/new/assignment'>New Assignment</Link>
+                {courses &&
+                <Collapsible>
+                    {courseList}
+                </Collapsible>
+                }
+
             </div>
+
 
         );
     }
@@ -45,3 +53,55 @@ const mapStateToProps = function(state) {
     };
 }
 export default connect(mapStateToProps)(TeacherAssignments);
+
+/********** LIST MAKING FUNCTIONS ************/
+function filterListByCourseId(sections, courseId) {
+    console.log(sections);
+    console.log('Assignments: Filter list by course id: ', courseId);
+    var filteredList = sections.filter(section => {
+        return section.course_id == courseId;
+    });
+    return filteredList;
+}
+
+function makeCourseList(courses, sections) {
+    return courses.map(course => {
+        if(sections) {
+            var sectionsForThisCourse = filterListByCourseId(sections, course.id);
+            console.log('calling make inner courses');
+            var sectionList = makeInnerList(sectionsForThisCourse);
+            return (
+                <CollapsibleItem header={course.name}>
+
+                    <ul>
+                        {sectionList}
+                    </ul>
+                </CollapsibleItem>
+            );
+        } else {
+            return (
+                <li key={course.id.toString()}>
+                    {course.name}
+                </li>
+            );
+        }
+    });
+}
+
+function makeInnerList(items) {
+    var itemList = items.map(item => {
+        console.log(item);
+
+        return (
+            <CollectionItem key={item.id.toString()}>
+                {item.name}
+                <AssignmentList sectionId={item.id} />
+            </CollectionItem>
+        );
+    });
+    return (
+        <Collection>
+            {itemList}
+        </Collection>
+    );
+}

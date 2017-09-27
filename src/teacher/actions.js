@@ -1,8 +1,10 @@
 import axios from '../api/axios';
+import { browserHistory } from 'react-router';
 
 const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
     UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
+    ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     ERROR = 'ERROR';
 
 /************ ASSIGNMENTS *************/
@@ -11,6 +13,7 @@ export function saveNewAssignment(assignmentInfo) {
     if(assignmentInfo) {
         return axios.post('/api/teacher/assignment', {assignmentInfo}).then((results) => {
             if(results.data.success) {
+                browserHistory.push('/teacher/assignments')
                 return {
                     type: UPDATE_RECENT_ASSIGNMENTS,
                     payload: results.data.assignmentId
@@ -72,4 +75,17 @@ export function saveNewCourse(name, desc) {
         }
     });
 
+}
+
+export function getTeacherInfo() {
+    console.log('ACTIONS: getUserInfo');
+    return axios.get('/api/teacher').then(results => {
+        if(results.data.success) {
+            console.log('got teacher info:', results);
+            return {
+                type: ADD_TEACHER_INFO,
+                payload: results.data.teacherInfo
+            }
+        }
+    })
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import axios from 'axios';
+import { Row, Col, Input, Button, Card, Container } from 'react-materialize';
+
 
 export default class Registration extends React.Component {
 
@@ -97,47 +99,52 @@ export default class Registration extends React.Component {
     render () {
 
         const studentRegistration = (
-            <div>
-                <h3 className="signup-title">PLEASE SIGN UP</h3>
-                    <input className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="course" placeholder="Course Code" onChange={e => this.handleChange(e)}/>
 
+                <Card s={12} m={4} title='Create a New Student Account'>
+                        <Input className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
+                        <Input className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
+                        <Input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
+                        <Input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
+                        <Input className="reg-input" name="course" placeholder="Course Code" onChange={e => this.handleChange(e)}/>
+                        <Button className="reg-button" onClick={e => this.handleStudentRegistration(e)}> Submit </Button>
+                </Card>
 
-                    <button className="reg-button" onClick={e => this.handleStudentRegistration(e)}> Submit </button>
-            </div>
         )
 
         const teacherRegistration = (
-            <div>
-                <h3 className="signup-title">PLEASE SIGN UP</h3>
+            <Card title='Create a New Teacher Account'>
+
                     <input className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
                     <input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
 
-                    <button className="reg-button" onClick={e => this.handleTeacherRegistration(e)}> Submit </button>
-            </div>
+                    <Button onClick={e => this.handleTeacherRegistration(e)}> Submit </Button>
+            </Card>
         )
 
         return (
-            <div>
+            <Container>
+                <Card className='darken-1' title='Please select one of the following to register'>
+                    <Row>
+                        <Col s={12} m={3}><Button className="teacher-button" onClick={e => this.handleTeacherSubmit(e)}> TEACHER </Button></Col>
 
-            <h3>Please select one of the following to register:</h3>
+                        <Col s={12} m={3} ><Button className="teacher-button" onClick={e => this.handleStudentSubmit(e)}> STUDENT </Button></Col>
+                    </Row>
+                </Card>
 
-            <button className="teacher-button" onClick={e => this.handleTeacherSubmit(e)}> TEACHER </button>
+                    {this.state.role == 'student' && studentRegistration}
 
-            <button className="teacher-button" onClick={e => this.handleStudentSubmit(e)}> STUDENT </button>
+                    {this.state.role === 'teacher' && teacherRegistration}
 
-            {this.state.role == 'student' && studentRegistration}
-            {this.state.role === 'teacher' && teacherRegistration}
+                <div>If already a member, please<Link to="/login"> LOGIN</Link></div>
 
-            <div>If already a member, please<Link to="/login"> LOGIN</Link></div>
-
-            </div>
+            </Container>
 
         )
     }
+}
+
+var btnStyle = {
+    paddingRight: '10px'
 }

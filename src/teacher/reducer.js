@@ -1,12 +1,19 @@
 const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
     UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
+    ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     ERROR = 'ERROR';
 
 
 export default function(state = {}, action) {
     console.log('REDUCER: the action is: ', action);
 
+    if(action.type == ADD_TEACHER_INFO) {
+        console.log('REDUCER: addTeacherInfo');
+        state = Object.assign({}, state, {
+            teacherInfo: action.payload
+        });
+    }
     if(action.type == UPDATE_RECENT_ASSIGNMENTS) {
         console.log('REDUCER: getting assignment list');
         state = Object.assign({}, state, {

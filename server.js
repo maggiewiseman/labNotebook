@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
 //middleware modules
 const compression = require('compression');
@@ -52,9 +53,8 @@ teacherRoutes(app);
 
 app.get('*', mw.loggedInCheck, function(req, res) {
     console.log('file not found');
-    return res.sendFile(__dirname + '/404.html');
+    return res.sendFile( path.join( __dirname, './index.html' ) );
 });
-
 
 app.listen(8080, function() {
     console.log("I'm listening.");
