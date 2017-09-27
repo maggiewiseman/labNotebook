@@ -11,7 +11,7 @@ var db = spicedPg(dbUrl);
 
 /********** TEACHER ************/
 function getTeacherInfoById(data){
-    console.log('TEACHER_DB: getTeacherInfoById,', data);
+    console.log('TEACHER_DB: getStudentIdBySection,', data);
     let queryStr = 'SELECT first_name, last_name, email, password, profile_pic, bio, role FROM users WHERE id = $1';
     return db.query(queryStr, data);
 }
@@ -20,7 +20,7 @@ module.exports.getTeacherInfoById = getTeacherInfoById;
 
 /********** STUDENTS ************/
 function getStudentIdsBySectionId(data){
-    console.log('TEACHER_DB: getStudentIdsBySectionId,', data);
+    console.log('TEACHER_DB: getStudentIdBySection,', data);
     let queryStr = 'SELECT user_id FROM users_sections WHERE section_id = $1';
     return db.query(queryStr, data);
 }
