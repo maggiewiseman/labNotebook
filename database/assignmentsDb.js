@@ -9,8 +9,14 @@ var dbUrl = process.env.DATABASE_URL || localUrl;
 
 var db = spicedPg(dbUrl);
 /********** STUDENT REPORTS *********/
+function getStudentsAssignmentIdsBySection(data) {
+    console.log('Assignment_DB: getStudentsAssignmentIdsBySection');
+    let queryStr = `SELECT first_name, last_name, assignments.name, students_reports.id AS report_id, students_reports.status FROM assignments FULL OUTER JOIN students_reports ON assignments.id = students_reports.assignment_id FULL OUTER JOIN users ON students_reports.student_id =  users.id WHERE assignments.id=$1`;
+    return db.query(queryStr, data);
+}
+
 function saveNewStudentReport(data) {
-    console.log('TEACHER_DB: saveNewStudentReport');
+    console.log('Assignment_DB: saveNewStudentReport');
     let queryStr = `INSERT INTO students_reports (student_id, section_id, assignment_id, group_id, title_id, question_id, abstract_id, hypothesis_id, variables_id, materials_id, procedures_id, data_id, calculations_id, discussion_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
     return db.query(queryStr, data);
 }
@@ -83,6 +89,7 @@ function newDiscussion(data) {
     return db.query(queryStr, data);
 }
 
+module.exports.getStudentsAssignmentIdsBySection = getStudentsAssignmentIdsBySection;
 module.exports.saveNewStudentReport = saveNewStudentReport;
 module.exports.newTitle = newTitle;
 module.exports.newQuestion = newQuestion;
