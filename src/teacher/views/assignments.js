@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
-import { Button, Row, Collapsible, CollapsibleItem, Collection, CollectionItem, Breadcrumb, MenuItem} from 'react-materialize';
+import { Button, Row, Col, Collapsible, CollapsibleItem, Collection, CollectionItem, Breadcrumb, MenuItem} from 'react-materialize';
 import AssignmentList from '../components/assignmentList';
 
 
@@ -31,11 +31,13 @@ class TeacherAssignments extends React.Component {
 
         return (
             <div>
-                <div>
-                <Breadcrumb>
-                    <MenuItem>Assignments</MenuItem>
-                </Breadcrumb>
-                </div>
+                <Row>
+                    <Col s={12}>
+                        <Breadcrumb>
+                            <MenuItem>Assignments</MenuItem>
+                        </Breadcrumb>
+                    </Col>
+                </Row>
                 <div>
                     <Button waves='light' node='a' href='/teacher/new/assignment'>New Assignment</Button>
                 </div>

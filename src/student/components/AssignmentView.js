@@ -89,10 +89,16 @@ class Assignment extends React.Component {
                 {editable(assignment.calculation, 'calculation',this.handleChange, this.handleSave)}
                 {editable(assignment.discussion, 'discussion',this.handleChange, this.handleSave)}
             </div>
-
-            <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
-
-            <Button name='commit' onClick={this.handleCommit}>Commit</Button>
+            <Row>
+                <Col s={4}>
+                    <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col s={4}>
+                    <Button className="deep-purple" name='commit' onClick={this.handleCommit}>Commit</Button>
+                </Col>
+            </Row>
         </div>
 
         var committedAssignment =
@@ -164,8 +170,9 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
 
             <Card title={category}>
                 <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
-
+                <div>
                 <Button name={category} onClick={handleSave}>Save</Button>
+                </div>
             </Card>
 
 
