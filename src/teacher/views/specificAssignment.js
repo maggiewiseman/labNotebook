@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import axios  from '../../api/axios';
+import { getStudentAssignmentList } from '../actions';
 
 import {Row, Col, Button, Input, Card, Collection, CollectionItem } from 'react-materialize';
 
-export default class SpecificAssignment extends React.Component {
+class SpecificAssignment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,17 +19,7 @@ export default class SpecificAssignment extends React.Component {
     componentWillMount() {
         //needt to get list of students in this section and the id of their students_report
         console.log('Specific Assignment sectionId', this.props.params.id);
-        return axios.get('/api/teacher/students/' + this.props.params.id).then(results => {
-            console.log('will mount', results);
-            this.setState({
-                assignmentId: this.props.params.id,
-                studentList : results.data.studentList
-            }, () => console.log('Students list? ', this.state));
-        }).catch(e => {
-            this.setState({
-                error: e
-            });
-        })
+        this.props.dispatch(getStudentAssignmentList(this.props.params.id));
     }
     showCategories() {
         console.log('clicked')
@@ -37,7 +28,8 @@ export default class SpecificAssignment extends React.Component {
         });
     }
     render() {
-        const { assignmentId, studentList, showCategories } = this.state;
+        const { assignmentId, showCategories } = this.state;
+        const { studentList } = this.props;
         if(studentList) {
             var studentHtmlList = makeInnerList(studentList, assignmentId)
         }
@@ -50,7 +42,7 @@ export default class SpecificAssignment extends React.Component {
                     <Input type="checkbox" label="Grade By Section" onClick={this.showCategories} />
                 </Row>
                 {showCategories && <div>
-                    <Button>Grade Titles</Button>
+                    <Link to={`/teacher/assignment/${assignmentId}/title`}>Grade Titles</Link>
                     <Button>Grade Questions</Button>
                     <Button>Grade Hypotheses</Button>
                 </div>}
@@ -59,6 +51,18 @@ export default class SpecificAssignment extends React.Component {
         )
     }
 }
+
+
+/************ CONNECTED COMPONENT *************/
+var mapStateToProps = function(state) {
+    return {
+        studentList: state.teachers.studentAssignmentList,
+        currAssignmentId: state.teachers.currAssignmentId
+    }
+}
+export default connect(mapStateToProps)(SpecificAssignment);
+
+/************* HELPER FUNCTIONS ***************/
 
 function makeInnerList(items, assignmentId) {
     var itemList = items.map(item => {

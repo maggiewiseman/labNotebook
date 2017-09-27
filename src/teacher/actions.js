@@ -5,9 +5,26 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     SAVE_SECTION_LIST = 'SAVE_SECTION_LIST',
     UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
     ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
+    RECEIVE_STUDENT_ASSIGNMENT_LIST = 'RECEIVE_STUDENT_ASSIGNMENT_LIST',
     ERROR = 'ERROR';
 
 /************ ASSIGNMENTS *************/
+export function getStudentAssignmentList(assignmentId) {
+    console.log('ACTIONS: in get student assignment list');
+
+    return axios.get('/api/teacher/students/' + assignmentId).then(results => {
+        console.log('will mount', results);
+        return {
+            type: RECEIVE_STUDENT_ASSIGNMENT_LIST,
+            payload: results.data.studentList,
+            currAssignmentId: assignmentId
+        };
+    }).catch(e => {
+        this.setState({
+            error: e
+        });
+    });
+}
 export function saveNewAssignment(assignmentInfo) {
     console.log('ACTIONS: in save assignment', assignmentInfo);
     if(assignmentInfo) {
