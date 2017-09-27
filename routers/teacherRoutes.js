@@ -5,6 +5,8 @@ const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSect
 
 const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection, getStudentsAssignmentIdsBySection } = require("../database/assignmentsDb")
 
+const { getCategoriesForGrading } = require("../database/gradingDb");
+
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
@@ -26,6 +28,23 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
+    //get all the students data for given category
+    app.get('/api/teacher/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+        let data = [req.params.assignmentId, req.params.category];
+        return getCategoriesForGrading(data).then(results => {
+            console.log("TEACHER ROUTER: categories for grading:", results.rows);
+            res.json({
+                success: true,
+                categoryData: results.rows
+            });
+        }).catch(e => {
+            res.json({
+                error: e
+            });
+        });
+    });
+
+    //get all the students report ids by section
     app.get('/api/teacher/students/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         let data = [req.params.sectionId];
         return getStudentsAssignmentIdsBySection(data).then(results => {

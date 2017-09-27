@@ -6,7 +6,23 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
     ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     RECEIVE_STUDENT_ASSIGNMENT_LIST = 'RECEIVE_STUDENT_ASSIGNMENT_LIST',
+    UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA',
     ERROR = 'ERROR';
+
+/************ ASSIGNMENTS *************/
+export function getCategoriesForGrading(assignmentId, category){
+    return axios.get(`/api/teacher/${assignmentId}/${category}`).then(results => {
+        console.log("Back grom getting Category Data");
+        return {
+            action: UPDATE_STUDENT_CATEGORY_DATA,
+            payload: results.data.studentDataForGrading
+        };
+    }).catch(e => {
+        return {
+            error: e
+        };
+    });
+}
 
 /************ ASSIGNMENTS *************/
 export function getStudentAssignmentList(assignmentId) {

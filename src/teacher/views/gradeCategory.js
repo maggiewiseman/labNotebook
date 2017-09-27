@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import axios  from '../../api/axios';
+import { getCategoriesForGrading } from '../actions';
 
 import {Row, Col, Button, Input, Card, Collection, CollectionItem } from 'react-materialize';
 
@@ -13,7 +14,9 @@ class GradeACategory extends React.Component {
         }
     }
     componentWillMount() {
-        
+        console.log("GradeACategory", this.props.params.assignmentid);
+        const { assignmentid, category} = this.props.params;
+        this.props.dispatch(getCategoriesForGrading(assignmentid, category))
     }//end component will mount
     render() {
         return (

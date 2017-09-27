@@ -69,7 +69,7 @@ const teacherRouter = (
                 <Route path="/teacher/assignments" component={TeacherAssignments}/>
                 <Route path="/teacher/new/assignment" component={TeacherNewAssignment} />
                 <Route path="/teacher/assignment/:id" component={SpecificAssignment} />
-                <Route path="/teacher/assignment/:assignmentid/student/:studentid" component={GradeACategory} />
+                <Route path="/teacher/assignment/:assignmentid/:category" component={GradeACategory} />
                 <IndexRoute component={TeacherDashboard}/>
             </Route>
         </Router>
