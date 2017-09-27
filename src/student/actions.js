@@ -42,8 +42,9 @@ export function getAssignment(id) {
 
 //*********************newAssignment*******************//
 
-export function newAssignment(id, part) {
-    return axios.post('/api/student/assignment/' + id + '/' + part, {
+export function saveAssignment(id, part) {
+    console.log(id, part);
+    return axios.post('/api/student/save-assignment/', {id, part
     }).then((result) => {
         return {
             type:'NEW_ASSIGNMENT',

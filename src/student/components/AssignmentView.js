@@ -13,7 +13,8 @@ class Assignment extends React.Component {
         this.state = {};
         console.log(this.props.sectionID);
         this.handleChange = this.handleChange.bind(this);
-
+        this.props.dispatch = this.props.dispatch.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
 
@@ -32,10 +33,8 @@ class Assignment extends React.Component {
 
 
     handleSave(e) {
-
-        console.log('YAWW');
-
         const {id} = this.props.params;
+        this.props.dispatch(saveAssignment(id, this.state));
     }
 
     render() {
@@ -96,13 +95,13 @@ function editable(section, category, handleChange, handleSave) {
 
 
         return (
-            <form>
+            <div>
                 <label>{category}:</label>
 
                 <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
 
                 <button name={category} onClick={handleSave}>Save</button>
-            </form>
+            </div>
 
 
         )
