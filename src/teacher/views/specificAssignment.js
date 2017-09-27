@@ -9,8 +9,11 @@ export default class SpecificAssignment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            studentList: []
-        }
+            studentList: [],
+            showCategoriesToggle: false
+        };
+        this.showCategories = this.showCategories.bind(this);
+
     }
     componentWillMount() {
         //needt to get list of students in this section and the id of their students_report
@@ -27,13 +30,30 @@ export default class SpecificAssignment extends React.Component {
             });
         })
     }
+    showCategories() {
+        console.log('clicked')
+        this.setState({
+            showCategories: !this.state.showCategoriesToggle
+        });
+    }
     render() {
-        const { assignmentId, studentList } = this.state;
+        const { assignmentId, studentList, showCategories } = this.state;
         if(studentList) {
             var studentHtmlList = makeInnerList(studentList, assignmentId)
         }
         return (
             <div>
+                <Row>
+                    <Input type="checkbox" label="Grade Anonymously" />
+                    <Input type="checkbox" lable="Randomize Students" />
+                    <Input type="checkbox" label="Grade By Group" />
+                    <Input type="checkbox" label="Grade By Section" onClick={this.showCategories} />
+                </Row>
+                {showCategories && <div>
+                    <Button>Grade Titles</Button>
+                    <Button>Grade Questions</Button>
+                    <Button>Grade Hypotheses</Button>
+                </div>}
                 {studentHtmlList}
             </div>
         )
