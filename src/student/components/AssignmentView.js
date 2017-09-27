@@ -3,6 +3,7 @@ import { Router, Route, Link, IndexRoute, browserHistory, hashHistory } from 're
 import axios from 'axios';
 import { connect } from 'react-redux';
 import {getAssignment, saveAssignment, udpateAssignmentStatus, commitAssignment} from '../actions';
+import {Card, Row, Col, Container, SideNav, SideNavItem, Button, Collapsible, CollapsibleItem, Modal, Input, Collection, CollectionItem} from 'react-materialize';
 
 
 
@@ -76,53 +77,51 @@ class Assignment extends React.Component {
 
         var assignmentOptions =
         <div>
+            <div>
+                {editable(assignment.title, 'title',this.handleChange, this.handleSave)}
+                {editable(assignment.question, 'question',this.handleChange, this.handleSave)}
+                {editable(assignment.abstract, 'abstract',this.handleChange, this.handleSave)}
+                {editable(assignment.hypothesis, 'hypothesis',this.handleChange, this.handleSave)}
+                {editable(assignment.variable, 'variable',this.handleChange, this.handleSave)}
+                {editable(assignment.material, 'material',this.handleChange, this.handleSave)}
+                {editable(assignment.procedure, 'procedure',this.handleChange, this.handleSave)}
+                {editable(assignment.data, 'data',this.handleChange, this.handleSave)}
+                {editable(assignment.calculation, 'calculation',this.handleChange, this.handleSave)}
+                {editable(assignment.discussion, 'discussion',this.handleChange, this.handleSave)}
+            </div>
 
-                <div>
-                    {editable(assignment.title, 'title',this.handleChange, this.handleSave)}
-                    {editable(assignment.question, 'question',this.handleChange, this.handleSave)}
-                    {editable(assignment.abstract, 'abstract',this.handleChange, this.handleSave)}
-                    {editable(assignment.hypothesis, 'hypothesis',this.handleChange, this.handleSave)}
-                    {editable(assignment.variable, 'variable',this.handleChange, this.handleSave)}
-                    {editable(assignment.material, 'material',this.handleChange, this.handleSave)}
-                    {editable(assignment.procedure, 'procedure',this.handleChange, this.handleSave)}
-                    {editable(assignment.data, 'data',this.handleChange, this.handleSave)}
-                    {editable(assignment.calculation, 'calculation',this.handleChange, this.handleSave)}
-                    {editable(assignment.discussion, 'discussion',this.handleChange, this.handleSave)}
-                </div>
+            <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
 
-                <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
-
-                <button name='commit' onClick={this.handleCommit}>Commit</button>
+            <Button name='commit' onClick={this.handleCommit}>Commit</Button>
         </div>
 
         var committedAssignment =
-                <div>
-                    {committed (assignment.title, 'title')}
-                    {committed (assignment.question, 'question')}
-                    {committed (assignment.abstract, 'abstract')}
-                    {committed (assignment.hypothesis, 'hypothesis')}
-                    {committed (assignment.variable, 'variable')}
-                    {committed (assignment.material, 'material')}
-                    {committed (assignment.procedure, 'procedure')}
-                    {committed (assignment.data, 'data')}
-                    {committed (assignment.calculation, 'calculation')}
-                    {committed (assignment.discussion, 'discussion')}
+            <div>
+                {committed (assignment.title, 'title')}
+                {committed (assignment.question, 'question')}
+                {committed (assignment.abstract, 'abstract')}
+                {committed (assignment.hypothesis, 'hypothesis')}
+                {committed (assignment.variable, 'variable')}
+                {committed (assignment.material, 'material')}
+                {committed (assignment.procedure, 'procedure')}
+                {committed (assignment.data, 'data')}
+                {committed (assignment.calculation, 'calculation')}
+                {committed (assignment.discussion, 'discussion')}
 
 
-                </div>
+            </div>
 
          if(assignment.status === "COMMITTED" || assignment.status === "GRADED" || assignment.status === "PENDING") {
 
-             form = committedAssignment;
+            form = committedAssignment;
          } else {
-              form = assignmentOptions;
+            form = assignmentOptions;
         }
 
         return (
-            <div>
+            <div className="blueBox">
 
-            <h3>Complete the following assignment</h3>
-
+                <h5>Put Assgignment Name Here</h5>
                 {form}
 
             </div>
@@ -157,19 +156,17 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
 
                     <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_content']}</textarea>
 
-                    <button name={category} onClick={handleSave}>Save</button>
+                    <Button name={category} onClick={handleSave}>Save</Button>
                 </div>
             )
         } else {
         return (
 
-            <div>
-                <label>{category}:</label>
-
+            <Card title={category}>
                 <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
 
-                <button name={category} onClick={handleSave}>Save</button>
-            </div>
+                <Button name={category} onClick={handleSave}>Save</Button>
+            </Card>
 
 
             )
@@ -178,10 +175,9 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
         return
     } else {
         return (
-            <div>
-            <h3>{category}:</h3>
-            <p>{section[category + '_content']}</p>
-            </div>
+            <Card title={capitalize(category)}>
+                <p>{section[category + '_content']}</p>
+            </Card>
         )
     }
 
@@ -192,10 +188,13 @@ function committed (section, category) {
     if(section[category + '_content']) {
 
     return (
-        <div>
-        <h3>{category}:</h3>
-        <p>{section[category + '_content']}</p>
-        </div>
+        <Card title={capitalize(category)}>
+            <p>{section[category + '_content']}</p>
+        </Card>
         )
     }
+}
+
+function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
 }

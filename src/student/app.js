@@ -88,7 +88,7 @@ class App extends React.Component {
             <NavItem><Logout /></NavItem>
         </Navbar>
         <Row>
-            <Col s={12} m={4}>
+            <Col s={12} m={3}>
 
                 <Collapsible>
                     {studentInfo.courses.map(course => (
@@ -115,7 +115,7 @@ class App extends React.Component {
                     <Button onClick={e => this.newClass(e)}> Submit </Button>
                 </Modal>
             </Col>
-            <Col s={12} m={8}>
+            <Col s={12} m={9}>
                 {this.props.children}
             </Col>
         </Row>
