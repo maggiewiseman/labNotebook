@@ -26,6 +26,7 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
+    //gets list of assignments for a section
     app.get('/api/teacher/assignments/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         console.log('TEACHER ROUTES: getting Assignments by section id');
         let data = [req.params.sectionId];

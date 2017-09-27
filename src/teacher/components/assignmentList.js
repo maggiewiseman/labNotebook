@@ -56,7 +56,10 @@ function makeListAssignments(items) {
         console.log(item);
         return (
             <CollectionItem key={item.id.toString()}>
+
                 <Link to={`/teacher/assignment/${item.id}`}>{item.name}</Link>
+                    <p style={dueStyle}>Due: {item.due}</p>
+
             </CollectionItem>
         );
     });
@@ -65,4 +68,12 @@ function makeListAssignments(items) {
             {itemList}
         </Collection>
     );
+}
+
+/******* STYLES **********/
+
+var dueStyle = {
+    display: 'inline',
+    paddingLeft: '40px'
+
 }

@@ -107,7 +107,7 @@ module.exports.newDiscussion = newDiscussion;
 /********** ASSIGNMENTS *********/
 function getAssignmentNameIdBySection(data) {
     console.log('ASSIGNMENT_DB: getAssignmentNameIdBySection,', data);
-    let queryStr = 'SELECT id, name FROM assignments WHERE section_id = $1';
+    let queryStr = 'SELECT id, name, due FROM assignments WHERE section_id = $1';
     return db.query(queryStr, data);
 }
 function saveNewAssignmentTemplate(data) {
