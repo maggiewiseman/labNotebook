@@ -15,6 +15,7 @@ class Assignment extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.props.dispatch = this.props.dispatch.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.handleSaveAll = this.handleSaveAll.bind(this);
     }
 
 
@@ -33,6 +34,22 @@ class Assignment extends React.Component {
 
 
     handleSave(e) {
+
+        var field = [e.target.name]
+
+
+
+        var send = {
+            [e.target.name]: this.state[field]
+        }
+        const {id} = this.props.params;
+        this.props.dispatch(saveAssignment(id, send));
+
+    }
+
+    handleSaveAll(e) {
+
+        console.log('save all', this.state);
         const {id} = this.props.params;
         this.props.dispatch(saveAssignment(id, this.state));
     }
@@ -71,6 +88,8 @@ class Assignment extends React.Component {
 
             {assignmentOptions}
 
+
+            <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
             </div>
         )
 
@@ -90,10 +109,25 @@ export default connect(mapStateToProps)(Assignment);
 
 
 function editable(section, category, handleChange, handleSave) {
+    console.log(section[category + '_content']);
 
     if(section[category + '_editable']) {
+        if(section[category + '_content']) {
+            console.log("YAAAW");
 
 
+            return (
+                <div>
+                    <label>{category}:</label>
+
+                    <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_content']}</textarea>
+
+                    <button name={category} onClick={handleSave}>Save</button>
+                </div>
+
+
+            )
+        } else {
         return (
             <div>
                 <label>{category}:</label>
@@ -102,9 +136,8 @@ function editable(section, category, handleChange, handleSave) {
 
                 <button name={category} onClick={handleSave}>Save</button>
             </div>
-
-
-        )
+            )
+        }
     } else if(section[category + '_editable'] === null || section[category + '_content'] === null) {
         return
     } else {

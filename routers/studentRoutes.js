@@ -218,10 +218,8 @@ var studentRoutes = (app) => {
                 dbStudent.updateTitles(assignmentID, part[prop]).then((result) => {
                     const title = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            title
-                        }
+                        success: true
+
                     })
                 })
             }
@@ -229,10 +227,8 @@ var studentRoutes = (app) => {
                 dbStudent.updateQuestions(assignmentID, part[prop]).then((result) => {
                     const question = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            question
-                        }
+                        success: true
+
                     })
                 })
             }
@@ -240,10 +236,7 @@ var studentRoutes = (app) => {
                 dbStudent.updateAbstracts(assignmentID, part[prop]).then((result) => {
                     const abstract= result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            abstract
-                        }
+                        success: true
                     })
                 })
             }
@@ -253,10 +246,7 @@ var studentRoutes = (app) => {
                     console.log(result);
                     const hypothesis = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            abstract
-                        }
+                        success: true
                     })
                 })
             }
@@ -271,11 +261,7 @@ var studentRoutes = (app) => {
                 dbStudent.updateMaterials(assignmentID, part[prop]).then((result) => {
                     const material = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            assignment_id,
-                            title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
-                        }
+                        success: true
                     })
                 })
             }
@@ -283,11 +269,7 @@ var studentRoutes = (app) => {
                 dbStudent.updateProcedures(assignmentID, part[prop]).then((result) => {
                     const procedure = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            assignment_id,
-                            title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
-                        }
+                        success: true
                     })
                 })
             }
@@ -295,11 +277,7 @@ var studentRoutes = (app) => {
                 dbStudent.updateData(assignmentID, part[prop]).then((result) => {
                     const data = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            assignment_id,
-                            title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
-                        }
+                        success: true
                     })
                 })
             }
@@ -307,11 +285,7 @@ var studentRoutes = (app) => {
                 dbStudent.updateCalculations(assignmentID, part[prop]).then((result) => {
                     const calculation = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            assignment_id,
-                            title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
-                        }
+                        success: true
                     })
                 })
             }
@@ -319,11 +293,7 @@ var studentRoutes = (app) => {
                 dbStudent.updateDiscussions(assignmentID, part[prop]).then((result) => {
                     const discussion = result.rows[0].content;
                     res.json({
-                        success: true,
-                        assignment: {
-                            assignment_id,
-                            title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
-                        }
+                        success: true
                     })
                 })
             }
