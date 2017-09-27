@@ -36,11 +36,14 @@ class Assignment extends React.Component {
 
     handleSave(e) {
 
-        var field = [e.target.name]
+        var field = e.target.name
+
+        console.log('dield', field);
 
         var send = {
-            [e.target.name]: this.state[field]
+            [field]: this.state[field]
         }
+        console.log('send', send);
         const {id} = this.props.params;
         this.props.dispatch(saveAssignment(id, send));
     }
