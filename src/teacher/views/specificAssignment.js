@@ -18,6 +18,7 @@ export default class SpecificAssignment extends React.Component {
         return axios.get('/api/teacher/students/' + this.props.params.id).then(results => {
             console.log('will mount', results);
             this.setState({
+                assignmentId: this.props.params.id,
                 studentList : results.data.studentList
             }, () => console.log('Students list? ', this.state));
         }).catch(e => {
@@ -27,13 +28,48 @@ export default class SpecificAssignment extends React.Component {
         })
     }
     render() {
-        if(this.state.studentList) {
-            console.log('got student list');
+        const { assignmentId, studentList } = this.state;
+        if(studentList) {
+            var studentHtmlList = makeInnerList(studentList, assignmentId)
         }
         return (
             <div>
-                Specific Assignment will go here!
+                {studentHtmlList}
             </div>
         )
     }
+}
+
+function makeInnerList(items, assignmentId) {
+    var itemList = items.map(item => {
+        console.log(item);
+        var status = determineStatus(item.status, assignmentId);
+        return (
+            <CollectionItem key={item.report_id.toString()}>
+                <Link to={`/teacher/assignment/${assignmentId}/student/${item.report_id}`}>{item.first_name}  {item.last_name }</Link>
+                <p style={statusStyle}>Status: {status} </p>
+
+            </CollectionItem>
+        );
+    });
+    return (
+        <Collection>
+            {itemList}
+        </Collection>
+    );
+}
+
+function determineStatus(status) {
+    if(status){
+        return status;
+    } else {
+        return 'Not Started';
+    }
+}
+
+
+var statusStyle = {
+    display: 'inline',
+    paddingLeft: '40px'
+
 }
