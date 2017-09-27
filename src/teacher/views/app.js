@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Logout from '../../auth/logout.js';
 import { getTeacherInfo } from '../actions';
-import {Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Button} from 'react-materialize'
+import {Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Button, Collection, CollectionItem} from 'react-materialize'
 
 class App extends React.Component  {
     componentDidMount() {
@@ -25,24 +25,22 @@ class App extends React.Component  {
             return (
                 <Container>
                     <Navbar>
-
-                            <NavItem href="/teacher">Home</NavItem>
-                            <NavItem>New Assignment</NavItem>
-                            <NavItem>Help</NavItem>
-                            <NavItem>Account</NavItem>
-                            <NavItem><Logout /></NavItem>
-
+                        <NavItem href="/teacher">Home</NavItem>
+                        <NavItem>New Assignment</NavItem>
+                        <NavItem>Help</NavItem>
+                        <NavItem>Account</NavItem>
+                        <NavItem><Logout /></NavItem>
                     </Navbar>
 
                     <Row>
                         <Col s={2} className='sidebar'>
-                            <ul>
-                                <li><Link to="/teacher/assignments">Assignments</Link></li>
-                                <li><Link to="/teacher/courses">Courses</Link></li>
-                                <li>Gradebook</li>
-                                <li>Students</li>
-                                <li>Messages</li>
-                            </ul>
+                            <Collection>
+                                <CollectionItem><Link to="/teacher/assignments">Assignments</Link></CollectionItem>
+                                <CollectionItem><Link to="/teacher/courses">Courses</Link></CollectionItem>
+                                <CollectionItem>Gradebook</CollectionItem>
+                                <CollectionItem>Students</CollectionItem>
+                                <CollectionItem>Messages</CollectionItem>
+                            </Collection>
                         </Col>
                         <Col s={10} className='mainContainer'>
                             {this.props.children}

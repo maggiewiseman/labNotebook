@@ -4,6 +4,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {getStudentData, addNewClass, getAssignmentList} from './actions';
 import AssignmentView from './components/AssignmentView';
+import {Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Button, Collapsible, CollapsibleItem, Modal, Input, Collection, CollectionItem} from 'react-materialize';
+import Logout from '../auth/logout.js';
 
 
 class App extends React.Component {
@@ -76,58 +78,48 @@ class App extends React.Component {
         }
 
     return (
-     <div>
-        {studentInfo.first_name} {studentInfo.last_name}
-               <nav>
-                   <ul>
-                      <Link to='/student'><li>Home</li></Link>
-                       <li>Courses</li>
-                       <li>Gradebookrysjlktd</li>
-                       <li>Account</li>
-                       <li>Logout</li>
-                   </ul>
-               </nav>
-               <sidebar>
-                   <header>
-                       Menu
-                   </header>
-                   <div>
+    <Container>
+     {studentInfo.first_name} {studentInfo.last_name}
+        <Navbar>
+            <NavItem><Link to='/student'>Home</Link></NavItem>
+            <NavItem>Courses</NavItem>
+            <NavItem>Gradebook</NavItem>
+            <NavItem>Account</NavItem>
+            <NavItem><Logout /></NavItem>
+        </Navbar>
+        <Row>
+            <Col s={12} m={4}>
 
-                   <ul>
-                   {studentInfo.courses.map(course => (
+                <Collapsible>
+                    {studentInfo.courses.map(course => (
 
-                       <li>{course.course_name}
-                           <ul>
+                    <CollapsibleItem header={course.course_name}>
+                        <ul>
+                        {course.assignments && course.assignments.map(assignment => (
 
-                       {course.assignments && course.assignments.map(assignment => (
-
-
-
-                          <li onClick={e => this.showAssignment(e)}  id={assignment.assignment_id}><Link to={`/student/assignment/${assignment.assignment_id}`} > {assignment.assignment_name}</Link>
-                          </li>
-                           )
+                            <li onClick={e => this.showAssignment(e)}  id={assignment.assignment_id}>
+                                <Link to={`/student/assignment/${assignment.assignment_id}`} > {assignment.assignment_name}</Link>
+                            </li>)
                        )}
                        </ul>
+                    </CollapsibleItem>
+                    ))}
 
-                       </li>
+                </Collapsible>
 
-                   ))}
-                   </ul>
+                <Modal header="Add A Class" trigger={<Button>Add A Class</Button>}>
+                    <Input name="course" placeholder="Course Code"
+                       onChange={e => this.handleChange(e)}
+                       onKeyPress={e =>this.emitMessage(e)} />
 
-
-
-                   </div>
-               </sidebar>
-
-               <input className="reg-input" name="course" placeholder="Course Code"
-               onChange={e => this.handleChange(e)}
-               onKeyPress={e =>this.emitMessage(e)} />
-
-                <button className="new-class-button" onClick={e => this.newClass(e)}> Submit </button>
-               {this.props.children}
-
-
-        </div>
+                    <Button onClick={e => this.newClass(e)}> Submit </Button>
+                </Modal>
+            </Col>
+            <Col s={12} m={8}>
+                {this.props.children}
+            </Col>
+        </Row>
+    </Container>
 
     )
     }
