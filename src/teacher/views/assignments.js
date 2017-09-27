@@ -31,6 +31,7 @@ class TeacherAssignments extends React.Component {
 
         return (
             <div>
+                <Link to='/teacher/new/assignment'>New Assignment</Link>
                 {courses &&
                 <Collapsible>
                     {courseList}

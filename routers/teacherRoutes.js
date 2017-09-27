@@ -6,12 +6,12 @@ const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSect
 const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection} = require("../database/assignmentsDb")
 
 var teacherRoutes = (app) => {
-    app.get('/teacher', mw.loggedInCheck, (req, res) => {
+    app.get('/teacher', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
 
     /********** USERS *********/
-    app.get('/api/teacher', (req,res) => {
+    app.get('/api/teacher', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         return getTeacherInfoById([req.session.user.id]).then(results => {
             res.json({
                 success: true,
@@ -26,7 +26,7 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
-    app.get('/api/teacher/assignments/:sectionId', (req,res) => {
+    app.get('/api/teacher/assignments/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         console.log('TEACHER ROUTES: getting Assignments by section id');
         let data = [req.params.sectionId];
         return getAssignmentNameIdBySection(data).then(results => {
@@ -43,7 +43,7 @@ var teacherRoutes = (app) => {
         });
     });
     //creates a new assignment.
-    app.post('/api/teacher/assignment', mw.loggedInCheck, (req,res)=> {
+    app.post('/api/teacher/assignment', mw.loggedInCheck, mw.checkIfTeacher, (req,res)=> {
         //make assignment row in assignments database.
         var assignments = [];
         req.body.assignmentInfo.sections.forEach((section) => {
@@ -72,7 +72,7 @@ var teacherRoutes = (app) => {
         });
     });
     /********** SECTIONS *********/
-    app.post('/api/teacher/section', mw.loggedInCheck, (req, res) => {
+    app.post('/api/teacher/section', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         let data = [req.body.courseId, req.body.name, req.body.start, req.body.end];
         console.log(data);
         return saveNewSection(data).then(() => {
@@ -87,7 +87,7 @@ var teacherRoutes = (app) => {
     });
 
     //get all the sections a teacher has
-    app.get('/api/teacher/sections', mw.loggedInCheck, (req,res) => {
+    app.get('/api/teacher/sections', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         let data = [req.session.user.id];
         return getAllSections(data).then(results => {
             return res.json({
@@ -102,7 +102,7 @@ var teacherRoutes = (app) => {
     });
 
     //get only the sections for a particular course
-    app.get('/api/teacher/sections/:courseId', mw.loggedInCheck, (req,res) => {
+    app.get('/api/teacher/sections/:courseId', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         let data = [req.params.id];
         return getSectionsByCourseId(data).then(results => {
             return res.json({
@@ -117,7 +117,7 @@ var teacherRoutes = (app) => {
     });
 
     /******** COURSES ***********/
-    app.post('/api/teacher/course', mw.loggedInCheck, (req, res) => {
+    app.post('/api/teacher/course', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         let data = [req.session.user.id, req.body.name];
         return saveNewCourse(data).then(() => {
             res.json({
@@ -130,7 +130,7 @@ var teacherRoutes = (app) => {
         });
     });
 
-    app.get('/api/teacher/courses', mw.loggedInCheck, (req,res) => {
+    app.get('/api/teacher/courses', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         let data = [req.session.user.id];
         //call db
         return getCoursesByTeacher(data).then((results) => {
@@ -145,7 +145,7 @@ var teacherRoutes = (app) => {
         });
     });
 
-    app.delete('/api/teacher/course/:id', mw.loggedInCheck, (req,res) => {
+    app.delete('/api/teacher/course/:id', mw.loggedInCheck, mw.checkIfTeacher, (req,res) => {
         let data = [req.params.id];
         return deleteCourse(data).then(() => {
             res.json({
