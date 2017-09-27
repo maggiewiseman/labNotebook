@@ -89,3 +89,15 @@ export function getTeacherInfo() {
         }
     })
 }
+
+export function getCommittedAssignments(id, studentid) {
+    return axios.get('teacher/grading/assignment/:id/student/:studentid', {
+        id,
+        studentid
+    }).then((result => {
+        return {
+            type:'GET_COMMITS',
+            assignment: result.data.assignment
+        }
+    })
+}

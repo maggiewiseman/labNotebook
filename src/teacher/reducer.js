@@ -35,11 +35,23 @@ export default function(state = {}, action) {
         });
     }
 
+    if(action.type == GET_COMMITS) {
+        state = Object.assign({}. state, {
+            assignment: action.assignment
+        })
+    }
+
     if(action.type == ERROR) {
         state = Object.assign({}, state, {
             error: action.payload
         });
     }
+
+
+
+
+
+
     console.log(state);
     return state;
 }

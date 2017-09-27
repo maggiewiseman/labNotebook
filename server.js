@@ -13,6 +13,7 @@ const mw = require('./routers/middleware');
 const loggedOutRoutes = require("./routers/loggedOutRoutes.js");
 const studentRoutes = require("./routers/studentRoutes.js");
 const teacherRoutes = require("./routers/teacherRoutes.js");
+const teacherGradingRoutes = require("./routers/teacherGrading.js");
 
 
 /* Start bundle-server.js in terminal to have webpack compile bundle.js
@@ -50,6 +51,7 @@ app.use(express.static(__dirname + '/public'));
 loggedOutRoutes(app);
 studentRoutes(app);
 teacherRoutes(app);
+teacherGradingRoutes(app);
 
 app.get('*', mw.loggedInCheck, function(req, res) {
     console.log('file not found');
