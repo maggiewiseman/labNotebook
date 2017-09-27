@@ -29,7 +29,7 @@ var teacherRoutes = (app) => {
 
     /********** ASSIGNMENTS *********/
     //get all the students data for given category
-    app.get('/api/teacher/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+    app.get('/api/teacher/grading/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         let data = [req.params.assignmentId, req.params.category];
         return getCategoriesForGrading(data).then(results => {
             console.log("TEACHER ROUTER: categories for grading:", results.rows);
@@ -47,6 +47,7 @@ var teacherRoutes = (app) => {
     //get all the students report ids by section
     app.get('/api/teacher/students/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         let data = [req.params.sectionId];
+        console.log('About to: getStudentsAssignmentIdsBySection');
         return getStudentsAssignmentIdsBySection(data).then(results => {
             console.log('Got Student Assignment List Info', results.rows);
             res.json({
