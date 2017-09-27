@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { saveNewCourse, getCourseList, getAllSections } from '../actions';
-import { Collapsible, CollapsibleItem} from 'react-materialize';
+import { Collapsible, CollapsibleItem, Collection, CollectionItem} from 'react-materialize';
 import AssignmentList from '../components/assignmentList';
 
 
@@ -92,15 +92,15 @@ function makeInnerList(items) {
         console.log(item);
 
         return (
-            <li key={item.id.toString()}>
+            <CollectionItem key={item.id.toString()}>
                 {item.name}
                 <AssignmentList sectionId={item.id} />
-            </li>
+            </CollectionItem>
         );
     });
     return (
-        <ul>
+        <Collection>
             {itemList}
-        </ul>
+        </Collection>
     );
 }

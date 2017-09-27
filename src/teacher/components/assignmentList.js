@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getAssignments } from '../actions';
-import {Row, Col, Card, Modal, Button, Input} from 'react-materialize';
+import {Row, Col, Card, Modal, Button, Input, Collection, CollectionItem} from 'react-materialize';
 import axios  from '../../api/axios';
 import { Link } from 'react-router';
 
@@ -55,14 +55,14 @@ function makeListAssignments(items) {
     var itemList = items.map(item => {
         console.log(item);
         return (
-            <li key={item.id.toString()}>
-                {item.name}
-            </li>
+            <CollectionItem key={item.id.toString()}>
+                <Link to={`/teacher/assignment/${item.id}`}>{item.name}</Link>
+            </CollectionItem>
         );
     });
     return (
-        <ul>
+        <Collection>
             {itemList}
-        </ul>
+        </Collection>
     );
 }
