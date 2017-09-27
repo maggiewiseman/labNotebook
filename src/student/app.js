@@ -34,7 +34,7 @@ class App extends React.Component {
     newClass(e) {
 
         e.preventDefault();
-
+        console.log('new class event');
         this.props.dispatch(addNewClass(this.state.course));
 
         this.emptyField(e);
@@ -107,12 +107,18 @@ class App extends React.Component {
 
                 </Collapsible>
 
-                <Modal header="Add A Class" trigger={<Button>Add A Class</Button>}>
+                <Modal header="Add A Class" trigger={<Button>Add A Class</Button>} actions={
+                        <div>
+                            <Button modal="close" onClick={e => this.newClass(e)} actions={'modal-close'}> Submit </Button>
+                            <Button flat modal="close" waves="light">Dismiss</Button>
+                        </div>
+                    }>
+
                     <Input name="course" placeholder="Course Code"
                        onChange={e => this.handleChange(e)}
                        onKeyPress={e =>this.emitMessage(e)} />
 
-                    <Button onClick={e => this.newClass(e)}> Submit </Button>
+
                 </Modal>
             </Col>
             <Col s={12} m={9}>
