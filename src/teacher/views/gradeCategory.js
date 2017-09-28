@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getCategoriesForGrading, getStudentAssignmentList } from '../actions';
+import { capitalize } from '../../helpers';
 
-import {Row, Col, Button, Input, Card, Collection, CollectionItem } from 'react-materialize';
+import {Row, Col, Button, Input, Card, Collection, CollectionItem, Breadcrumb, MenuItem } from 'react-materialize';
 
 class GradeACategory extends React.Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class GradeACategory extends React.Component {
             return null;
         }
 
-            const { studentCategoryData } = this.props;
+            const { studentCategoryData, studentAssignmentList } = this.props;
             const { sectionid, assignmentid } = this.props.params;
 
             const events = {
@@ -53,12 +54,32 @@ class GradeACategory extends React.Component {
                 saveAll : this.saveAll
             }
             var gradeList = makeList(studentCategoryData, sectionid, assignmentid, events);
-            console.log("GRADELIST: ", gradeList);
+
+            if(studentAssignmentList){
+                var assignmentName = studentAssignmentList[0].name;
+            }
+
+            var capCat = capitalize(this.props.params.category);
+            console.log('CAPCAT', capCat);
+
             return (
                 <div>
-                    <p>Grade these:</p>
-                    {gradeList}
+                    <Row>
+                        <Col m={12}>
 
+                            <Breadcrumb className="indigo">
+                                <MenuItem>Assignments</MenuItem>
+                                <MenuItem>{assignmentName}</MenuItem>
+                                <MenuItem>{capCat}</MenuItem>
+                            </Breadcrumb>
+
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col m={12}>
+                            {gradeList}
+                        </Col>
+                    </Row>
                     <Row>
                         <div>
                             <Button onClick={this.saveAll}>Save All</Button>
@@ -89,24 +110,24 @@ function makeList(data, sectionid, assignmentid, events) {
     return data.map(studentData => {
         return (
             <Card title={studentData.first_name} >
-            <Row>
-                <Col s={12} m={6}>
-                    <p>Name: </p>
-                    <div>
-                    {studentData.content}
-                    </div>
-                </Col>
-                <Col s={12} m={6}>
-                    <div>
-                    <Input s={12} type="textarea" name={`comments_${studentData.id}`} onChange={events.inputChange} label="Comments"/>
-                    </div>
-                    <Button onClick={events.saveEach}>Save</Button>
-                    <div>
-                    <Input s={12} name={`grade_${studentData.id}`} type="text" label="Grade" onChange={events.inputChange}/>
-                    <Button onClick={events.saveEach}>Save</Button>
-                    </div>
-                </Col>
-            </Row>
+                <Row>
+                    <Col s={12} m={6}>
+                        <p>Name: </p>
+                        <div>
+                        {studentData.content}
+                        </div>
+                    </Col>
+                    <Col s={12} m={6}>
+                        <div>
+                        <Input s={12} type="textarea" name={`comments_${studentData.id}`} onChange={events.inputChange} label="Comments"/>
+                        </div>
+                        <Button onClick={events.saveEach}>Save</Button>
+                        <div>
+                        <Input s={12} name={`grade_${studentData.id}`} type="text" label="Grade" onChange={events.inputChange}/>
+                        <Button onClick={events.saveEach}>Save</Button>
+                        </div>
+                    </Col>
+                </Row>
             </Card>);
     });
 }
