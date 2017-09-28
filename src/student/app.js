@@ -108,7 +108,7 @@ class App extends React.Component {
 
                 </Collapsible>
 
-                <Modal header="Add A Class" trigger={<Button>Add A Class</Button>} actions={
+                <Modal header="Add A Class" trigger={<Button>+ Class</Button>} actions={
                         <div>
                             <Button modal="close" onClick={e => this.newClass(e)} actions={'modal-close'}> Submit </Button>
                             <Button flat modal="close" waves="light">Dismiss</Button>
