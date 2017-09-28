@@ -116,6 +116,8 @@ module.exports.newDiscussion = newDiscussion;
 // });
 
 //saveNewStudentReport([])
+/********** SAVING GRADES BY CATEGORY *********/
+
 /********** ASSIGNMENTS *********/
 function getAssignmentNameIdBySection(data) {
     console.log('ASSIGNMENT_DB: getAssignmentNameIdBySection,', data);
