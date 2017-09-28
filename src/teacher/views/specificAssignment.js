@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import axios  from '../../api/axios';
 import { getStudentAssignmentList, getAssignmentProperties } from '../actions';
+import { capitalize } from '../../helpers';
 
 import {Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
 
@@ -144,8 +145,8 @@ function determineStatus(status) {
     }
 }
 
-function makeSelector(assignmentProps, handleCatPick) {
-    console.log('MAKE SELECTOR', assignmentProps);
+function getCategoryList(assignmentProps) {
+    console.log('MAKE Category List', assignmentProps);
 
     var options = [];
     for(var key in assignmentProps) {
@@ -153,12 +154,16 @@ function makeSelector(assignmentProps, handleCatPick) {
             options.push(key);
         }
     }
+    return options;
+}
+function makeSelector(assignmentProps, handleCatPick) {
 
+    var options = getCategoryList(assignmentProps);
     console.log('OPTIONS ARRAY:', options);
     var optionList = options.map(option => {
         console.log("OPTION:", option);
         return (
-            <option value={option}>{option}</option>
+            <option value={option}>{capitalize(option)}</option>
         )
     })
     return (
