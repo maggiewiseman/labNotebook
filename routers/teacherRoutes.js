@@ -202,12 +202,9 @@ var teacherRoutes = (app) => {
         const assignmentID = req.params.id;
         const reportID = req.params.reportid;
 
-
-        console.log('entering', assignmentID, reportID);
-
-
+        console.log('getting assignment per student');
         dbGrading.getAssignment(reportID, assignmentID).then((result) => {
-            console.log(result.rows);
+            console.log('getting assignment per student 10');
 
             const status = result.rows[0].status;
 
@@ -268,6 +265,60 @@ var teacherRoutes = (app) => {
             }
         })
     })
+
+    app.post('/api/teacher/grading/grade/:id/student/:reportid', (req, res) => {
+
+        const reportID = req.params.reportid;
+        const assignmentID = req.params.id;
+        const {grade} = req.body;
+
+
+        dbGrading.getCategoriesByID(reportID, assignmentID).then((result) => {
+            console.log(result.rows);
+
+
+            const{group_id, title_id, abstract_id, question_id, hypothesis_id, variables_id, materials_id, procedures_id, data_id, calculations_id, discussion_id} = result.rows[0];
+
+            for(var prop in grade) {
+
+                console.log('prop', grade);
+
+                if (prop === 'title_comment' || prop === 'title_grade') {
+                    dbGrading.updateTitles(title_id, grade.title_comment, grade.title_grade)
+                }
+                if (prop === 'question_comment' || prop === 'question_grade') { dbGrading.updateQuestions(question_id, grade.question_comment, grade.question_grade)
+                }
+                if (prop === 'abstract_comment'|| prop === 'abstract_grade') { dbGrading.updateAbstracts(abstract_id, grade.abstract_comment, grade.abstract_grade)
+                }
+                if (prop === 'hypothesis_comment' || prop === 'hypothesis_grade') {
+                dbGrading.updateHypotheses(hypothesis_id, grade.hypothesis_comment, grade.hypothesis_grade)
+                }
+                if (prop === 'variable_comment' || prop === 'variable_grade') {
+                    dbGrading.updateVariables(variables_id, grade.variable_comment, grade.variable_grade)
+                }
+                if (prop === 'material_comment' || prop === 'material_grade') {
+                    dbGrading.updateMaterials(materials_id, grade.material_comment, grade.material_grade)
+                }
+                if (prop === 'procedure_comment' || prop === 'procedure_grade') {
+                    dbGrading.updateProcedures(procedures_id, grade.procedure_comment, grade.procedure_grade)
+                }
+                if (prop === 'data_comment' || prop === 'data_grade') {
+
+                    dbGrading.updateData(data_id, grade.data_comment, grade.data_grade)
+                }
+                if (prop === 'calculation' || prop === 'calculation_grade') {
+                    dbGrading.updateCalculations(calculations_id, grade.calculation_comment, grade.calculation_grade)
+                }
+                if (prop === 'discussion' || prop === 'discussion_grade') {
+                    dbGrading.updatediscussions(discussions_id, grade.discussion_comment, grade.discussion_grade)
+                }
+            }
+
+
+
+
+        })
+    });
 };
 
 module.exports = teacherRoutes;

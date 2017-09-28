@@ -1,3 +1,26 @@
+handleSaveComment(e) {
+
+    var field = e.target.name
+
+    var send = {
+        [field]: this.state[field]
+    }
+
+    if(field === 'grade') {
+        console.log('save grade', send);
+        // this.props.dispatch(saveGrade());
+    }
+
+    if(field === 'comment') {
+        console.log('save comment', send);
+        // this.props.dispatch(saveComment());
+    }
+
+
+}
+
+
+
 {course.assignments.map(assignment => (
     <li>{assignment.assignment_name}</li>
     )
