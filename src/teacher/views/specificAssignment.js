@@ -30,41 +30,55 @@ class SpecificAssignment extends React.Component {
     }
     render() {
         const { showCategories } = this.state;
-        const { studentList, currAssignmentId } = this.props;
+        const { studentList, currAssignmentId, assignmentProperties } = this.props;
         var assignmentName = '';
 
         if(studentList) {
             var studentHtmlList = makeInnerList(studentList, currAssignmentId)
             assignmentName = studentList[0].name;
         }
+
+        if(assignmentProperties) {
+            var selector = makeSelector(assignmentProperties);
+        }
+
         return (
             <div>
                 <Row>
                     <Col m={12}>
-
-                    <Breadcrumb className="indigo">
-                        <MenuItem>Assignments</MenuItem>
-                        <MenuItem>{assignmentName}</MenuItem>
-                    </Breadcrumb>
-
+                        <Breadcrumb className="indigo">
+                            <MenuItem>Assignments</MenuItem>
+                            <MenuItem>{assignmentName}</MenuItem>
+                        </Breadcrumb>
                     </Col>
                 </Row>
                 <Row>
-                    <Col m={12}>
+                    <Col m={6}>
                     <Input type="checkbox" label="Grade Anonymously" />
-                    <Input type="checkbox" lable="Randomize Students" />
+                    <Input type="checkbox" label="Randomize Students" />
                     <Input type="checkbox" label="Grade By Group" />
                     <Input type="checkbox" label="Grade By Category" onClick={this.showCategories} />
-                    <Input type="checkbox" label="Grade All Sections"/>
                     </Col>
                 </Row>
                 <Row>
                     <Col m={12}>
-                {showCategories && <div>
-                    <Link to={`/teacher/grading/assignment/${this.props.params.id}/${currAssignmentId}/titles`}>Grade Titles</Link>
-                    <Button>Grade Questions</Button>
-                    <Button>Grade Hypotheses</Button>
-                </div>}
+                            {showCategories &&
+                            <div>
+                                <Row>
+                                    <Col m={8}>
+                                        {makeSelector(assignmentProperties)}
+                                    </Col>
+                                    <Col m={4}>
+                                        <div>
+                                            <Button name="selectCategory">Select</Button>
+                                        </div>
+                                    </Col>
+                                </Row>
+
+                                <div>
+                                    <Link to={`/teacher/grading/assignment/${this.props.params.id}/${currAssignmentId}/titles`}>Grade Titles</Link>
+                                </div>
+                            </div>}
                     </Col>
                 </Row>
                 <Row>
@@ -121,7 +135,22 @@ function determineStatus(status) {
     }
 }
 
+function makeSelector(assignmentProps) {
+    console.log('MAKE SELECTOR', assignmentProps);
+    
+    return (
 
+        <Input s={12} type='select' label="Category to Grade Selection" defaultValue='1'>
+            <option value='1'>Title</option>
+            <option value='2'>Question</option>
+            <option value='3'>Option 3</option>
+        </Input>
+
+    );
+}
+
+
+/***************** STYLES *************/
 var statusStyle = {
     display: 'inline',
     paddingLeft: '40px'
