@@ -6,12 +6,12 @@ export default function (props) {
     return (
         <Container class="center-align">
             <Row>
-                <Col m={3}>
+                <Col m={4}>
                 </Col>
-                <Col m={6}>
+                <Col m={4}>
                     <MediaBox src="/images/Cloud_book_logo.png" caption="Logo" width="300px" className="centerAlign"/>
                 </Col>
-                <Col m={3}>
+                <Col m={4}>
                 </Col>
             </Row>
             <Row>
