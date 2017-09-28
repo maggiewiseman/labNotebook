@@ -27,7 +27,7 @@ export function getCategoriesForGrading(assignmentId, category){
 
 export function getAssignmentProperties(assignmentId) {
     console.log('ACTIONS: getAssignmentProperties', assignmentId);
-    return axios.get('/teacher/assignment/properties/' + assignmentId).then(results =>{
+    return axios.get('/api/teacher/assignment/properties/' + assignmentId).then(results =>{
         console.log('Back from getting Assignment Properties', results);
         return {
             type: RECEIVE_ASSIGNMENT_PROPERTIES,
