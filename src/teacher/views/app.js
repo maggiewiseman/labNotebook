@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Logout from '../../auth/logout.js';
 import { getTeacherInfo } from '../actions';
-import {Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Button, Collection, CollectionItem} from 'react-materialize'
+import {Navbar, NavItem, Row, Col, MediaBox, Container, SideNav, SideNavItem, Button, Collection, CollectionItem} from 'react-materialize'
 
 class App extends React.Component  {
     componentDidMount() {
@@ -25,6 +25,7 @@ class App extends React.Component  {
             return (
                 <Container>
                     <Navbar className="indigo">
+                        <NavItem><MediaBox src="/images/Cloud_book_logo.png" caption="Logo" width="90px" /></NavItem>
                         <NavItem href="/teacher">Home</NavItem>
                         <NavItem>New Assignment</NavItem>
                         <NavItem>Help</NavItem>
