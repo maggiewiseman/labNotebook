@@ -31,7 +31,7 @@ var teacherRoutes = (app) => {
 
     /********** ASSIGNMENTS *********/
     //get all the students data for given category
-    app.get('/api/teacher/grading/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+    app.get('/api/t/category/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         console.log('In route to get student data by category', req.params);
         let data = [req.params.assignmentId];
         return getCategoriesForGrading(data).then(results => {
@@ -311,7 +311,7 @@ var teacherRoutes = (app) => {
                     dbGrading.updateCalculations(calculations_id, grade.calculation_comment, grade.calculation_grade)
                 }
                 if (prop === 'discussion' || prop === 'discussion_grade') {
-                    dbGrading.updatediscussions(discussion_id, grade.discussion_comment, grade.discussion_grade)
+                    dbGrading.updateDiscussions(discussion_id, grade.discussion_comment, grade.discussion_grade)
                 }
             }
 

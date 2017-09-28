@@ -13,6 +13,8 @@ class GradeAssignment extends React.Component {
         this.state = {};
         this.handleChange = this.handleChange.bind(this);
         this.handleSaveGrading = this.handleSaveGrading.bind(this);
+        this.handleSaveAll = this.handleSaveAll.bind(this);
+        this.handleCommit = this.handleCommit.bind(this);
 
     }
 

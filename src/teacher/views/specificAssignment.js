@@ -96,7 +96,7 @@ function makeInnerList(items, assignmentId) {
         var status = determineStatus(item.status, assignmentId);
         return (
             <CollectionItem key={item.report_id.toString()}>
-                <Link to={`/teacher/grading/assignment/${assignmentId}/student/${item.report_id}`}>{item.first_name}  {item.last_name }</Link>
+                <Link to={`/teacher/category/assignment/${assignmentId}/student/${item.report_id}`}>{item.first_name}  {item.last_name }</Link>
                 <p style={statusStyle}>Status: {status} </p>
 
             </CollectionItem>

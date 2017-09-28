@@ -156,7 +156,7 @@ var studentRoutes = (app) => {
 
 
     app.get('/api/student/assignment/:id',  mw.loggedInCheck, mw.checkIfStudent, (req, res) => {
-        const paramsID = req.params.id;
+        const assignmentID = req.params.id;
         const userID = req.session.user.id;
 
         dbStudent.getReportByID(userID, assignmentID)

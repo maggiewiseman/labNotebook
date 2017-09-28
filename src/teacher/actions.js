@@ -11,7 +11,7 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
 
 /************ ASSIGNMENTS *************/
 export function getCategoriesForGrading(assignmentId, category){
-    return axios.get(`/api/teacher/grading/${assignmentId}/${category}`).then(results => {
+    return axios.get(`/api/t/category/${assignmentId}/${category}`).then(results => {
         console.log("Back from getting Category Data", results);
         return {
             type: UPDATE_STUDENT_CATEGORY_DATA,
