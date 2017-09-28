@@ -103,7 +103,7 @@ var studentRoutes = (app) => {
                     })
                     assignmentIDList.forEach((assignment) => {
                         console.log(assignment);
-                        dbStudent.addStudentsReports(id, sectionID, assignment);
+                        dbStudent.addStudentsReports(id, classID, assignment);
 
                     })
                 })
@@ -168,7 +168,8 @@ var studentRoutes = (app) => {
         .then((result) => {
             console.log('assignment', result.rows[0]);
 
-            const {assignment_id, status, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
+            const {assignment_id, status, report_comments,
+            report_grade, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
 
 
 
@@ -215,8 +216,8 @@ var studentRoutes = (app) => {
             res.json({
                 success: true,
                 assignment: {
-                    assignment_id, status,
-                    title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
+                    assignment_id, status, report_comments,
+                    report_grade, title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
                 }
             });
 

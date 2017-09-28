@@ -28,7 +28,7 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
-    app.get('/api/teacher/assignment/properties/:assignmentId', (req, res) => {
+    app.get('/api/teacher/assignment/properties/:assignmentId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         let data = [req.params.assignmentId];
         return getAssignmentProperties(data).then(results => {
             console.log("TEACHER ROUTER: categories for grading:", results.rows);
@@ -215,7 +215,7 @@ var teacherRoutes = (app) => {
         });
     });
 
-    app.get('/api/teacher/grading/assignment/:id/student/:reportid', (req, res) => {
+    app.get('/api/teacher/grading/assignment/:id/student/:reportid', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         const assignmentID = req.params.id;
         const reportID = req.params.reportid;
 
@@ -225,7 +225,7 @@ var teacherRoutes = (app) => {
             console.log(result.rows);
 
 
-                const {first_name, last_name, assignment_id, status, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
+                const {first_name, last_name, assignment_id, status, report_comments, report_grade, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
 
 
 
@@ -269,14 +269,13 @@ var teacherRoutes = (app) => {
                     discussion_editable, discussion_content, discussion_comments, discussion_grade
                 }
 
-                if(status === "COMMITTED") {
+                if(status === "COMMITTED" || status === "GRADED") {
 
                 res.json({
                     success: true,
                     assignment: {
                         first_name, last_name,
-                        assignment_id, status,
-                        title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
+                        assignment_id, status, report_comments, report_grade, title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
                     }
                 });
 
@@ -284,7 +283,7 @@ var teacherRoutes = (app) => {
         })
     })
 
-    app.post('/api/teacher/grading/grade/:id/student/:reportid', (req, res) => {
+    app.post('/api/teacher/grading/grade/:id/student/:reportid', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
 
         const reportID = req.params.reportid;
         const assignmentID = req.params.id;
@@ -331,12 +330,18 @@ var teacherRoutes = (app) => {
                     dbGrading.updateDiscussions(discussion_id, grade.discussion_comment, grade.discussion_grade)
                 }
             }
-
-
-
-
         })
     });
+
+    app.post('/api/teacher/grading/commit-grade', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+        //id is assignmentID
+        const{id, reportid, commit} = req.body;
+        console.log(id, reportid, commit);
+        dbGrading.finalReportGrade(reportid, id, commit.commit_grade, commit.commit_comment, "GRADED").then((result) => {
+            console.log('update status to graded', result.rows);
+            res.redirect(`/api/teacher/grading/assignment/${id}/student/${reportid}`)
+        })
+    })
 };
 
 module.exports = teacherRoutes;
@@ -451,7 +456,7 @@ function makeStudentAssignments(students, sectionId, assignmentId, include, edit
                     }));
                 }
                 if(key == "variables") {
-                    promiseArr.push(newData(data).then(results => {
+                    promiseArr.push(newVariables(data).then(results => {
                         return { variables: results.rows[0].id};
                     }));
                 }
@@ -471,7 +476,7 @@ function makeStudentAssignments(students, sectionId, assignmentId, include, edit
                         return { data: results.rows[0].id};
                     }));
                 }
-                if(key == "caluclations") {
+                if(key == "calculations") {
                     promiseArr.push(newCalculations(data).then(results => {
                         return { calculations: results.rows[0].id};
                     }));

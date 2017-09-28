@@ -21,6 +21,7 @@ class Assignment extends React.Component {
     }
 
 
+
     componentDidMount() {
 
         const {id} = this.props.params;
@@ -116,18 +117,42 @@ class Assignment extends React.Component {
 
 
             </div>
+            var gradedAssignment =
 
-         if(assignment.status === "COMMITTED" || assignment.status === "GRADED" || assignment.status === "PENDING") {
+                    <div>
+                        {graded (assignment.title, 'title')}
+                        {graded (assignment.question, 'question')}
+                        {graded (assignment.abstract, 'abstract')}
+                        {graded (assignment.hypothesis, 'hypothesis')}
+                        {graded (assignment.variable, 'variable')}
+                        {graded (assignment.material, 'material')}
+                        {graded (assignment.procedure, 'procedure')}
+                        {graded (assignment.data, 'data')}
+                        {graded (assignment.calculation, 'calculation')}
+                        {graded (assignment.discussion, 'discussion')}
+
+                        {finalComments(assignment.report_comments, assignment.report_grade)}
+
+
+                    </div>
+
+
+
+         if(assignment.status === "COMMITTED" || assignment.status === "PENDING") {
 
             form = committedAssignment;
-         } else {
+        } else if (assignment.status === "GRADED"){
+
+            form = gradedAssignment;
+
+        } else {
             form = assignmentOptions;
         }
 
         return (
             <div className="blueBox">
 
-                <h5>{getAssignmenName(this.props.params.classid, this.props.params.id, this.props.studentInfo)}</h5>
+                <h5>{getAssignmentName(this.props.params.classid, this.props.params.id, this.props.studentInfo)}</h5>
                 {form}
 
             </div>
@@ -166,7 +191,7 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
         } else {
         return (
 
-            <Card title={category}>
+            <Card title={capitalize(category)}>
                 <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
                 <div>
                 <Button name={category} onClick={handleSave}>Save</Button>
@@ -200,11 +225,33 @@ function committed (section, category) {
     }
 }
 
+function graded (section, category) {
+
+    if(section[category + '_content'] && section[category + '_editable']) {
+
+        return (
+                <Card title={capitalize(category)}>
+                    <p>{section[category + '_content']}</p>
+                    <p>{section[category + '_comments']}</p>
+                    <p>{section[category + '_grade']}</p>
+                </Card>
+            )
+
+    } else {
+
+        return (
+            <Card title={capitalize(category)}>
+                <p>{section[category + '_content']}</p>
+            </Card>
+            )
+    }
+}
+
 function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
-function getAssignmenName(assignmentId, classId, studentInfo){
+function getAssignmentName(assignmentId, classId, studentInfo){
     console.log('getAssignName: ', studentInfo);
     var currCourse = studentInfo.courses.filter(course => {
         return course.course_id = classId;
@@ -216,4 +263,75 @@ function getAssignmenName(assignmentId, classId, studentInfo){
     });
 
     return `${currCourse[0].course_name}:  ${currAssign[0].assignment_name}`;
+}
+
+
+function finalComments(comment, grade) {
+
+    if(comment && grade) {
+
+        return (
+
+        <div>
+
+            <h4>Final Comment</h4>
+
+            <div>{comment}</div>
+
+            <h4>Final Grade</h4>
+
+            <div>{grade}</div>
+
+        </div>
+        )
+
+    } else if (grade) {
+
+        return (
+
+        <div>
+
+            <h4>Final Comment</h4>
+
+            <div></div>
+
+            <h4>Final Grade</h4>
+
+            <div>{grade}</div>
+
+        </div>
+        )
+
+
+    } else if (comment) {
+        return (
+
+        <div>
+
+            <h4>Final Comment</h4>
+
+            <div>{comment}</div>
+
+            <h4>Final Grade</h4>
+
+            <div></div>
+
+        </div>
+        )
+    } else {
+        return (
+
+        <div>
+
+            <h4>Final Comment</h4>
+
+            <div></div>
+
+            <h4>Final Grade</h4>
+
+            <div></div>
+
+        </div>
+        )
+    }
 }
