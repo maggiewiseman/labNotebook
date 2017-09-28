@@ -30,8 +30,11 @@ class SpecificAssignment extends React.Component {
     render() {
         const { showCategories } = this.state;
         const { studentList, currAssignmentId } = this.props;
+        var assignmentName = '';
+
         if(studentList) {
             var studentHtmlList = makeInnerList(studentList, currAssignmentId)
+            assignmentName = studentList[0].name;
         }
         return (
             <div>
@@ -40,7 +43,7 @@ class SpecificAssignment extends React.Component {
 
                     <Breadcrumb className="indigo">
                         <MenuItem>Assignments</MenuItem>
-                        <MenuItem>This Assignment</MenuItem>
+                        <MenuItem>{assignmentName}</MenuItem>
                     </Breadcrumb>
 
                     </Col>
@@ -92,7 +95,7 @@ export default connect(mapStateToProps)(SpecificAssignment);
 
 function makeInnerList(items, assignmentId) {
     var itemList = items.map(item => {
-        console.log(item);
+        console.log('studentListItem: ', item);
         var status = determineStatus(item.status, assignmentId);
         return (
             <CollectionItem key={item.report_id.toString()}>

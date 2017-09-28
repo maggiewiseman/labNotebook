@@ -7,7 +7,6 @@ const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSect
 
 const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection,getCategoriesForGrading,  getStudentsAssignmentIdsBySection } = require("../database/assignmentsDb")
 
-
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         return res.sendFile( path.join( __dirname, '../index.html' ) );
