@@ -202,11 +202,10 @@ var teacherRoutes = (app) => {
 
         console.log('getting assignment per student');
         dbGrading.getAssignment(reportID, assignmentID).then((result) => {
-            console.log('getting assignment per student 10');
 
-            const status = result.rows[0].status;
+            console.log(result.rows);
 
-            if(status === "COMMITTED") {
+
                 const {first_name, last_name, assignment_id, status, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
 
 
@@ -250,6 +249,8 @@ var teacherRoutes = (app) => {
                 const discussion = {
                     discussion_editable, discussion_content, discussion_comments, discussion_grade
                 }
+
+                if(status === "COMMITTED") {
 
                 res.json({
                     success: true,
@@ -308,7 +309,7 @@ var teacherRoutes = (app) => {
                     dbGrading.updateCalculations(calculations_id, grade.calculation_comment, grade.calculation_grade)
                 }
                 if (prop === 'discussion' || prop === 'discussion_grade') {
-                    dbGrading.updatediscussions(discussions_id, grade.discussion_comment, grade.discussion_grade)
+                    dbGrading.updatediscussions(discussion_id, grade.discussion_comment, grade.discussion_grade)
                 }
             }
 

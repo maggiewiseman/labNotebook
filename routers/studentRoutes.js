@@ -81,72 +81,92 @@ var studentRoutes = (app) => {
         const{id} = req.session.user;
         const{classID} = req.body;
 
-        dbStudent.checkStudentClasses(id).then((result) => {
+        dbStudent.checkStudentClasses(id)
+        .then((result) => {
             console.log(result.rows);
 
             if(result.rows.find(section => section.section_id == classID)) {
                 throw 'Error student is already enrolled in this class'
             } else {
-                dbStudent.addNewClass(id, classID).then((result) => {
-                    console.log('addNewClass post', result);
-                    const {section_id} = result.rows[0]
-                    console.log(section_id);
+                dbStudent.addNewClass(id, classID)
+                .then((result) => {
+                    console.log('add new class get section id', result.rows[0]);
+                    const sectionID = result.rows[0].section_id
+                    return dbStudent.getAssignmentsPerSection(sectionID)
 
-                    dbStudent.updateClassList(id)
-                    .then((result) => {
-
-                        const courses = result.rows.map((obj) => {
-                            var course = {
-                                course_id: obj.course_id,
-                                course_name: obj.course_name,
-                                section_id: obj.section_id
-
-                            }
-                            return course;
-                        });
-
-                        return courses
-
+                })
+                .then((result) => {
+                    console.log('assignment list', result);
+                    const sectionID = result.rows[0].section_id
+                    const assignmentIDList = result.rows.map((assignment) => {
+                        return assignment.id
                     })
-                    .then((courses) => {
+                    assignmentIDList.forEach((assignment) => {
+                        console.log(assignment);
+                        dbStudent.addStudentsReports(id, sectionID, assignment);
 
-                        dbStudent.getAssignmentList(id).then((result) => {
-
-                            courses.forEach(course => {
-                                course.assignments = result.rows.filter(ass => ass.section_id == course.section_id);
-                            });
-
-
-                            res.json({
-                                success: true,
-                                courses: courses
-                            })
-
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
                     })
                 })
+                .then(() => {
+
+                    return dbStudent.updateClassList(id);
+
+                })
+                .then((result) => {
+                    console.log('update class list', result.rows);
+
+                    const courses = result.rows.map((obj) => {
+                        var course = {
+                            course_id: obj.course_id,
+                            course_name: obj.course_name,
+                            section_id: obj.section_id
+
+                        }
+                        return course;
+                    });
+
+                    return courses
+
+                })
+                .then((courses) => {
+
+                    dbStudent.getAssignmentList(id)
+                    .then((result) => {
+
+                        courses.forEach(course => {
+                            course.assignments = result.rows.filter(ass => ass.section_id == course.section_id);
+                        });
+
+
+                        res.json({
+                            success: true,
+                            courses: courses
+                        })
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
             }
-        })
-        .catch((err) => {
-            console.log(err);
         })
     });
 
 
     app.get('/api/student/assignment/:id', (req, res) => {
-        const paramsID = req.params.id;
+        const assignmentID = req.params.id;
         const userID = req.session.user.id;
 
-
-        console.log(userID, paramsID);
-
-
-        dbStudent.getAssignment(userID, paramsID)
+        dbStudent.getReportByID(userID, assignmentID)
         .then((result) => {
-            console.log('assignment', result.rows);
+            console.log(result.rows[0]);
+            const reportID = result.rows[0].id;
+            return dbStudent.getAssignment(reportID, assignmentID)
+        })
+        .then((result) => {
+            console.log('assignment', result.rows[0]);
 
             const {assignment_id, status, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
 
