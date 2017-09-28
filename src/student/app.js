@@ -125,9 +125,7 @@ class App extends React.Component {
                 {this.props.children}
             </Col>
         </Row>
-    </Container>
-
-    )
+    </Container> )
     }
 }
 
