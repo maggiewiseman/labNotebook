@@ -7,9 +7,10 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     RECEIVE_STUDENT_ASSIGNMENT_LIST = 'RECEIVE_STUDENT_ASSIGNMENT_LIST',
     UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA', GET_COMMITS = 'GET_COMMITS',
+    RECEIVE_ASSIGNMENT_PROPERTIES = 'RECEIVE_ASSIGNMENT_PROPERTIES',
     ERROR = 'ERROR';
 
-/************ ASSIGNMENTS *************/
+/************ PREPARING TO GRADE *************/
 export function getCategoriesForGrading(assignmentId, category){
     return axios.get(`/api/teacher/grading/${assignmentId}/${category}`).then(results => {
         console.log("Back from getting Category Data", results);
@@ -24,12 +25,27 @@ export function getCategoriesForGrading(assignmentId, category){
     });
 }
 
+export function getAssignmentProperties(assignmentId) {
+    console.log('ACTIONS: getAssignmentProperties', assignmentId);
+    return axios.get('/teacher/assignment/properties/' + assignmentId).then(results =>{
+        console.log('Back from getting Assignment Properties', results);
+        return {
+            type: RECEIVE_ASSIGNMENT_PROPERTIES,
+            payload: results.data.assignmentProps
+        };
+    }).catch(e => {
+        this.setState({
+            error: e
+        });
+    });
+}
+
 /************ ASSIGNMENTS *************/
 export function getStudentAssignmentList(assignmentId) {
     console.log('ACTIONS: in get student assignment list');
 
     return axios.get('/api/teacher/students/' + assignmentId).then(results => {
-        console.log('will mount', results);
+        console.log('Back from getting student assignment list', results);
         return {
             type: RECEIVE_STUDENT_ASSIGNMENT_LIST,
             payload: results.data.studentList,

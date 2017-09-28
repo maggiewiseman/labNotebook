@@ -124,6 +124,11 @@ function getCategoriesForGrading(data){
 }
 module.exports.getCategoriesForGrading = getCategoriesForGrading;
 /********** ASSIGNMENTS *********/
+function getAssignmentProperties(data) {
+    console.log('ASSIGNMENT_DB: getAssignmentProperties', data);
+    let queryStr = 'SELECT * FROM assignments WHERE id = $1';
+    return db.query(queryStr, data);
+}
 function getAssignmentNameIdBySection(data) {
     console.log('ASSIGNMENT_DB: getAssignmentNameIdBySection,', data);
     let queryStr = 'SELECT id, name, due FROM assignments WHERE section_id = $1';
@@ -135,6 +140,11 @@ function saveNewAssignmentTemplate(data) {
     return db.query(queryStr, data);
 }
 //Test
+// getAssignmentProperties([2]).then((results) => {
+//         console.log(results.rows);
+//     }).catch(e => {
+//         console.log(e);
+//     });
 // saveNewAssignmentTemplate([1, false, '3moles', 'instructions', '1999-01-01', 'word', 'word', 'word8', 'word9', 'word9','word11', 'word9','word13', 'word9', 'word15', 'word9', 'word17', 'word9', 'word19', 'word20', 'word21', 'word22', 'word23', 'word24', 'word25'])
 //     .then((results) => {
 //         console.log(results.rows);
@@ -146,3 +156,4 @@ function saveNewAssignmentTemplate(data) {
 
 module.exports.saveNewAssignmentTemplate = saveNewAssignmentTemplate;
 module.exports.getAssignmentNameIdBySection = getAssignmentNameIdBySection;
+module.exports.getAssignmentProperties = getAssignmentProperties;
