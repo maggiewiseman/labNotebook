@@ -5,9 +5,7 @@ const dbGrading = require('../database/gradingDb');
 
 const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId, getTeacherInfoById} = require("../database/teacherDb");
 
-const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection, getStudentsAssignmentIdsBySection } = require("../database/assignmentsDb")
-
-const { getCategoriesForGrading } = require("../database/gradingDb");
+const {saveNewAssignmentTemplate, saveNewStudentReport, newTitle, newQuestion, newAbstract, newHypothesis, newVariables, newMaterials, newProcedure, newData, newCalculations, newDiscussion, getAssignmentNameIdBySection,getCategoriesForGrading,  getStudentsAssignmentIdsBySection, getAssignmentProperties } = require("../database/assignmentsDb")
 
 var teacherRoutes = (app) => {
     app.get('/teacher', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
@@ -30,11 +28,27 @@ var teacherRoutes = (app) => {
     });
 
     /********** ASSIGNMENTS *********/
+    app.get('/api/teacher/assignment/properties/:assignmentId', (req, res) => {
+        let data = [req.params.assignmentId];
+        return getAssignmentProperties(data).then(results => {
+            console.log("TEACHER ROUTER: categories for grading:", results.rows);
+            res.json({
+                success: true,
+                assignmentProps: results.rows
+            });
+        }).catch(e => {
+            console.log('Getting assignment properties error:', e);
+            res.json({
+                error: e,
+                meessage: 'Getting assingment properites error, route:/api/teacher/assignment/properties/:assignmentId'
+            });
+        })
+    });
     //get all the students data for given category
     app.get('/api/t/category/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         console.log('In route to get student data by category', req.params);
         let data = [req.params.assignmentId];
-        return getCategoriesForGrading(data).then(results => {
+        return getCategoriesForGrading( req.params.category, data ).then(results => {
             console.log("TEACHER ROUTER: categories for grading:", results.rows);
             res.json({
                 success: true,
@@ -48,9 +62,11 @@ var teacherRoutes = (app) => {
         });
     });
 
+
+
     //get all the students report ids by section
-    app.get('/api/teacher/students/:sectionId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
-        let data = [req.params.sectionId];
+    app.get('/api/teacher/students/:assignmentId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
+        let data = [req.params.assignmentId];
         console.log('About to: getStudentsAssignmentIdsBySection');
         return getStudentsAssignmentIdsBySection(data).then(results => {
             console.log('Got Student Assignment List Info', results.rows);
@@ -135,6 +151,7 @@ var teacherRoutes = (app) => {
                 sections: results.rows
             });
         }).catch(e => {
+            console.log('sending error');
             res.json({
                 error: e
             });
@@ -641,3 +658,17 @@ function newStudentReport(studentId, sectionId, assignmentId, categoryIds) {
 
 
 //makeNewAssignmentAll(req);
+
+
+//Tests:
+// function getCatsForGradingTest(){
+//     return getCategoriesForGrading( 'abstracts', [1] ).then(results => {
+//         console.log("TEACHER ROUTER: categories for grading:", results.rows);
+//
+//     }).catch(e => {
+//         console.log('Getting categories for grading error:', e);
+//
+//     });
+// }
+//
+// getCatsForGradingTest();

@@ -5,12 +5,18 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     RECEIVE_STUDENT_ASSIGNMENT_LIST = 'RECEIVE_STUDENT_ASSIGNMENT_LIST',
     UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA',
     GET_COMMITS = 'GET_COMMITS',
+    RECEIVE_ASSIGNMENT_PROPERTIES = 'RECEIVE_ASSIGNMENT_PROPERTIES',
     ERROR = 'ERROR';
 
 
 export default function(state = {}, action) {
     console.log('REDUCER: the action is: ', action);
 
+    if(action.type == RECEIVE_ASSIGNMENT_PROPERTIES) {
+        state = Object.assign({}, state, {
+            assignmentProperties: action.payload
+        });
+    }
     if(action.type == UPDATE_STUDENT_CATEGORY_DATA) {
         state = Object.assign({}, state, {
             studentCategoryData: action.payload

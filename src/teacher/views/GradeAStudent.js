@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getCommittedAssignments, saveGrading } from '../actions';
 import Logout from '../../auth/logout.js';
+import {Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
 
 
 
@@ -92,12 +93,12 @@ class GradeAssignment extends React.Component {
 
         return (
             <div>
-            Hi
+
             {committedAssignment}
 
-            <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
+            <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
 
-            <button name='commit' onClick={this.handleCommit}>Commit</button>
+            <Button name='commit' onClick={this.handleCommit}>Commit</Button>
 
             </div>
         )

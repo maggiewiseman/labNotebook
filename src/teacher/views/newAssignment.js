@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getAllSections, saveNewAssignment } from '../actions';
-import {Row, Col, Button, Input, Card, Collection, CollectionItem } from 'react-materialize'
+import {Row, Col, Button, Input, Card, Collection, CollectionItem, Breadcrumb, MenuItem } from 'react-materialize'
 
 class TeacherNewAssignment extends React.Component {
     constructor(props) {
@@ -125,7 +125,7 @@ class TeacherNewAssignment extends React.Component {
             if(this.state.assignmentName){
                 console.log('dispatching');
                 this.props.dispatch(saveNewAssignment(this.state));
-                
+
             } else {
                 this.setState({
                     assignError: 'The assignment must have a name'
@@ -178,6 +178,16 @@ class TeacherNewAssignment extends React.Component {
         }else {
             return (
                 <div>
+                    <Row>
+                        <Col m={12}>
+
+                        <Breadcrumb className="indigo">
+                            <MenuItem>Assignments</MenuItem>
+                            <MenuItem>New Assignment</MenuItem>
+                        </Breadcrumb>
+
+                        </Col>
+                    </Row>
                     <Row>
                     <h5>To which classes should the assignment be added?</h5>
 

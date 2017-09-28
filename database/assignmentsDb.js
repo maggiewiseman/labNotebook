@@ -116,7 +116,51 @@ module.exports.newDiscussion = newDiscussion;
 // });
 
 //saveNewStudentReport([])
+/********** SAVING GRADES BY CATEGORY *********/
+function getCategoriesForGrading(tableName, data){
+
+    console.log('Grading_DB: getCategoriesForGrading,', data);
+
+    let queryStr = makeQuery(tableName);
+
+    return db.query(queryStr, data);
+}
+module.exports.getCategoriesForGrading = getCategoriesForGrading;
+
+function makeQuery(tableName) {
+
+    var tableOptions = {
+        title: 'titles',
+        question: 'questions',
+        variable: 'variables',
+        hypothesis: 'hypotheses',
+        abstract: 'abstracts',
+        procedure: 'procedures',
+        material: 'materials',
+        data: 'data',
+        discussion: 'discussions',
+        calculation: 'calculations'
+    };
+    if(tableOptions[tableName]) {
+        return `SELECT ${tableOptions[tableName]}.content, ${tableOptions[tableName]}.id, ${tableOptions[tableName]}.group_id, ${tableOptions[tableName]}.comments, ${tableOptions[tableName]}.grade, students_reports.id AS report_id, students_reports.student_id, students_reports.status, users.first_name, users.last_name, users.id AS user_id FROM students_reports JOIN ${tableOptions[tableName]} ON students_reports.title_id = ${tableOptions[tableName]}.id JOIN users ON users.id = students_reports.student_id WHERE students_reports.assignment_id = $1;`;
+    } else {
+        throw Error("Invalid table name");
+    }
+}
+//TESTS
+//console.log(makeQuery('titles'));
+// getCategoriesForGrading('abstract',[1]).then((results) => {
+//     console.log(results.rows);
+// }).catch(e => {
+//
+//     console.log(e);
+// });
 /********** ASSIGNMENTS *********/
+function getAssignmentProperties(data) {
+    console.log('ASSIGNMENT_DB: getAssignmentProperties', data);
+    let queryStr = 'SELECT * FROM assignments WHERE id = $1';
+    return db.query(queryStr, data);
+}
 function getAssignmentNameIdBySection(data) {
     console.log('ASSIGNMENT_DB: getAssignmentNameIdBySection,', data);
     let queryStr = 'SELECT id, name, due FROM assignments WHERE section_id = $1';
@@ -128,6 +172,11 @@ function saveNewAssignmentTemplate(data) {
     return db.query(queryStr, data);
 }
 //Test
+// getAssignmentProperties([2]).then((results) => {
+//         console.log(results.rows);
+//     }).catch(e => {
+//         console.log(e);
+//     });
 // saveNewAssignmentTemplate([1, false, '3moles', 'instructions', '1999-01-01', 'word', 'word', 'word8', 'word9', 'word9','word11', 'word9','word13', 'word9', 'word15', 'word9', 'word17', 'word9', 'word19', 'word20', 'word21', 'word22', 'word23', 'word24', 'word25'])
 //     .then((results) => {
 //         console.log(results.rows);
@@ -139,3 +188,4 @@ function saveNewAssignmentTemplate(data) {
 
 module.exports.saveNewAssignmentTemplate = saveNewAssignmentTemplate;
 module.exports.getAssignmentNameIdBySection = getAssignmentNameIdBySection;
+module.exports.getAssignmentProperties = getAssignmentProperties;
