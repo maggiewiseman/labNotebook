@@ -112,7 +112,6 @@ function makeList(data, sectionid, assignmentid, events) {
             <Card title={studentData.first_name} >
                 <Row>
                     <Col s={12} m={6}>
-                        <p>Name: </p>
                         <div>
                         {studentData.content}
                         </div>
@@ -121,7 +120,6 @@ function makeList(data, sectionid, assignmentid, events) {
                         <div>
                         <Input s={12} type="textarea" name={`comments_${studentData.id}`} onChange={events.inputChange} label="Comments"/>
                         </div>
-                        <Button onClick={events.saveEach}>Save</Button>
                         <div>
                         <Input s={12} name={`grade_${studentData.id}`} type="text" label="Grade" onChange={events.inputChange}/>
                         <Button onClick={events.saveEach}>Save</Button>
