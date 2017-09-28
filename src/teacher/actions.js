@@ -6,7 +6,7 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
     ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     RECEIVE_STUDENT_ASSIGNMENT_LIST = 'RECEIVE_STUDENT_ASSIGNMENT_LIST',
-    UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA',
+    UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA', GET_COMMITS = 'GET_COMMITS',
     ERROR = 'ERROR';
 
 /************ ASSIGNMENTS *************/
@@ -119,6 +119,16 @@ export function getTeacherInfo() {
                 type: ADD_TEACHER_INFO,
                 payload: results.data.teacherInfo
             }
+        }
+    })
+}
+
+export function getCommittedAssignments(id, reportid) {
+    return axios.get(`/api/teacher/grading/assignment/${id}/student/${reportid}`).then((result) => {
+        console.log('got assignment per student report');
+        return {
+            type: GET_COMMITS,
+            assignment: result.data.assignment
         }
     })
 }

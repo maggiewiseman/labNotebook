@@ -1,5 +1,7 @@
 const path = require('path');
 const mw = require('./middleware');
+const dbGrading = require('../database/gradingDb');
+
 
 const {saveNewCourse, getCoursesByTeacher, deleteCourse, getAllSections, getSectionsByCourseId, saveNewSection, getStudentIdsBySectionId, getTeacherInfoById} = require("../database/teacherDb");
 
@@ -193,6 +195,77 @@ var teacherRoutes = (app) => {
             });
         });
     });
+
+    app.get('/api/teacher/grading/assignment/:id/student/:reportid', (req, res) => {
+        const assignmentID = req.params.id;
+        const reportID = req.params.reportid;
+
+
+        console.log('entering', assignmentID, reportID);
+
+
+        dbGrading.getAssignment(reportID, assignmentID).then((result) => {
+            console.log(result.rows);
+
+            const status = result.rows[0].status;
+
+            if(status === "COMMITTED") {
+                const {first_name, last_name, assignment_id, status, title_editable, title_content, title_comments, title_grade, question_editable, question_content, question_comments, question_grade, abstract_editable, abstract_content, abstract_comments, abstract_grade, hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade, variable_editable, variable_content, variable_comments , variable_grade, material_editable, material_content, material_comments, material_grade, procedure_editable, procedure_content, procedure_comments, procedure_grade, data_editable, data_content, data_comments, data_grade, calculation_editable, calculation_content, calculation_comments, calculation_grade, discussion_editable, discussion_content, discussion_comments, discussion_grade} = result.rows[0];
+
+
+
+                const title = {
+                    title_editable, title_content, title_comments, title_grade
+                }
+
+                const question = {
+                    question_editable, question_content, question_comments, question_grade
+                }
+
+                const abstract = {
+                    abstract_editable, abstract_content, abstract_comments, abstract_grade
+                }
+
+                const hypothesis = {
+                    hypothesis_editable, hypothesis_content, hypothesis_comments, hypothesis_grade
+                }
+
+                const variable = {
+                    variable_editable, variable_content, variable_comments, variable_grade
+                }
+
+                const material = {
+                    material_editable, material_content, material_comments, material_grade
+                }
+
+                const procedure = {
+                    procedure_editable, procedure_content, procedure_comments, procedure_grade
+                }
+
+                const data = {
+                    data_editable, data_content, data_comments, data_grade
+                }
+
+                const calculation = {
+                    calculation_editable, calculation_content, calculation_comments, calculation_grade
+                }
+
+                const discussion = {
+                    discussion_editable, discussion_content, discussion_comments, discussion_grade
+                }
+
+                res.json({
+                    success: true,
+                    assignment: {
+                        first_name, last_name,
+                        assignment_id, status,
+                        title, question, abstract, hypothesis, variable, material, procedure, data, calculation, discussion
+                    }
+                });
+
+            }
+        })
+    })
 };
 
 module.exports = teacherRoutes;

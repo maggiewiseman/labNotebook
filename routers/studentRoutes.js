@@ -84,7 +84,7 @@ var studentRoutes = (app) => {
         dbStudent.checkStudentClasses(id).then((result) => {
             console.log(result.rows);
 
-            if(result.rows.filter(section => section.section_id == classID)) {
+            if(result.rows.find(section => section.section_id == classID)) {
                 throw 'Error student is already enrolled in this class'
             } else {
                 dbStudent.addNewClass(id, classID).then((result) => {
