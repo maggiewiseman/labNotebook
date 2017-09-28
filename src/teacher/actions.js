@@ -7,11 +7,12 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     RECEIVE_STUDENT_ASSIGNMENT_LIST = 'RECEIVE_STUDENT_ASSIGNMENT_LIST',
     UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA', GET_COMMITS = 'GET_COMMITS', ADD_COMMENT_CATEGORY = 'ADD_COMMENT_CATEGORY', ADD_GRADE_CATEGORY = 'ADD_GRADE_CATEGORY',
+    RECEIVE_ASSIGNMENT_PROPERTIES = 'RECEIVE_ASSIGNMENT_PROPERTIES',
     ERROR = 'ERROR';
 
 /************ PREPARING TO GRADE *************/
 export function getCategoriesForGrading(assignmentId, category){
-    return axios.get(`/api/teacher/grading/${assignmentId}/${category}`).then(results => {
+    return axios.get(`/api/t/category/${assignmentId}/${category}`).then(results => {
         console.log("Back from getting Category Data", results);
         if(results.data.success){
             return {

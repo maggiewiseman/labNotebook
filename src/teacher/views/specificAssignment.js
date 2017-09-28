@@ -45,7 +45,7 @@ class SpecificAssignment extends React.Component {
         });
     }
     selectCategory() {
-        browserHistory.push(`/teacher/grading/assignment/${this.props.params.id}/${this.props.currAssignmentId}/${this.state.category}`);
+        browserHistory.push(`/teacher/category/assignment/${this.props.params.id}/${this.props.currAssignmentId}/${this.state.category}`);
     }
     render() {
         const { showCategories } = this.state;
