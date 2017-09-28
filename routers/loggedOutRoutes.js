@@ -6,13 +6,9 @@ const mw = require('./middleware');
 
 var loggedOutRoutes = (app) => {
 
-
-
     app.get('/' , mw.registerLoginCheck, (req, res) => {
-
         return res.sendFile( path.join( __dirname, '../index.html' ) );
     });
-
 
     app.post('/api/student/register', (req, res) => {
         console.log('student server post');
@@ -24,12 +20,9 @@ var loggedOutRoutes = (app) => {
             console.log("success")
             console.log(first_name, last_name);
 
-            dbHashing.hashPassword(password)
-            .then((hash) => {
+            dbHashing.hashPassword(password).then((hash) => {
 
-                return dbHashing.addStudent(first_name, last_name, email, hash)
-
-                .then((result) => {
+                return dbHashing.addStudent(first_name, last_name, email, hash).then((result) => {
 
                     const {id, first_name, last_name, email, role} = result.rows[0]
 
@@ -47,18 +40,16 @@ var loggedOutRoutes = (app) => {
                     res.json({
                         success: true
                     });
-                })
-                .catch((err) => {
+                }).catch((err) => {
                     console.log(err);
                     res.json({
                         success: false
-                    })
-                })
+                    });
+                });
 
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
-            })
+            });
 
         }
     });
@@ -144,7 +135,9 @@ var loggedOutRoutes = (app) => {
 //should put app.get with restrictions for req.session.user to not access the teacher side and vice versa.
 
     app.get('/logout', (req, res) => {
+        console.log('logout route!');
         req.session = null;
+        console.log(req.session);
         res.redirect('/');
     });
 };

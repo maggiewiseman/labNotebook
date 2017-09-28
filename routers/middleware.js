@@ -2,6 +2,7 @@ function registerLoginCheck(req, res, next) {
 
     if(req.session.user) {
         //logged in
+        console.log('REGISTER LOGIN CHECK', req.session);
         if(req.session.user.role == 'teacher') {
             res.redirect('/teacher');
         } else {
@@ -15,6 +16,7 @@ function registerLoginCheck(req, res, next) {
 function loggedInCheck(req, res, next) {
     if(req.session.user) {
         //logged in!
+        console.log('Logged in check:', req.session);
         console.log('user is logged in sending to next');
 
         next();

@@ -56,7 +56,7 @@ class TeacherCourses extends React.Component {
                 {error && <p>{error}</p>}
                 <Input type="text" name="courseName" placeholder="Name of course" onChange={this.handleInput} ref={el => this.courseNameInput = el}/>
 
-                <Button onClick={this.submit}>Save new course</Button>
+                <Button modal="close" onClick={this.submit}>Save new course</Button>
                 </Modal>
             </Card>
                 {courses &&

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from '../api/axios';
-import { Link } from 'react-router';
+import { Link, browserHistory} from 'react-router';
 
 
 export default class Logout extends React.Component {
@@ -12,7 +12,7 @@ export default class Logout extends React.Component {
     }
     logout() {
         axios.get('/logout').then(()=> {
-            location.replace('/');
+            browserHistory.push('/');
         });
     }
     render() {

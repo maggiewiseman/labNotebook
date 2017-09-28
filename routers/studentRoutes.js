@@ -7,13 +7,13 @@ const mw = require('./middleware');
 
 var studentRoutes = (app) => {
 
-    app.get('/student',  mw.loggedInCheck, (req, res) => {
+    app.get('/student',  mw.loggedInCheck, mw.checkIfStudent,  (req, res) => {
 
         return res.sendFile( path.join( __dirname, '../index.html' ));
     });
 
 
-    app.get('/api/student/data', (req, res) => {
+    app.get('/api/student/data',  mw.loggedInCheck, mw.checkIfStudent, (req, res) => {
 
         const {id, first_name, last_name, email, role} = req.session.user;
 
@@ -76,7 +76,7 @@ var studentRoutes = (app) => {
         });
     });
 
-    app.post('/api/student/class', (req, res) => {
+    app.post('/api/student/class',  mw.loggedInCheck, mw.checkIfStudent, (req, res) => {
 
         const{id} = req.session.user;
         const{classID} = req.body;
@@ -136,7 +136,7 @@ var studentRoutes = (app) => {
     });
 
 
-    app.get('/api/student/assignment/:id', (req, res) => {
+    app.get('/api/student/assignment/:id',  mw.loggedInCheck, mw.checkIfStudent, (req, res) => {
         const paramsID = req.params.id;
         const userID = req.session.user.id;
 
@@ -206,7 +206,7 @@ var studentRoutes = (app) => {
 
     //after updating. either do another query to get all rows again orrrrr write if clauses in reducer to update the state. another issue is when you save to locak state it adds on to the list of this.state.
 
-    app.post('/api/student/save-assignment', (req, res) => {
+    app.post('/api/student/save-assignment',  mw.loggedInCheck, mw.checkIfStudent, (req, res) => {
         const assignmentID = req.body.id;
         const {part} = req.body;
         const {id}= req.session.user;
@@ -312,7 +312,7 @@ var studentRoutes = (app) => {
 
     })
 
-    app.post('/api/student/commit-assignment/', (req, res) => {
+    app.post('/api/student/commit-assignment/',  mw.loggedInCheck, mw.checkIfStudent, (req, res) => {
         console.log('server committing');
 
         const assignmentID = req.body.id;
