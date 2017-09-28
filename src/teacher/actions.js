@@ -6,7 +6,7 @@ const SAVE_COURSE_LIST = 'SAVE_COURSE_LIST',
     UPDATE_RECENT_ASSIGNMENTS = 'UPDATE_RECENT_ASSIGNMENTS',
     ADD_TEACHER_INFO = 'ADD_TEACHER_INFO',
     RECEIVE_STUDENT_ASSIGNMENT_LIST = 'RECEIVE_STUDENT_ASSIGNMENT_LIST',
-    UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA', GET_COMMITS = 'GET_COMMITS', ADD_COMMENT_CATEGORY = 'ADD_COMMENT_CATEGORY', ADD_GRADE_CATEGORY = 'ADD_GRADE_CATEGORY',
+    UPDATE_STUDENT_CATEGORY_DATA = 'UPDATE_STUDENT_CATEGORY_DATA', GET_COMMITS = 'GET_COMMITS',
     RECEIVE_ASSIGNMENT_PROPERTIES = 'RECEIVE_ASSIGNMENT_PROPERTIES',
     ERROR = 'ERROR';
 
@@ -158,7 +158,7 @@ export function saveGrading (id, reportid, grade) {
     return axios.post(`/api/teacher/grading/grade/${id}/student/${reportid}`, {id, reportid, grade}).then((result) => {
         console.log('saving grade');
         return {
-            type: ADD_COMMENT_CATEGORY,
+            type: ADD_GRADING,
             assignment: result.data.assignment
         }
     })

@@ -34,8 +34,26 @@ var loggedOutRoutes = (app) => {
                         role: role
                     }
 
-                    dbStudent.addNewClass(id, course);
-                    dbStudent.addStudentsReports(id, course);
+                    dbStudent.addNewClass(id, course)
+                    .then((result) => {
+                        console.log('add new class get section id', result.rows[0]);
+                        const sectionID = result.rows[0].section_id
+                        return dbStudent.getAssignmentsPerSection(sectionID)
+
+                    })
+                    .then((result) => {
+                        console.log('assignment list', result);
+                        const sectionID = result.rows[0].section_id
+                        const assignmentIDList = result.rows.map((assignment) => {
+                            return assignment.id
+                        })
+                        assignmentIDList.forEach((assignment) => {
+                            console.log(assignment);
+                            dbStudent.addStudentsReports(id, sectionID, assignment);
+
+                        })
+                    })
+
 
                     res.json({
                         success: true
