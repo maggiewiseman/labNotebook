@@ -13,6 +13,8 @@ class GradeAssignment extends React.Component {
         this.state = {};
         this.handleChange = this.handleChange.bind(this);
         this.handleSaveGrading = this.handleSaveGrading.bind(this);
+        this.handleSaveAll = this.handleSaveAll.bind(this);
+        this.handleCommit = this.handleCommit.bind(this);
 
     }
 
@@ -92,6 +94,11 @@ class GradeAssignment extends React.Component {
             <div>
             Hi
             {committedAssignment}
+
+            <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
+
+            <button name='commit' onClick={this.handleCommit}>Commit</button>
+
             </div>
         )
 
@@ -114,26 +121,86 @@ function committed (section, category, handleChange, handleSaveGrading) {
 
     if(section[category + '_editable']) {
 
-    return (
-        <div>
-        <h3>{category}:</h3>
+        if (section[category + '_comments'] && section[category + '_grade']) {
+            return (
+            <div>
+                <label>{category}:</label>
 
-        <p>{section[category + '_content']}</p>
+                <div>Teacher Comments</div>
 
-        <div>Teacher Comments</div>
+                <textarea name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_comments']}</textarea>
 
-        <textarea onChange={handleChange} name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" ></textarea>
+                <div>Teacher Grade</div>
+
+                <textarea name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_grade']}</textarea>
 
 
+                <button name={category} onClick={handleSaveGrading}>Save</button>
+            </div>
+            )
+        } else if(section[category + '_grade']) {
 
-        <textarea onChange={handleChange} name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" ></textarea>
+            return (
 
-        <button onClick={handleSaveGrading} name={category} >Save</button>
+                <div>
+                    <label>{category}:</label>
 
-        </div>
-        )
-    } else if(section[category + '_editable'] === null || section[category + '_content'] === null) {
+                    <div>Teacher Comments</div>
+
+                    <textarea name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+
+                    <div>Teacher Grade</div>
+
+                    <textarea name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_grade']}</textarea>
+
+
+                    <button name={category} onClick={handleSaveGrading}>Save</button>
+                </div>
+            )
+        } else if (section[category + '_comments']) {
+            return (
+
+                <div>
+                    <label>{category}:</label>
+
+                    <div>Teacher Comments</div>
+
+                    <textarea name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_comments']}</textarea>
+
+                    <div>Teacher Grade</div>
+
+                    <textarea onChange={handleChange} name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" ></textarea>
+
+
+                    <button name={category} onClick={handleSaveGrading}>Save</button>
+                </div>
+            )
+
+        }  else {
+
+            return (
+                <div>
+                <h3>{category}:</h3>
+
+                <p>{section[category + '_content']}</p>
+
+                <div>Teacher Comments</div>
+
+                <textarea onChange={handleChange} name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" ></textarea>
+
+                <div>Teacher Grade</div>
+
+                <textarea onChange={handleChange} name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" ></textarea>
+
+                <button onClick={handleSaveGrading} name={category} >Save</button>
+
+                </div>
+                )
+        }
+    } else if(section[category + '_editable'] === null ||           section[category + '_content'] === null) {
+
         return
+
     } else {
         return (
             <div>
