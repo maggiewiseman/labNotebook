@@ -3,17 +3,30 @@ import {MediaBox, Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Bu
 import { connect } from 'react-redux';
 
 class HelloWorld extends React.Component {
+    constructor(props){
+        super(props);
 
+    }
+    conponentDidMount() {
+        console.log('DASHBOARD TEACHER: will mount', this.props)
+    }
     render() {
+        if(!this.props.teacherInfo){
+            return null;
+
+        }
         return (
-            <Card title={`Hello`}></Card>
+            <div>
+            <Card title={`Hello ${this.props.teacherInfo[0].first_name}`}></Card>
+            </div>
         );
+
     }
 }
 
 var mapStateToProps = function(state) {
     return {
-        currUser: state.teachers.currUser
+        teacherInfo: state.teachers.teacherInfo
     }
 }
 
