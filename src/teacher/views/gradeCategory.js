@@ -88,6 +88,7 @@ function makeList(data, sectionid, assignmentid, events) {
     console.log('Make list', events);
     return data.map(studentData => {
         return (
+            <Card title={studentData.first_name} >
             <Row>
                 <Col s={12} m={6}>
                     <p>Name: </p>
@@ -105,6 +106,7 @@ function makeList(data, sectionid, assignmentid, events) {
                     <Button onClick={events.saveEach}>Save</Button>
                     </div>
                 </Col>
-            </Row>);
+            </Row>
+            </Card>);
     });
 }

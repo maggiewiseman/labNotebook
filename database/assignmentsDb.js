@@ -117,7 +117,12 @@ module.exports.newDiscussion = newDiscussion;
 
 //saveNewStudentReport([])
 /********** SAVING GRADES BY CATEGORY *********/
-
+function getCategoriesForGrading(data){
+    console.log('Grading_DB: getCategoriesForGrading,', data);
+    let queryStr = 'SELECT titles.content, titles.id, titles.group_id, titles.comments, titles.grade, students_reports.id AS report_id, students_reports.student_id, students_reports.status, users.first_name, users.last_name, users.id AS user_id FROM students_reports JOIN titles ON students_reports.title_id = titles.id JOIN users ON users.id = students_reports.student_id WHERE students_reports.assignment_id = $1;';
+    return db.query(queryStr, data);
+}
+module.exports.getCategoriesForGrading = getCategoriesForGrading;
 /********** ASSIGNMENTS *********/
 function getAssignmentNameIdBySection(data) {
     console.log('ASSIGNMENT_DB: getAssignmentNameIdBySection,', data);
