@@ -56,7 +56,7 @@ const studentRouter = (
         <Router history={browserHistory}>
             <Route path="/student" component={StudentApp}>
                 <IndexRoute component={StudentDashboard}/>
-                <Route path="/student/assignment/:id" component={AssignmentView} />
+                <Route path="/student/:classid/assignment/:id" component={AssignmentView} />
             </Route>
         </Router>
     </Provider>

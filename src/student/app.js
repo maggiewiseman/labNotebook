@@ -98,7 +98,7 @@ class App extends React.Component {
                         {course.assignments && course.assignments.map(assignment => (
 
                             <li onClick={e => this.showAssignment(e)}  id={assignment.assignment_id}>
-                                <Link to={`/student/assignment/${assignment.assignment_id}`} > {assignment.assignment_name}</Link>
+                                <Link to={`/student/${course.course_id}/assignment/${assignment.assignment_id}`} > {assignment.assignment_name}</Link>
                             </li>)
                        )}
                        </ul>

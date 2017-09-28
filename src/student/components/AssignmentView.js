@@ -127,7 +127,7 @@ class Assignment extends React.Component {
         return (
             <div className="blueBox">
 
-                <h5>Put Assgignment Name Here</h5>
+                <h5>{getAssignmenName(this.props.params.classid, this.props.params.id, this.props.studentInfo)}</h5>
                 {form}
 
             </div>
@@ -148,7 +148,6 @@ const mapStateToProps = function(state) {
 export default connect(mapStateToProps)(Assignment);
 
 
-
 function editable(section, category, handleChange, handleSave, handleSaveAll, handleCommit) {
     console.log(section[category + '_content']);
 
@@ -157,13 +156,12 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
 
             return (
 
-                <div>
-                    <label>{category}:</label>
+                <Card title={capitalize(category)}>
 
                     <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_content']}</textarea>
 
                     <Button name={category} onClick={handleSave}>Save</Button>
-                </div>
+                </Card>
             )
         } else {
         return (
@@ -204,4 +202,18 @@ function committed (section, category) {
 
 function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+function getAssignmenName(assignmentId, classId, studentInfo){
+    console.log('getAssignName: ', studentInfo);
+    var currCourse = studentInfo.courses.filter(course => {
+        return course.course_id = classId;
+    });
+    console.log(currCourse);
+
+    var currAssign = currCourse[0].assignments.filter(asgnmt => {
+        return asgnmt.assignment_id = assignmentId;
+    });
+
+    return `${currCourse[0].course_name}:  ${currAssign[0].assignment_name}`;
 }
