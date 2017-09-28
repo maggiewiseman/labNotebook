@@ -32,7 +32,8 @@ var teacherRoutes = (app) => {
     /********** ASSIGNMENTS *********/
     //get all the students data for given category
     app.get('/api/teacher/grading/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
-        let data = [req.params.assignmentId, req.params.category];
+        console.log('In route to get student data by category', req.params);
+        let data = [req.params.assignmentId];
         return getCategoriesForGrading(data).then(results => {
             console.log("TEACHER ROUTER: categories for grading:", results.rows);
             res.json({
@@ -40,6 +41,7 @@ var teacherRoutes = (app) => {
                 categoryData: results.rows
             });
         }).catch(e => {
+            console.log('Getting categories for grading error:', e);
             res.json({
                 error: e
             });

@@ -5,7 +5,7 @@ const db = spicedPg(`postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:
 
 function getCategoriesForGrading(data){
     console.log('Grading_DB: getCategoriesForGrading,', data);
-    let queryStr = 'SELECT titles.content, students_reports.id AS report_id, students_reports.student_id, students_reports.status FROM students_reports JOIN titles ON students_reports.title_id = titles.id WHERE students_reports.assignment_id = 1;';
+    let queryStr = 'SELECT titles.content, titles.id, titles.group_id, titles.comments, titles.grade, students_reports.id AS report_id, students_reports.student_id, students_reports.status FROM students_reports JOIN titles ON students_reports.title_id = titles.id WHERE students_reports.assignment_id = $1;';
     return db.query(queryStr, data);
 }
 

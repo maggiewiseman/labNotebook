@@ -1,0 +1,11 @@
+button {
+    margin: 0.2em 0.4em 0.2em 0;
+}
+
+.blueBox {
+    border: blue solid 4px;
+}
+
+a {
+    color: red;
+}

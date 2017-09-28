@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import axios  from '../../api/axios';
 import { getStudentAssignmentList } from '../actions';
 
-import {Row, Col, Button, Input, Card, Collection, CollectionItem } from 'react-materialize';
+import {Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
 
 class SpecificAssignment extends React.Component {
     constructor(props) {
@@ -36,19 +36,43 @@ class SpecificAssignment extends React.Component {
         return (
             <div>
                 <Row>
+                    <Col m={12}>
+
+                    <Breadcrumb className="indigo">
+                        <MenuItem>Assignments</MenuItem>
+                        <MenuItem>This Assignment</MenuItem>
+                    </Breadcrumb>
+
+                    </Col>
+                </Row>
+                <Row>
+                    <Col m={12}>
                     <Input type="checkbox" label="Grade Anonymously" />
                     <Input type="checkbox" lable="Randomize Students" />
                     <Input type="checkbox" label="Grade By Group" />
                     <Input type="checkbox" label="Grade By Category" onClick={this.showCategories} />
                     <Input type="checkbox" label="Grade All Sections"/>
+                    </Col>
                 </Row>
+                <Row>
+                    <Col m={12}>
                 {showCategories && <div>
-                    <Link to={`/teacher/assignment/${currAssignmentId}/title`}>Grade Titles</Link>
+                    <Link to={`/teacher/grading/assignment/${this.props.params.id}/${currAssignmentId}/titles`}>Grade Titles</Link>
                     <Button>Grade Questions</Button>
                     <Button>Grade Hypotheses</Button>
                 </div>}
-                <p>Click a student to grade his/her report</p>
-                {studentHtmlList}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col m={12}>
+                        <p>Click a student to grade his/her report</p>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col m={12}>
+                        {studentHtmlList}
+                    </Col>
+                </Row>
             </div>
         )
     }
