@@ -10,6 +10,13 @@ module.exports.addNewClass = function (user_id, code) {
     return result
 };
 
+module.exports.addStudentsReports = function (user_id, code) {
+
+    const insert = `INSERT INTO students_reports (student_id, section_id) VALUES ($1, $2) RETURNING section_id`;
+    const result = db.query(insert, [user_id, code]);
+    return result
+};
+
 module.exports.getStudentData = function (email) {
 
     const select = `SELECT users.id AS student_id, first_name, last_name, users_sections.user_id, users_sections.section_id, sections.course_id, courses.id AS course_id, courses.name AS course_name
