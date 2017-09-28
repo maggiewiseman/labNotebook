@@ -48,7 +48,7 @@ var teacherRoutes = (app) => {
     app.get('/api/teacher/grading/:assignmentId/:category', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
         console.log('In route to get student data by category', req.params);
         let data = [req.params.assignmentId];
-        return getCategoriesForGrading(data).then(results => {
+        return getCategoriesForGrading( req.params.category, data ).then(results => {
             console.log("TEACHER ROUTER: categories for grading:", results.rows);
             res.json({
                 success: true,
@@ -61,6 +61,8 @@ var teacherRoutes = (app) => {
             });
         });
     });
+
+
 
     //get all the students report ids by section
     app.get('/api/teacher/students/:assignmentId', mw.loggedInCheck, mw.checkIfTeacher, (req, res) => {
@@ -149,6 +151,7 @@ var teacherRoutes = (app) => {
                 sections: results.rows
             });
         }).catch(e => {
+            console.log('sending error');
             res.json({
                 error: e
             });
@@ -280,8 +283,8 @@ var teacherRoutes = (app) => {
                 });
 
             }
-        })
-    })
+        });
+    });
 };
 
 module.exports = teacherRoutes;
@@ -603,3 +606,17 @@ function newStudentReport(studentId, sectionId, assignmentId, categoryIds) {
 
 
 //makeNewAssignmentAll(req);
+
+
+//Tests:
+// function getCatsForGradingTest(){
+//     return getCategoriesForGrading( 'abstracts', [1] ).then(results => {
+//         console.log("TEACHER ROUTER: categories for grading:", results.rows);
+//
+//     }).catch(e => {
+//         console.log('Getting categories for grading error:', e);
+//
+//     });
+// }
+//
+// getCatsForGradingTest();
