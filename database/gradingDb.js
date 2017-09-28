@@ -9,8 +9,102 @@ function getCategoriesForGrading(data){
     return db.query(queryStr, data);
 }
 
+module.exports.getCategoriesByID = function (report_id, assignment_id) {
+    const select = `SELECT group_id, title_id, abstract_id, question_id, hypothesis_id, variables_id, materials_id, procedures_id, data_id, calculations_id, discussion_id FROM students_reports WHERE students_reports.id = $1 AND assignment_id = $2`
+    const result = db.query(select, [report_id, assignment_id]);
+    return result;
+}
+
 
 module.exports.getCategoriesForGrading = getCategoriesForGrading;
+
+
+//*********************update grade/comments********/////
+
+module.exports.updateTitles = function (id, comment, grade) {
+
+    const update = `UPDATE titles SET comments = $2, grade = $3 WHERE id = $`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+module.exports.updateQuestions= function (id, comments, grade) {
+
+    const update = `UPDATE questions SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+module.exports.updateAbstracts= function (id, comments, grade) {
+
+    const update = `UPDATE abstracts SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+module.exports.updateHypotheses = function (id, comments, grade) {
+
+    const update = `UPDATE hypotheses SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+module.exports.updateVariables= function (id, comments, grade) {
+
+    const update = `UPDATE variables SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+
+module.exports.updateMaterials = function (id, comments, grade) {
+
+    const update = `UPDATE materials SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+module.exports.updateProcedures = function (id, comments, grade) {
+
+    const update = `UPDATE procedures SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+module.exports.updateData = function (id, comments, grade) {
+
+    const update = `UPDATE data SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+module.exports.updateCalculations = function (id, comments, grade) {
+
+    const update = `UPDATE calculations SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+module.exports.updateDiscussions = function (id, comments, grade) {
+
+    const update = `UPDATE discussions SET comments = $2, grade = $3 WHERE id = $1`;
+    const result = db.query(update, [id, comments, grade]);
+    return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//****************getAssignment per student *********////
 
 module.exports.getAssignment = function (report_id, assignment_id) {
 
