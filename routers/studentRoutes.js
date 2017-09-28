@@ -103,7 +103,7 @@ var studentRoutes = (app) => {
                     })
                     assignmentIDList.forEach((assignment) => {
                         console.log(assignment);
-                        dbStudent.addStudentsReports(id, sectionID, assignment);
+                        dbStudent.addStudentsReports(id, classID, assignment);
 
                     })
                 })
