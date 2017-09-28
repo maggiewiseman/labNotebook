@@ -1,16 +1,31 @@
 import React from 'react';
-import { MediaBox, Container} from 'react-materialize';
+import { MediaBox, Container, Row, Col} from 'react-materialize';
 
 export default function (props) {
 
     return (
-        <Container>
-        <div id="welcome">
-        <MediaBox src="/images/flaskIcon.png" caption="Logo" width="50px"/>
+        <Container class="center-align">
+            <Row>
+                <Col m={4}>
+                </Col>
+                <Col m={4}>
+                    <MediaBox src="/images/Cloud_book_logo.png" caption="Logo" width="300px" className="centerAlign"/>
+                </Col>
+                <Col m={4}>
+                </Col>
+            </Row>
+            <Row>
+                <Col m={1}>
+                </Col>
+                <Col m={10}>
+                    {props.children}
+                </Col>
 
-        <h3>CloudNotebook</h3>
-        {props.children}
-        </div>
+                <Col m={1}>
+                </Col>
+            </Row>
+
+
         </Container>
 
     )

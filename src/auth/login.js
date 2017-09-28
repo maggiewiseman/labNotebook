@@ -51,14 +51,19 @@ export default class Login extends React.Component {
     render() {
         return (
             <Row className="reg-input-container">
+                <Col m={2} s={12}>
+                </Col>
                 <Col m={8} s={12}>
                     <Card title='Login'>
                     <Input s={6} className="reg-input" name="email" placeholder="E-mail" label="E-mail" onChange={e => this.handleChange(e)}/>
                     <Input s={6} className="reg-input" name="password" placeholder="Password" type="password" label="Password" onChange={e => this.handleChange(e)}/>
                     <Button className="reg-button" onClick={e => this.handleLogin(e)}> Login </Button>
                     </Card>
-                    <Link className="wel-links" to='/' >Register a New Account</Link>
-
+                    <div className="center-align">
+                        <Link to='/' >Register a New Account</Link>
+                    </div>
+                </Col>
+                <Col m={2} s={12}>
                 </Col>
             </Row>
         )

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {getStudentData, addNewClass, getAssignmentList} from './actions';
 import AssignmentView from './components/AssignmentView';
-import {Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Button, Collapsible, CollapsibleItem, Modal, Input, Collection, CollectionItem} from 'react-materialize';
+import {MediaBox, Navbar, NavItem, Row, Col, Container, SideNav, SideNavItem, Button, Collapsible, CollapsibleItem, Modal, Input, Collection, CollectionItem} from 'react-materialize';
 import Logout from '../auth/logout.js';
 
 
@@ -81,6 +81,7 @@ class App extends React.Component {
     <Container>
      {studentInfo.first_name} {studentInfo.last_name}
         <Navbar>
+            <NavItem><MediaBox src="/images/Cloud_book_logo.png" caption="Logo" width="90px" /></NavItem>
             <NavItem><Link to='/student'>Home</Link></NavItem>
             <NavItem>Courses</NavItem>
             <NavItem>Gradebook</NavItem>
@@ -107,7 +108,7 @@ class App extends React.Component {
 
                 </Collapsible>
 
-                <Modal header="Add A Class" trigger={<Button>Add A Class</Button>} actions={
+                <Modal header="Add A Class" trigger={<Button>+ Class</Button>} actions={
                         <div>
                             <Button modal="close" onClick={e => this.newClass(e)} actions={'modal-close'}> Submit </Button>
                             <Button flat modal="close" waves="light">Dismiss</Button>

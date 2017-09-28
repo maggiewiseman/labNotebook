@@ -100,36 +100,50 @@ export default class Registration extends React.Component {
 
         const studentRegistration = (
 
-                <Card s={12} m={4} title='Create a New Student Account'>
-                        <Input className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
-                        <Input className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
-                        <Input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
-                        <Input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
-                        <Input className="reg-input" name="course" placeholder="Course Code" onChange={e => this.handleChange(e)}/>
+                <Card s={12} m={4} title='Create a New Student Account' className="center-align">
+                    <Row>
+                        <Input  s={12} m={6} className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
+                        <Input  s={12} m={6} className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
+                        <Input  s={12} m={6} className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
+                        <Input  s={12} m={6} className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
+                        <Input  s={12} m={12} className="reg-input" name="course" placeholder="Course Code" onChange={e => this.handleChange(e)}/>
+                    </Row>
+                    <div>
                         <Button className="reg-button" onClick={e => this.handleStudentRegistration(e)}> Submit </Button>
+                    </div>
                 </Card>
 
         )
 
         const teacherRegistration = (
-            <Card title='Create a New Teacher Account'>
+            <Card title='Create a New Teacher Account' className="center-align">
+                    <Row>
+                        <Col s={12}>
+                            <Input s={12} m={6} className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
+                            <Input s={12} m={6} className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
 
-                    <input className="reg-input" name="first_name" placeholder="First Name" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="last_name" placeholder="Last Name" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
-                    <input className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
-
-                    <Button onClick={e => this.handleTeacherRegistration(e)}> Submit </Button>
+                            <Input s={12} m={6}  className="reg-input" name="email" placeholder="E-mail" onChange={e => this.handleChange(e)}/>
+                            <Input s={12} m={6} className="reg-input" name="password" placeholder="Password" type="password" onChange={e => this.handleChange(e)}/>
+                        </Col>
+                    </Row>
+                    <div>
+                        <Button onClick={e => this.handleTeacherRegistration(e)}> Submit </Button>
+                    </div>
             </Card>
         )
 
         return (
             <Container>
-                <Card className='darken-1' title='Please select one of the following to register'>
+                <Card className='darken-1' title='Please select one of the following to register' className="center-align">
                     <Row>
-                        <Col s={12} m={3}><Button className="teacher-button" onClick={e => this.handleTeacherSubmit(e)}> TEACHER </Button></Col>
+                        <Col s={0} m={1}>
+                        </Col>
+                        <Col s={12} m={5}><Button className="teacher-button" onClick={e => this.handleTeacherSubmit(e)}> TEACHER </Button></Col>
 
-                        <Col s={12} m={3} ><Button className="teacher-button" onClick={e => this.handleStudentSubmit(e)}> STUDENT </Button></Col>
+                        <Col s={12} m={5} ><Button className="teacher-button" onClick={e => this.handleStudentSubmit(e)}> STUDENT </Button></Col>
+                        <Col s={0} m={1}>
+                        </Col>
+
                     </Row>
                 </Card>
 
@@ -137,7 +151,7 @@ export default class Registration extends React.Component {
 
                     {this.state.role === 'teacher' && teacherRegistration}
 
-                <div>If already a member, please<Link to="/login"> LOGIN</Link></div>
+                <div className="center-align">If already a member, please<Link to="/login"> LOGIN</Link></div>
 
             </Container>
 
