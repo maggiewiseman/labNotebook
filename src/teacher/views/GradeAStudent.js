@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { getCommittedAssignments, saveGrading, commitGrade } from '../actions';
 import Logout from '../../auth/logout.js';
 import {capitalize} from '../../helpers';
+import {Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
 
 
 
@@ -100,21 +101,22 @@ class GradeAssignment extends React.Component {
         var finalReportComments =
                 <div>
 
-                {finalComments(assignment.report_comments, assignment.report_grade, this.handleChange)}
+                    {finalComments(assignment.report_comments, assignment.report_grade, this.handleChange)}
 
                 </div>
 
         return (
             <div>
+            
+                {committedAssignment}
+                {finalReportComments}
+                <div>
+                    <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
+                </div>
 
-            {committedAssignment}
-
-            <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
-
-            {finalReportComments}
-
-            <button name='commit' onClick={this.handleCommit}>Commit To Student</button>
-
+                <div>
+                    <Button name='commit' onClick={this.handleCommit}>Commit To Student</Button>
+                </div>
 
             </div>
         )
@@ -140,77 +142,66 @@ function committed (section, category, handleChange, handleSaveGrading) {
 
         if (section[category + '_comments'] && section[category + '_grade']) {
             return (
-            <div>
-                <label>{capitalize(category)}:</label>
+                <div>
+                    <Card  title={capitalize(category)} >
+                        <Input type="textarea" name={`${category}_comment`} onChange={handleChange}>{section[category + '_comments']} label="Comments"></Input>
 
-                <div>Teacher Comments</div>
+                        <Input type="text" label="Grade" name={`${category}_grade`} onChange={handleChange}>{section[category + '_grade']}></Input>
 
-                <textarea name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_comments']}</textarea>
-
-                <div>Teacher Grade</div>
-
-                <textarea name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_grade']}</textarea>
-
-
-                <button name={category} onClick={handleSaveGrading}>Save</button>
-            </div>
+                        <div>
+                            <Button name={category} onClick={handleSaveGrading}>Save</Button>
+                        </div>
+                    </Card>
+                </div>
             )
         } else if(section[category + '_grade']) {
 
             return (
 
-                <div>
-                    <label>{capitalize(category)}:</label>
+                <Card title={capitalize(category)}>
 
-                    <div>Teacher Comments</div>
+                    <Input s={12}  type="textarea" label="Comment" name={`${category}_comment`} onChange={handleChange}></Input>
 
-                    <textarea name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+                    <Input s={12} type="text" label="Grade" name={`${category}_grade`} onChange={handleChange}>{section[category + '_grade']}</Input>
 
-                    <div>Teacher Grade</div>
-
-                    <textarea name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_grade']}</textarea>
-
-
-                    <button name={category} onClick={handleSaveGrading}>Save</button>
-                </div>
+                    <div>
+                        <Button name={category} onClick={handleSaveGrading}>Save</Button>
+                    </div>
+                </Card>
             )
         } else if (section[category + '_comments']) {
             return (
 
-                <div>
-                    <label>{capitalize(category)}:</label>
+                <Card title={capitalize(category)}>
 
-                    <div>Teacher Comments</div>
+                    <Input s={12} type="textarea" name={`${category}_comment`} label="comments" onChange={handleChange}>{section[category + '_comments']}</Input>
 
-                    <textarea name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_comments']}</textarea>
+                    <Input s={12} type="text" onChange={handleChange} name={`${category}_grade`} label="Grade" ></Input>
 
-                    <div>Teacher Grade</div>
-
-                    <textarea onChange={handleChange} name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" ></textarea>
-
-
-                    <button name={category} onClick={handleSaveGrading}>Save</button>
-                </div>
+                    <Button name={category} onClick={handleSaveGrading}>Save</Button>
+                </Card>
             )
 
         }  else {
 
             return (
                 <div>
-                <h3>{capitalize(category)}:</h3>
 
-                <p>{section[category + '_content']}</p>
+                    <Card title={capitalize(category)}>
+                    <Row>
+                        <Col s={12} m={6}>
+                            <p>{section[category + '_content']}</p>
+                        </Col>
+                        <Col s={12} m={6}>
+                            <Input s={12}  type="textarea" label="Comments" onChange={handleChange} name={`${category}_comment`}></Input>
 
-                <div>Teacher Comments</div>
-
-                <textarea onChange={handleChange} name={`${category}_comment`} placeholder="Type here.." cols="30" rows="5" ></textarea>
-
-                <div>Teacher Grade</div>
-
-                <textarea onChange={handleChange} name={`${category}_grade`} placeholder="Type here.." cols="30" rows="5" ></textarea>
-
-                <button onClick={handleSaveGrading} name={category} >Save</button>
-
+                            <Input s={12} type="text" onChange={handleChange} name={`${category}_grade`} label="Grade"></Input>
+                            <div>
+                                <Button onClick={handleSaveGrading} name={category} >Save</Button>
+                            </div>
+                        </Col>
+                    </Row>
+                    </Card>
                 </div>
                 )
         }
@@ -237,14 +228,12 @@ function finalComments(comment, grade, handleChange) {
 
         <div>
 
-            <div>Final Comment</div>
+            <Card title="Final Comments">
 
-        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{comment}</textarea>
+                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
-        <div>Final Grade</div>
-
-        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{grade}</textarea>
-
+                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}>{grade}</Input>
+            </Card>
         </div>
         )
 
@@ -254,14 +243,12 @@ function finalComments(comment, grade, handleChange) {
 
         <div>
 
-        <div>Final Comment</div>
+            <Card title="Final Comments">
 
-        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
 
-        <div>Final Grade</div>
-
-        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{grade}</textarea>
-
+                <Input s={12} type="text" name="commit_grade" onChange={handleChange}>{grade}</Input>
+            </Card>
         </div>
         )
 
@@ -271,14 +258,12 @@ function finalComments(comment, grade, handleChange) {
 
         <div>
 
-        <div>Final Comment</div>
+            <Card title="Final Comments">
 
-        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{comment}</textarea>
+            <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
-        <div>Final Grade</div>
-
-        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
-
+            <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+            </Card>
         </div>
         )
     } else {
@@ -286,14 +271,12 @@ function finalComments(comment, grade, handleChange) {
 
         <div>
 
-        <div>Final Comment</div>
+            <Card title="Final Comments">
 
-        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
 
-        <div>Final Grade</div>
-
-        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
-
+                <Input s={12} type="type" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+            </Card>
         </div>
         )
     }
