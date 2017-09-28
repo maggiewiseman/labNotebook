@@ -21,6 +21,7 @@ class Assignment extends React.Component {
     }
 
 
+
     componentDidMount() {
 
         const {id} = this.props.params;
@@ -127,7 +128,7 @@ class Assignment extends React.Component {
         return (
             <div className="blueBox">
 
-                <h5>{getAssignmenName(this.props.params.classid, this.props.params.id, this.props.studentInfo)}</h5>
+                <h5>{getAssignmentName(this.props.params.classid, this.props.params.id, this.props.studentInfo)}</h5>
                 {form}
 
             </div>
@@ -166,7 +167,7 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
         } else {
         return (
 
-            <Card title={category}>
+            <Card title={capitalize(category)}>
                 <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
                 <div>
                 <Button name={category} onClick={handleSave}>Save</Button>
@@ -204,7 +205,7 @@ function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
-function getAssignmenName(assignmentId, classId, studentInfo){
+function getAssignmentName(assignmentId, classId, studentInfo){
     console.log('getAssignName: ', studentInfo);
     var currCourse = studentInfo.courses.filter(course => {
         return course.course_id = classId;

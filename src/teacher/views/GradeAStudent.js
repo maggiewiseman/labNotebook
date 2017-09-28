@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { getCommittedAssignments, saveGrading } from '../actions';
+import { getCommittedAssignments, saveGrading, commitGrade } from '../actions';
 import Logout from '../../auth/logout.js';
-import {Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
+import {capitalize} from '../../helpers';
 
 
 
@@ -51,18 +51,24 @@ class GradeAssignment extends React.Component {
     }
 
     handleCommit(e) {
-        const {id} = this.props.params;
+        const {id, reportid} = this.props.params;
+        console.log(e.target.name);
+        var field = e.target.name
 
-        this.props.dispatch(getAssignment(id));
-        this.props.dispatch(commitAssignment(id, this.state))
+        var send = {
+            [field+'_comment']: this.state[field+'_comment'],
+            [field+'_grade']: this.state[field+'_grade']
+        }
+        console.log(send);
+        this.props.dispatch(commitGrade(id, reportid, send));
 
     }
 
     handleSaveAll(e) {
 
-        console.log('save all', this.state);
-        const {id} = this.props.params;
-        this.props.dispatch(saveAssignment(id, this.state));
+        const {id, reportid} = this.props.params;
+
+            this.props.dispatch(saveGrading(id, reportid, this.state));
     }
 
 
@@ -91,14 +97,24 @@ class GradeAssignment extends React.Component {
 
                 </div>
 
+        var finalReportComments =
+                <div>
+
+                {finalComments(assignment.report_comments, assignment.report_grade, this.handleChange)}
+
+                </div>
+
         return (
             <div>
 
             {committedAssignment}
 
-            <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
+            <button name='saveAll' onClick={this.handleSaveAll}>Save All</button>
 
-            <Button name='commit' onClick={this.handleCommit}>Commit</Button>
+            {finalReportComments}
+
+            <button name='commit' onClick={this.handleCommit}>Commit To Student</button>
+
 
             </div>
         )
@@ -125,7 +141,7 @@ function committed (section, category, handleChange, handleSaveGrading) {
         if (section[category + '_comments'] && section[category + '_grade']) {
             return (
             <div>
-                <label>{category}:</label>
+                <label>{capitalize(category)}:</label>
 
                 <div>Teacher Comments</div>
 
@@ -144,7 +160,7 @@ function committed (section, category, handleChange, handleSaveGrading) {
             return (
 
                 <div>
-                    <label>{category}:</label>
+                    <label>{capitalize(category)}:</label>
 
                     <div>Teacher Comments</div>
 
@@ -162,7 +178,7 @@ function committed (section, category, handleChange, handleSaveGrading) {
             return (
 
                 <div>
-                    <label>{category}:</label>
+                    <label>{capitalize(category)}:</label>
 
                     <div>Teacher Comments</div>
 
@@ -181,7 +197,7 @@ function committed (section, category, handleChange, handleSaveGrading) {
 
             return (
                 <div>
-                <h3>{category}:</h3>
+                <h3>{capitalize(category)}:</h3>
 
                 <p>{section[category + '_content']}</p>
 
@@ -205,10 +221,80 @@ function committed (section, category, handleChange, handleSaveGrading) {
     } else {
         return (
             <div>
-            <h5>{category}:</h5>
+            <h5>{capitalize(category)}:</h5>
             <p>{section[category + '_content']}</p>
             </div>
         )
 
+    }
+}
+
+function finalComments(comment, grade, handleChange) {
+
+    if(comment && grade) {
+
+        return (
+
+        <div>
+
+            <div>Final Comment</div>
+
+        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{comment}</textarea>
+
+        <div>Final Grade</div>
+
+        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{grade}</textarea>
+
+        </div>
+        )
+
+    } else if (grade) {
+
+        return (
+
+        <div>
+
+        <div>Final Comment</div>
+
+        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+
+        <div>Final Grade</div>
+
+        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{grade}</textarea>
+
+        </div>
+        )
+
+
+    } else if (comment) {
+        return (
+
+        <div>
+
+        <div>Final Comment</div>
+
+        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{comment}</textarea>
+
+        <div>Final Grade</div>
+
+        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+
+        </div>
+        )
+    } else {
+        return (
+
+        <div>
+
+        <div>Final Comment</div>
+
+        <textarea name="commit_comment" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+
+        <div>Final Grade</div>
+
+        <textarea name="commit_grade" placeholder="Type here.." cols="30" rows="5" onChange={handleChange}></textarea>
+
+        </div>
+        )
     }
 }
