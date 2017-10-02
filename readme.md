@@ -39,12 +39,15 @@ Lab notebooks are the notoriously annoying for most high school teachers and stu
 
 * Students can see a list of assignments for each course and can add other courses to their profile
 ![Student Dashboard](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/StudentDash.png)
+
 * Students can edit and save lab work to be edited later or submit for grading.
 
-![Student Login](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/StudentAssignment.png)
+![Student Assignment Entry](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/StudentAssignment.png)
 
 * Teachers can see how students are progressing on an assignment and when the assignment is submitted can add comments and grade each category or just provide one final set of comments and overall grade for an assignment.
 
 ![Specific Assignment Page - Shows list of students and the status of their assignment](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/TeacherSpecificAssign.png)
 
 * Once a teacher has graded an assignment students can see the associated comments and grades.
+
+![Graded Assignment page](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/StudentGraded.png)
