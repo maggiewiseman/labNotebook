@@ -1,6 +1,7 @@
 # Online Lab Notebook
+![Cloud Notebook Logo](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/public/images/Cloud_book_logo.png)
 
-Contributors: Maggie Wiseman & Ingrid Majdalani
+**Contributors:** Maggie Wiseman & Ingrid Majdalani
 
 ## Summary:
 Lab notebooks are the notoriously annoying for most high school teachers and students.  The rules such as only writing in in indelible ink, not crossing things out (no white out), only writing on one side, remembering your name and date on every page, etc. seem archaic and unjustified to many students.  Do today's scientists really use such old technology? Maybe some do, but many more are using online lab notebook systems that allow them to connect with other researchers, databases, chemical drawing tools and other features that make their work more efficient. However, high school and undergraduate students often still experience the requirement to keep paper lab notebooks. The purpose of this project was to create an online lab notebook system geared towards high school students and teachers.
@@ -12,7 +13,11 @@ Lab notebooks are the notoriously annoying for most high school teachers and stu
 
 ## Features:
 * Teachers can make courses (Biology vs Chemistry and sections (A block vs B Block)
+
+![Cloud Notebook Logo](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/AddACourseOpen.png)
+
 * Login and Registration (students are given a code to enter into a specific section, e.g. A Block Biology)
+![Cloud Notebook Logo](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/public/images/Cloud_book_logo.png)
 * Teachers can create custom assignments that optionally include:
     * title
     * question
