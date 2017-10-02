@@ -18,6 +18,7 @@ class Assignment extends React.Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleSaveAll = this.handleSaveAll.bind(this);
         this.handleCommit = this.handleCommit.bind(this);
+
     }
 
 
@@ -185,7 +186,7 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
 
                     <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange}>{section[category + '_content']}</textarea>
 
-                    <Button name={category} onClick={handleSave}>Save</Button>
+                    <Button name={category} onClick={handleSave}>Update</Button>
                 </Card>
             )
         } else {
@@ -227,23 +228,27 @@ function committed (section, category) {
 
 function graded (section, category) {
 
-    if(section[category + '_content'] && section[category + '_editable']) {
+    if(section[category + '_editable']) {
 
         return (
                 <Card title={capitalize(category)}>
-                    <p>{section[category + '_content']}</p>
-                    <p>{section[category + '_comments']}</p>
-                    <p>{section[category + '_grade']}</p>
+                <Row>
+                    <Col m={6} s={12}><p>{section[category + '_content']}</p></Col>
+                    <Col m={6} s={12}>
+                        <p><span className="blue-text text-darken-2">Comment: </span> {section[category + '_comments']}</p>
+                        <p><span className="blue-text text-darken-2">Category Grade: </span>{section[category + '_grade']}</p>
+                    </Col>
+                </Row>
                 </Card>
             )
 
-    } else {
-
+    } else if (section[category + '_content'] && !section[category + '_editable'] ){
         return (
             <Card title={capitalize(category)}>
                 <p>{section[category + '_content']}</p>
             </Card>
             )
+
     }
 }
 
@@ -268,70 +273,71 @@ function getAssignmentName(assignmentId, classId, studentInfo){
 
 function finalComments(comment, grade) {
 
-    if(comment && grade) {
+        if(comment && grade) {
 
-        return (
+            return (
 
-        <div>
+                <div>
 
-            <h4>Final Comment</h4>
+                <h4>Final Comment</h4>
 
-            <div>{comment}</div>
+                <div>{comment}</div>
 
-            <h4>Final Grade</h4>
+                <h4>Final Grade</h4>
 
-            <div>{grade}</div>
+                <div>{grade}</div>
 
-        </div>
-        )
+                </div>
+            )
 
-    } else if (grade) {
+        } else if (grade) {
 
-        return (
+            return (
 
-        <div>
+                <div>
 
-            <h4>Final Comment</h4>
+                <h4>Final Comment</h4>
 
-            <div></div>
+                <div></div>
 
-            <h4>Final Grade</h4>
+                <h4>Final Grade</h4>
 
-            <div>{grade}</div>
+                <div>{grade}</div>
 
-        </div>
-        )
+                </div>
+            )
 
 
-    } else if (comment) {
-        return (
+        } else if (comment) {
+            return (
 
-        <div>
+                <div>
 
-            <h4>Final Comment</h4>
+                <h4>Final Comment</h4>
 
-            <div>{comment}</div>
+                <div>{comment}</div>
 
-            <h4>Final Grade</h4>
+                <h4>Final Grade</h4>
 
-            <div></div>
+                <div></div>
 
-        </div>
-        )
-    } else {
-        return (
+                </div>
+            )
+        } else {
+            return (
 
-        <div>
+                <div>
 
-            <h4>Final Comment</h4>
+                <h4>Final Comment</h4>
 
-            <div></div>
+                <div></div>
 
-            <h4>Final Grade</h4>
+                <h4>Final Grade</h4>
 
-            <div></div>
+                <div></div>
 
-        </div>
-        )
-    }
+                </div>
+            )
+        }
+
 }

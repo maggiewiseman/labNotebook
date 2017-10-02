@@ -83,7 +83,10 @@ class GradeAssignment extends React.Component {
         }
 
         var committedAssignment =
+        <div>
                 <div>
+
+
                     {committed (assignment.title, 'title', this.handleChange, this.handleSaveGrading)}
                     {committed (assignment.question, 'question', this.handleChange, this.handleSaveGrading)}
                     {committed (assignment.abstract, 'abstract', this.handleChange, this.handleSaveGrading)}
@@ -95,30 +98,31 @@ class GradeAssignment extends React.Component {
                     {committed (assignment.calculation, 'calculation', this.handleChange, this.handleSaveGrading)}
                     {committed (assignment.discussion, 'discussion', this.handleChange, this.handleSaveGrading)}
 
-
                 </div>
-
-        var finalReportComments =
-                <div>
-
-                    {finalComments(assignment.report_comments, assignment.report_grade, this.handleChange)}
-
-                </div>
-
-        return (
-            <div>
-            
-                {committedAssignment}
-                {finalReportComments}
                 <div>
                     <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
                 </div>
+        </div>
 
+        var finalReportComments =
+        <div>
                 <div>
-                    <Button name='commit' onClick={this.handleCommit}>Commit To Student</Button>
+
+                    {finalComments(assignment.report_comments, assignment.report_grade, this.handleChange, this.handleCommit)}
+
                 </div>
 
+
+
+        </div>
+
+        return (
+
+            <div>
+                {committedAssignment}
+                {finalReportComments}
             </div>
+
         )
 
 
@@ -220,7 +224,7 @@ function committed (section, category, handleChange, handleSaveGrading) {
     }
 }
 
-function finalComments(comment, grade, handleChange) {
+function finalComments(comment, grade, handleChange, handleCommit) {
 
     if(comment && grade) {
 
@@ -233,6 +237,7 @@ function finalComments(comment, grade, handleChange) {
                 <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
                 <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}>{grade}</Input>
+
             </Card>
         </div>
         )
@@ -260,9 +265,10 @@ function finalComments(comment, grade, handleChange) {
 
             <Card title="Final Comments">
 
-            <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
+                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
-            <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+
             </Card>
         </div>
         )
@@ -273,9 +279,18 @@ function finalComments(comment, grade, handleChange) {
 
             <Card title="Final Comments">
 
+
                 <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
 
-                <Input s={12} type="type" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+
+
+                <div>
+
+                    <Button name='commit' onClick={handleCommit}>Commit To Student</Button>
+
+                </div>
+
             </Card>
         </div>
         )
