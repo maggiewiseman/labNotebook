@@ -14,10 +14,12 @@ Lab notebooks are the notoriously annoying for most high school teachers and stu
 ## Features:
 * Teachers can make courses (Biology vs Chemistry and sections (A block vs B Block)
 
-![Cloud Notebook Logo](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/AddACourseOpen.png)
+![Courses Screenshot](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/AddACourseOpen.png)
+
+![Add A Course Modal](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/AddACourseModal.png)
 
 * Login and Registration (students are given a code to enter into a specific section, e.g. A Block Biology)
-![Cloud Notebook Logo](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/public/images/Cloud_book_logo.png)
+
 * Teachers can create custom assignments that optionally include:
     * title
     * question
