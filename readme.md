@@ -35,7 +35,7 @@ Lab notebooks are the notoriously annoying for most high school teachers and stu
     * calculations
     * discussion
 
-![Shows list of students given an assignment and their status.](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/Assignmentpage.png)
+![Shows list of students given an assignment and their status.](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/Assignmentspage.png)
 
 * Students can see a list of assignments for each course and can add other courses to their profile
 ![Student Dashboard](https://raw.githubusercontent.com/maggiewiseman/labnotebook/master/assets/screenshots/StudentDash.png)
