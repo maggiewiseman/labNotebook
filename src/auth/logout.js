@@ -4,21 +4,12 @@ import axios from '../api/axios';
 import { Link, browserHistory} from 'react-router';
 
 
-export default class Logout extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.logout = this.logout.bind(this);
-    }
-    logout() {
-        axios.get('/logout').then(()=> {
-            browserHistory.push('/');
-        });
-    }
-    render() {
+export default function Logout() {
+
+
         return (
-            <Link onClick={this.logout}>Logout</Link>
+            <a href="/logout">Logout</a>
         );
-    }
+
 
 }

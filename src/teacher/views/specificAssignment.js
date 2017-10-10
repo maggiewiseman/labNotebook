@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import axios  from '../../api/axios';
-import { getStudentAssignmentList, getAssignmentProperties } from '../actions';
+import { getStudentAssignmentList, getAssignmentProperties, getCourseList } from '../actions';
 import { capitalize } from '../../helpers';
 
 import {Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
@@ -31,6 +31,7 @@ class SpecificAssignment extends React.Component {
     componentWillMount() {
         //needt to get list of students in this section and the id of their students_report
         //console.log('Specific Assignment for a given section assignmentId', this.props.params.id);
+        this.props.dispatch(getCourseList());
         this.props.dispatch(getStudentAssignmentList(this.props.params.id));
         this.props.dispatch(getAssignmentProperties(this.props.params.id));
     }
