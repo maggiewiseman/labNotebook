@@ -1,8 +1,14 @@
 var spicedPg = require('spiced-pg');
 var bcrypt = require('bcryptjs');
-const secrets = require('../secrets.json');
-const db = spicedPg(`postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:5432/labnb`);
+var localUrl = '';
 
+if(!process.env.DATABASE_URL) {
+    const secrets = require('../secrets.json');
+    localUrl = `postgres:${secrets.dbuser}:${secrets.dbpassword}@localhost:5432/labnb`;
+}
+var dbUrl = process.env.DATABASE_URL || localUrl;
+
+var db = spicedPg(dbUrl);
 
 
 
