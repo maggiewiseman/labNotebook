@@ -58,6 +58,6 @@ app.get('*', mw.loggedInCheck, function(req, res) {
     return res.sendFile( path.join( __dirname, './index.html' ) );
 });
 
-app.listen(8080, function() {
-    console.log("I'm listening.");
+app.listen(process.env.PORT || 8080, ()=> {
+    console.log('Listening on port 8080');
 });
