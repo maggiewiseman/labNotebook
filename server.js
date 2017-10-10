@@ -24,6 +24,8 @@ if (process.env.NODE_ENV != 'production') {
     app.use('/bundle.js', require('http-proxy-middleware')({
         target: 'http://localhost:8081'
     }));
+} else {
+    app.use(require('./build'));
 }
 
 var secret = process.env.SESSION_SECRET || require('./secrets.json').sessionSecret;
