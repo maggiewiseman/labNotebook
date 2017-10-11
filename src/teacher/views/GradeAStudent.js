@@ -105,15 +105,13 @@ class GradeAssignment extends React.Component {
         </div>
 
         var finalReportComments =
+
         <div>
                 <div>
 
                     {finalComments(assignment.report_comments, assignment.report_grade, this.handleChange, this.handleCommit)}
 
                 </div>
-
-
-
         </div>
 
         return (
@@ -135,10 +133,8 @@ var mapStateToProps = function(state) {
         assignment: state.teachers.committedAssignment
     }
 }
+
 export default connect(mapStateToProps)(GradeAssignment);
-
-
-
 
 function committed (section, category, handleChange, handleSaveGrading) {
 
@@ -207,7 +203,7 @@ function committed (section, category, handleChange, handleSaveGrading) {
                     </Row>
                     </Card>
                 </div>
-                )
+            )
         }
     } else if(section[category + '_editable'] === null ||           section[category + '_content'] === null) {
 
@@ -216,8 +212,8 @@ function committed (section, category, handleChange, handleSaveGrading) {
     } else {
         return (
             <div>
-            <h5>{capitalize(category)}:</h5>
-            <p>{section[category + '_content']}</p>
+                <h5>{capitalize(category)}:</h5>
+                <p>{section[category + '_content']}</p>
             </div>
         )
 
@@ -230,69 +226,69 @@ function finalComments(comment, grade, handleChange, handleCommit) {
 
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
+                <Card title="Final Comments">
 
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
-                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}>{grade}</Input>
+                    <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}>{grade}</Input>
 
-            </Card>
-        </div>
+                </Card>
+            </div>
         )
 
     } else if (grade) {
 
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
+                <Card title="Final Comments">
 
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
 
-                <Input s={12} type="text" name="commit_grade" onChange={handleChange}>{grade}</Input>
-            </Card>
-        </div>
+                    <Input s={12} type="text" name="commit_grade" onChange={handleChange}>{grade}</Input>
+                </Card>
+            </div>
         )
 
 
     } else if (comment) {
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
+                <Card title="Final Comments">
 
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
-                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+                    <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
 
-            </Card>
-        </div>
+                </Card>
+            </div>
         )
     } else {
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
-
-
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
-
-                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+                <Card title="Final Comments">
 
 
-                <div>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
 
-                    <Button name='commit' onClick={handleCommit}>Commit To Student</Button>
+                    <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
 
-                </div>
 
-            </Card>
-        </div>
+                    <div>
+
+                        <Button name='commit' onClick={handleCommit}>Commit To Student</Button>
+
+                    </div>
+
+                </Card>
+            </div>
         )
     }
 }

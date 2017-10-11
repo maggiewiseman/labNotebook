@@ -246,7 +246,7 @@ var studentRoutes = (app) => {
 
             for(var prop in part) {
                 if(prop==='title') {
-                    dbStudent.updateTitles(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateTitles(id, assignmentID, part[prop]).then((result) => {
                         const title = result.rows[0].content;
                         res.json({
                             success: true
@@ -255,7 +255,7 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='question') {
-                    dbStudent.updateQuestions(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateQuestions(id, assignmentID, part[prop]).then((result) => {
                         const question = result.rows[0].content;
                         res.json({
                             success: true
@@ -264,7 +264,7 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='abstract') {
-                    dbStudent.updateAbstracts(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateAbstracts(id, assignmentID, part[prop]).then((result) => {
                         const abstract= result.rows[0].content;
                         res.json({
                             success: true
@@ -272,8 +272,7 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='hypothesis') {
-                    console.log('yaa', part[prop]);
-                    dbStudent.updateHypotheses(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateHypotheses(id, assignmentID, part[prop]).then((result) => {
                         console.log(result);
                         const hypothesis = result.rows[0].content;
                         res.json({
@@ -282,14 +281,14 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='variable') {
-                    dbStudent.updateVariables(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateVariables(id, assignmentID, part[prop]).then((result) => {
                         return {
                             variable: result.rows[0].content
                         }
                     })
                 }
                 if(prop==='material') {
-                    dbStudent.updateMaterials(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateMaterials(id, assignmentID, part[prop]).then((result) => {
                         const material = result.rows[0].content;
                         res.json({
                             success: true
@@ -297,7 +296,7 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='procedure') {
-                    dbStudent.updateProcedures(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateProcedures(id, assignmentID, part[prop]).then((result) => {
                         const procedure = result.rows[0].content;
                         res.json({
                             success: true
@@ -305,7 +304,7 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='data') {
-                    dbStudent.updateData(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateData(id, assignmentID, part[prop]).then((result) => {
                         const data = result.rows[0].content;
                         res.json({
                             success: true
@@ -313,7 +312,7 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='calculation') {
-                    dbStudent.updateCalculations(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateCalculations(id, assignmentID, part[prop]).then((result) => {
                         const calculation = result.rows[0].content;
                         res.json({
                             success: true
@@ -321,7 +320,7 @@ var studentRoutes = (app) => {
                     })
                 }
                 if(prop==='discussion') {
-                    dbStudent.updateDiscussions(assignmentID, part[prop]).then((result) => {
+                    dbStudent.updateDiscussions(id, assignmentID, part[prop]).then((result) => {
                         const discussion = result.rows[0].content;
                         res.json({
                             success: true

@@ -17,6 +17,7 @@ var loggedOutRoutes = (app) => {
 
         if(first_name && last_name && email && password && course) {
 
+
             console.log("success")
             console.log(first_name, last_name);
 

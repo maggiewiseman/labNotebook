@@ -20,10 +20,9 @@ class Courses extends React.Component {
                         <li className="menu-course-list">
                         {course.name}
                         </li>
-                    )
-                )}
+                        )
+                    )}
                 </div>
             );
         )
-
 }

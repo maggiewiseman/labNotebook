@@ -41,12 +41,10 @@ class Assignment extends React.Component {
 
         var field = e.target.name
 
-        console.log('dield', field);
 
         var send = {
             [field]: this.state[field]
         }
-        console.log('send', send);
         const {id} = this.props.params;
         this.props.dispatch(saveAssignment(id, send));
     }
@@ -78,46 +76,48 @@ class Assignment extends React.Component {
         console.log('STATUS', assignment.status);
 
         var assignmentOptions =
-        <div>
-            <div>
-                {editable(assignment.title, 'title',this.handleChange, this.handleSave)}
-                {editable(assignment.question, 'question',this.handleChange, this.handleSave)}
-                {editable(assignment.abstract, 'abstract',this.handleChange, this.handleSave)}
-                {editable(assignment.hypothesis, 'hypothesis',this.handleChange, this.handleSave)}
-                {editable(assignment.variable, 'variable',this.handleChange, this.handleSave)}
-                {editable(assignment.material, 'material',this.handleChange, this.handleSave)}
-                {editable(assignment.procedure, 'procedure',this.handleChange, this.handleSave)}
-                {editable(assignment.data, 'data',this.handleChange, this.handleSave)}
-                {editable(assignment.calculation, 'calculation',this.handleChange, this.handleSave)}
-                {editable(assignment.discussion, 'discussion',this.handleChange, this.handleSave)}
-            </div>
-            <Row>
-                <Col s={4}>
-                    <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
-                </Col>
-            </Row>
-            <Row>
-                <Col s={4}>
-                    <Button className="deep-purple" name='commit' onClick={this.handleCommit}>Commit</Button>
-                </Col>
-            </Row>
-        </div>
+                    <div>
+                        <div>
+                            {editable(assignment.title, 'title',this.handleChange, this.handleSave)}
+                            {editable(assignment.question, 'question',this.handleChange, this.handleSave)}
+                            {editable(assignment.abstract, 'abstract',this.handleChange, this.handleSave)}
+                            {editable(assignment.hypothesis, 'hypothesis',this.handleChange, this.handleSave)}
+                            {editable(assignment.variable, 'variable',this.handleChange, this.handleSave)}
+                            {editable(assignment.material, 'material',this.handleChange, this.handleSave)}
+                            {editable(assignment.procedure, 'procedure',this.handleChange, this.handleSave)}
+                            {editable(assignment.data, 'data',this.handleChange, this.handleSave)}
+                            {editable(assignment.calculation, 'calculation',this.handleChange, this.handleSave)}
+                            {editable(assignment.discussion, 'discussion',this.handleChange, this.handleSave)}
+                        </div>
+                        <Row>
+                            <Col s={4}>
+                                <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col s={4}>
+                                <Button className="deep-purple" name='commit' onClick={this.handleCommit}>Commit</Button>
+                            </Col>
+                        </Row>
+                    </div>
 
         var committedAssignment =
-            <div>
-                {committed (assignment.title, 'title')}
-                {committed (assignment.question, 'question')}
-                {committed (assignment.abstract, 'abstract')}
-                {committed (assignment.hypothesis, 'hypothesis')}
-                {committed (assignment.variable, 'variable')}
-                {committed (assignment.material, 'material')}
-                {committed (assignment.procedure, 'procedure')}
-                {committed (assignment.data, 'data')}
-                {committed (assignment.calculation, 'calculation')}
-                {committed (assignment.discussion, 'discussion')}
+
+                    <div>
+                        {committed (assignment.title, 'title')}
+                        {committed (assignment.question, 'question')}
+                        {committed (assignment.abstract, 'abstract')}
+                        {committed (assignment.hypothesis, 'hypothesis')}
+                        {committed (assignment.variable, 'variable')}
+                        {committed (assignment.material, 'material')}
+                        {committed (assignment.procedure, 'procedure')}
+                        {committed (assignment.data, 'data')}
+                        {committed (assignment.calculation, 'calculation')}
+                        {committed (assignment.discussion, 'discussion')}
 
 
-            </div>
+                    </div>
+
             var gradedAssignment =
 
                     <div>
@@ -151,12 +151,12 @@ class Assignment extends React.Component {
         }
 
         return (
-            <div className="blueBox">
+                <div className="blueBox">
 
-                <h5>{getAssignmentName(this.props.params.classid, this.props.params.id, this.props.studentInfo)}</h5>
-                {form}
+                    <h5>{getAssignmentName(this.props.params.classid, this.props.params.id, this.props.studentInfo)}</h5>
+                    {form}
 
-            </div>
+                </div>
 
         )
 
@@ -190,38 +190,37 @@ function editable(section, category, handleChange, handleSave, handleSaveAll, ha
                 </Card>
             )
         } else {
-        return (
+            return (
 
-            <Card title={capitalize(category)}>
-                <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
-                <div>
-                <Button name={category} onClick={handleSave}>Save</Button>
-                </div>
-            </Card>
-
-
+                <Card title={capitalize(category)}>
+                    <textarea name={category} placeholder="Type here.." cols="30" rows="5" onChange={handleChange} />
+                    <div>
+                    <Button name={category} onClick={handleSave}>Save</Button>
+                    </div>
+                </Card>
             )
         }
     } else if(section[category + '_editable'] === null || section[category + '_content'] === null) {
+
         return
+
     } else {
         return (
-            <Card title={capitalize(category)}>
-                <p>{section[category + '_content']}</p>
-            </Card>
+                <Card title={capitalize(category)}>
+                    <p>{section[category + '_content']}</p>
+                </Card>
         )
     }
-
 }
 
 function committed (section, category) {
 
     if(section[category + '_content']) {
 
-    return (
-        <Card title={capitalize(category)}>
-            <p>{section[category + '_content']}</p>
-        </Card>
+        return (
+            <Card title={capitalize(category)}>
+                <p>{section[category + '_content']}</p>
+            </Card>
         )
     }
 }
@@ -240,14 +239,14 @@ function graded (section, category) {
                     </Col>
                 </Row>
                 </Card>
-            )
+        )
 
     } else if (section[category + '_content'] && !section[category + '_editable'] ){
         return (
-            <Card title={capitalize(category)}>
-                <p>{section[category + '_content']}</p>
-            </Card>
-            )
+                <Card title={capitalize(category)}>
+                    <p>{section[category + '_content']}</p>
+                </Card>
+        )
 
     }
 }
@@ -276,67 +275,66 @@ function finalComments(comment, grade) {
         if(comment && grade) {
 
             return (
+                    <div>
 
-                <div>
+                        <h4>Final Comment</h4>
 
-                <h4>Final Comment</h4>
+                        <div>{comment}</div>
 
-                <div>{comment}</div>
+                        <h4>Final Grade</h4>
 
-                <h4>Final Grade</h4>
+                        <div>{grade}</div>
 
-                <div>{grade}</div>
-
-                </div>
+                    </div>
             )
 
         } else if (grade) {
 
             return (
 
-                <div>
+                    <div>
 
-                <h4>Final Comment</h4>
+                        <h4>Final Comment</h4>
 
-                <div></div>
+                        <div></div>
 
-                <h4>Final Grade</h4>
+                        <h4>Final Grade</h4>
 
-                <div>{grade}</div>
+                        <div>{grade}</div>
 
-                </div>
+                    </div>
             )
 
 
         } else if (comment) {
             return (
 
-                <div>
+                    <div>
 
-                <h4>Final Comment</h4>
+                        <h4>Final Comment</h4>
 
-                <div>{comment}</div>
+                        <div>{comment}</div>
 
-                <h4>Final Grade</h4>
+                        <h4>Final Grade</h4>
 
-                <div></div>
+                        <div></div>
 
-                </div>
+                    </div>
             )
         } else {
             return (
 
-                <div>
+                    <div>
 
-                <h4>Final Comment</h4>
+                        <h4>Final Comment</h4>
 
-                <div></div>
+                        <div></div>
 
-                <h4>Final Grade</h4>
+                        <h4>Final Grade</h4>
 
-                <div></div>
+                        <div></div>
 
-                </div>
+                    </div>
             )
         }
 

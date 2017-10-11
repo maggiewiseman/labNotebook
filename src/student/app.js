@@ -34,7 +34,6 @@ class App extends React.Component {
     newClass(e) {
 
         e.preventDefault();
-        console.log('new class event');
         this.props.dispatch(addNewClass(this.state.course));
 
         this.emptyField(e);
@@ -55,7 +54,6 @@ class App extends React.Component {
     emptyField(e) {
 
         e.target.value = '';
-        console.log('e');
     }
 
     showAssignment(e) {

@@ -29,6 +29,14 @@ class SpecificAssignment extends React.Component {
         }
     }
     componentWillMount() {
+        if(this.props.assignmentProperties){
+            var categoryList = getCategoryList(this.props.assignmentProperties[0]);
+            //console.log('SHOW CATEGORIES: CATEGORY LIST: ', categoryList);
+            this.setState({
+                categoryList,
+                category: categoryList[0]
+            });
+        }
         //needt to get list of students in this section and the id of their students_report
         //console.log('Specific Assignment for a given section assignmentId', this.props.params.id);
         this.props.dispatch(getCourseList());

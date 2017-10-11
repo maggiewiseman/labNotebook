@@ -64,13 +64,6 @@ export default function(state = {}, action) {
         })
     }
 
-    // if(action.type == ADD_COMMENT_CATEGORY) {
-    //     console.log('adding comment per category');
-    //     state = Object.assign({}, state, {
-    //
-    //     })
-    // }
-
     if(action.type == ERROR) {
         state = Object.assign({}, state, {
             error: action.payload

@@ -86,73 +86,73 @@ module.exports.getAssignmentStatus = function (student_id, assignment_id) {
 }
 //****************UPDATE ASSIGNMENTS *********************//
 
-module.exports.updateTitles = function (assignment_id, content) {
+module.exports.updateTitles = function (id, assignment_id, content) {
 
-    const update = `UPDATE titles SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE titles SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
-module.exports.updateQuestions= function (assignment_id, content) {
+module.exports.updateQuestions= function (id, assignment_id, content) {
 
-    const update = `UPDATE questions SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE questions SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
-module.exports.updateAbstracts= function (assignment_id, content) {
+module.exports.updateAbstracts= function (id, assignment_id, content) {
 
-    const update = `UPDATE abstracts SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE abstracts SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
-module.exports.updateHypotheses = function (assignment_id, content) {
+module.exports.updateHypotheses = function (id, assignment_id, content) {
 
-    const update = `UPDATE hypotheses SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE hypotheses SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
-module.exports.updateVariables= function (assignment_id, content) {
+module.exports.updateVariables= function (id, assignment_id, content) {
 
-    const update = `UPDATE variables SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE variables SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
 
-module.exports.updateMaterials = function (assignment_id, content) {
+module.exports.updateMaterials = function (id, assignment_id, content) {
 
-    const update = `UPDATE materials SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE materials SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
-module.exports.updateProcedures = function (assignment_id, content) {
+module.exports.updateProcedures = function (id, assignment_id, content) {
 
-    const update = `UPDATE procedures SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE procedures SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
-module.exports.updateData = function (assignment_id, content) {
+module.exports.updateData = function (id, assignment_id, content) {
 
-    const update = `UPDATE data SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
-    return result;
-}
-
-module.exports.updateCalculations = function (assignment_id, content) {
-
-    const update = `UPDATE calculations SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE data SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
-module.exports.updateDiscussions = function (assignment_id, content) {
+module.exports.updateCalculations = function (id, assignment_id, content) {
 
-    const update = `UPDATE discussions SET content = $2 WHERE assignment_id = $1 RETURNING content`;
-    const result = db.query(update, [assignment_id, content]);
+    const update = `UPDATE calculations SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
+    return result;
+}
+
+module.exports.updateDiscussions = function (id, assignment_id, content) {
+
+    const update = `UPDATE discussions SET content=$3 WHERE id=$1 AND assignment_id=$2 RETURNING content`;
+    const result = db.query(update, [id, assignment_id, content]);
     return result;
 }
 
