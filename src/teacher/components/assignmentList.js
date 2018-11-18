@@ -13,9 +13,7 @@ export default class AssignmentList extends React.Component{
         }
     }
     componentDidMount() {
-        console.log('Component did mount: Asssignment List');
         var url ='/api/teacher/assignments/' + this.props.sectionId;
-        console.log('URL', url);
         axios.get('/api/teacher/assignments/' + this.props.sectionId).then(results => {
             console.log('Back from getting assignments:,', results);
             if(results.data.success) {

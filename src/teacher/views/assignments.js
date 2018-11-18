@@ -25,7 +25,6 @@ class TeacherAssignments extends React.Component {
         const { courses, sections } = this.props
 
         if(courses) {
-            console.log('making courses call');
             var courseList = makeCourseList(courses, sections);
         }
 

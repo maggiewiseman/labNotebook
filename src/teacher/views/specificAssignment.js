@@ -51,16 +51,22 @@ class SpecificAssignment extends React.Component {
     render() {
         const { showCategories } = this.state;
         const { studentList, currAssignmentId, assignmentProperties } = this.props;
-        var assignmentName = '';
 
-        if(studentList) {
-            var studentHtmlList = makeInnerList(studentList, currAssignmentId)
-            assignmentName = studentList[0].name;
-        }
+        if(!assignmentProperties) {
+            return <div>Loading...</div>
+        } 
 
-        if(assignmentProperties) {
-            //var selector = makeSelector(assignmentProperties[0]);
-            var categoryList = this.state.categoryList;
+        var assignmentName = assignmentProperties[0].name;
+        var studentHtmlList;
+        var directions;
+
+        if(studentList && studentList[0].first_name) {
+    
+            console.log('gmoney makeinnerlist', studentList[0])
+            studentHtmlList = makeInnerList(studentList, currAssignmentId)
+            directions = "Click a student to grade his/her report";
+        } else {
+            directions = "No students have this assignment";
         }
 
         if(this.state.categoryList){
@@ -70,7 +76,7 @@ class SpecificAssignment extends React.Component {
                         <Col m={12}>
                             <Breadcrumb className="indigo">
                                 <MenuItem>Assignments</MenuItem>
-                                <MenuItem>{assignmentName}</MenuItem>
+                                <MenuItem>{assignmentName && assignmentName}</MenuItem>
                             </Breadcrumb>
                         </Col>
                     </Row>
@@ -101,18 +107,18 @@ class SpecificAssignment extends React.Component {
                     </Row>
                     <Row>
                         <Col m={12}>
-                            <p>Click a student to grade his/her report</p>
+                            <p>{directions}</p>
                         </Col>
                     </Row>
                     <Row>
                         <Col m={12}>
-                            {studentHtmlList}
+                            {studentHtmlList && studentHtmlList}
                         </Col>
                     </Row>
                 </div>
             )
         } else {
-            return null;
+            return <div>No students have this assignment.</div>;
         }
     }
 }
@@ -131,6 +137,8 @@ export default connect(mapStateToProps)(SpecificAssignment);
 
 function makeInnerList(items, assignmentId) {
     var itemList = items.map(item => {
+        if(!item.report_id) return
+
         var status = determineStatus(item.status, assignmentId);
         return (
             <CollectionItem key={item.report_id.toString()}>

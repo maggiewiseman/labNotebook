@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getCommittedAssignments, saveGrading, commitGrade } from '../actions';
 import Logout from '../../auth/logout.js';
-import {capitalize} from '../../helpers';
-import {Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
+import { capitalize } from '../../helpers';
+import { Row, Col, Button, Input, Card, Collection, CollectionItem, MenuItem, Breadcrumb } from 'react-materialize';
 
 
 
@@ -23,7 +23,7 @@ class GradeAssignment extends React.Component {
 
     componentDidMount() {
 
-        const {id, reportid} = this.props.params;
+        const { id, reportid } = this.props.params;
         console.log(id, reportid);
 
         this.props.dispatch(getCommittedAssignments(id, reportid));
@@ -31,7 +31,7 @@ class GradeAssignment extends React.Component {
 
     handleChange(e) {
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         }, () => {
             console.log(this.state);
         });
@@ -39,26 +39,26 @@ class GradeAssignment extends React.Component {
 
 
     handleSaveGrading(e) {
-        const {id, reportid} = this.props.params;
+        const { id, reportid } = this.props.params;
 
         var field = e.target.name
 
         var send = {
-            [field+'_comment']: this.state[field+'_comment'],
-            [field+'_grade']: this.state[field+'_grade']
+            [field + '_comment']: this.state[field + '_comment'],
+            [field + '_grade']: this.state[field + '_grade']
         }
 
-            this.props.dispatch(saveGrading(id, reportid, send));
+        this.props.dispatch(saveGrading(id, reportid, send));
     }
 
     handleCommit(e) {
-        const {id, reportid} = this.props.params;
+        const { id, reportid } = this.props.params;
         console.log(e.target.name);
         var field = e.target.name
 
         var send = {
-            [field+'_comment']: this.state[field+'_comment'],
-            [field+'_grade']: this.state[field+'_grade']
+            [field + '_comment']: this.state[field + '_comment'],
+            [field + '_grade']: this.state[field + '_grade']
         }
         console.log(send);
         this.props.dispatch(commitGrade(id, reportid, send));
@@ -67,45 +67,46 @@ class GradeAssignment extends React.Component {
 
     handleSaveAll(e) {
 
-        const {id, reportid} = this.props.params;
+        const { id, reportid } = this.props.params;
 
-            this.props.dispatch(saveGrading(id, reportid, this.state));
+        this.props.dispatch(saveGrading(id, reportid, this.state));
     }
 
 
     render() {
         var form;
-        const{assignment} = this.props;
+        const { assignment } = this.props;
 
 
-        if(!assignment) {
-            return null
+        if (!assignment) {
+
+            return <div>You have no assignments.</div>
         }
 
         var committedAssignment =
-        <div>
+            <div>
                 <div>
 
 
-                    {committed (assignment.title, 'title', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.question, 'question', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.abstract, 'abstract', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.hypothesis, 'hypothesis', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.variable, 'variable', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.material, 'material', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.procedure, 'procedure', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.data, 'data', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.calculation, 'calculation', this.handleChange, this.handleSaveGrading)}
-                    {committed (assignment.discussion, 'discussion', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.title, 'title', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.question, 'question', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.abstract, 'abstract', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.hypothesis, 'hypothesis', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.variable, 'variable', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.material, 'material', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.procedure, 'procedure', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.data, 'data', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.calculation, 'calculation', this.handleChange, this.handleSaveGrading)}
+                    {committed(assignment.discussion, 'discussion', this.handleChange, this.handleSaveGrading)}
 
                 </div>
                 <div>
                     <Button name='saveAll' onClick={this.handleSaveAll}>Save All</Button>
                 </div>
-        </div>
+            </div>
 
         var finalReportComments =
-        <div>
+            <div>
                 <div>
 
                     {finalComments(assignment.report_comments, assignment.report_grade, this.handleChange, this.handleCommit)}
@@ -114,7 +115,7 @@ class GradeAssignment extends React.Component {
 
 
 
-        </div>
+            </div>
 
         return (
 
@@ -130,7 +131,7 @@ class GradeAssignment extends React.Component {
 
 }
 
-var mapStateToProps = function(state) {
+var mapStateToProps = function (state) {
     return {
         assignment: state.teachers.committedAssignment
     }
@@ -140,14 +141,14 @@ export default connect(mapStateToProps)(GradeAssignment);
 
 
 
-function committed (section, category, handleChange, handleSaveGrading) {
+function committed(section, category, handleChange, handleSaveGrading) {
 
-    if(section[category + '_editable']) {
+    if (section[category + '_editable']) {
 
         if (section[category + '_comments'] && section[category + '_grade']) {
             return (
                 <div>
-                    <Card  title={capitalize(category)} >
+                    <Card title={capitalize(category)} >
                         <Input type="textarea" name={`${category}_comment`} onChange={handleChange}>{section[category + '_comments']} label="Comments"></Input>
 
                         <Input type="text" label="Grade" name={`${category}_grade`} onChange={handleChange}>{section[category + '_grade']}></Input>
@@ -158,13 +159,13 @@ function committed (section, category, handleChange, handleSaveGrading) {
                     </Card>
                 </div>
             )
-        } else if(section[category + '_grade']) {
+        } else if (section[category + '_grade']) {
 
             return (
 
                 <Card title={capitalize(category)}>
 
-                    <Input s={12}  type="textarea" label="Comment" name={`${category}_comment`} onChange={handleChange}></Input>
+                    <Input s={12} type="textarea" label="Comment" name={`${category}_comment`} onChange={handleChange}></Input>
 
                     <Input s={12} type="text" label="Grade" name={`${category}_grade`} onChange={handleChange}>{section[category + '_grade']}</Input>
 
@@ -186,38 +187,38 @@ function committed (section, category, handleChange, handleSaveGrading) {
                 </Card>
             )
 
-        }  else {
+        } else {
 
             return (
                 <div>
 
                     <Card title={capitalize(category)}>
-                    <Row>
-                        <Col s={12} m={6}>
-                            <p>{section[category + '_content']}</p>
-                        </Col>
-                        <Col s={12} m={6}>
-                            <Input s={12}  type="textarea" label="Comments" onChange={handleChange} name={`${category}_comment`}></Input>
+                        <Row>
+                            <Col s={12} m={6}>
+                                <p>{section[category + '_content']}</p>
+                            </Col>
+                            <Col s={12} m={6}>
+                                <Input s={12} type="textarea" label="Comments" onChange={handleChange} name={`${category}_comment`}></Input>
 
-                            <Input s={12} type="text" onChange={handleChange} name={`${category}_grade`} label="Grade"></Input>
-                            <div>
-                                <Button onClick={handleSaveGrading} name={category} >Save</Button>
-                            </div>
-                        </Col>
-                    </Row>
+                                <Input s={12} type="text" onChange={handleChange} name={`${category}_grade`} label="Grade"></Input>
+                                <div>
+                                    <Button onClick={handleSaveGrading} name={category} >Save</Button>
+                                </div>
+                            </Col>
+                        </Row>
                     </Card>
                 </div>
-                )
+            )
         }
-    } else if(section[category + '_editable'] === null ||           section[category + '_content'] === null) {
+    } else if (section[category + '_editable'] === null || section[category + '_content'] === null) {
 
         return
 
     } else {
         return (
             <div>
-            <h5>{capitalize(category)}:</h5>
-            <p>{section[category + '_content']}</p>
+                <h5>{capitalize(category)}:</h5>
+                <p>{section[category + '_content']}</p>
             </div>
         )
 
@@ -226,73 +227,73 @@ function committed (section, category, handleChange, handleSaveGrading) {
 
 function finalComments(comment, grade, handleChange, handleCommit) {
 
-    if(comment && grade) {
+    if (comment && grade) {
 
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
+                <Card title="Final Comments">
 
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
-                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}>{grade}</Input>
+                    <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}>{grade}</Input>
 
-            </Card>
-        </div>
+                </Card>
+            </div>
         )
 
     } else if (grade) {
 
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
+                <Card title="Final Comments">
 
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
 
-                <Input s={12} type="text" name="commit_grade" onChange={handleChange}>{grade}</Input>
-            </Card>
-        </div>
+                    <Input s={12} type="text" name="commit_grade" onChange={handleChange}>{grade}</Input>
+                </Card>
+            </div>
         )
 
 
     } else if (comment) {
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
+                <Card title="Final Comments">
 
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}>{comment}</Input>
 
-                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+                    <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
 
-            </Card>
-        </div>
+                </Card>
+            </div>
         )
     } else {
         return (
 
-        <div>
+            <div>
 
-            <Card title="Final Comments">
-
-
-                <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
-
-                <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
+                <Card title="Final Comments">
 
 
-                <div>
+                    <Input s={12} type="textarea" label="Comments" name="commit_comment" onChange={handleChange}></Input>
 
-                    <Button name='commit' onClick={handleCommit}>Commit To Student</Button>
+                    <Input s={12} type="text" label="Overall Grade" name="commit_grade" onChange={handleChange}></Input>
 
-                </div>
 
-            </Card>
-        </div>
+                    <div>
+
+                        <Button name='commit' onClick={handleCommit}>Commit To Student</Button>
+
+                    </div>
+
+                </Card>
+            </div>
         )
     }
 }

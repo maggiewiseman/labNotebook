@@ -39,7 +39,7 @@ const reducers = combineReducers({
     students: studentReducer,
 });
 
- const store = createStore(reducers, composeWithDevTools(applyMiddleware(reduxPromise)));
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(reduxPromise)));
 
 //Routers
 const loggedOutRouter = (
@@ -55,7 +55,7 @@ const studentRouter = (
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/student" component={StudentApp}>
-                <IndexRoute component={StudentDashboard}/>
+                <IndexRoute component={StudentDashboard} />
                 <Route path="/student/:classid/assignment/:id" component={AssignmentView} />
             </Route>
         </Router>
@@ -67,24 +67,24 @@ const teacherRouter = (
         <Router history={browserHistory}>
             <Route path="/teacher" component={TeacherApp}>
                 <Route path="/teacher/courses" component={TeacherCourses} />
-                <Route path="/teacher/assignments" component={TeacherAssignments}/>
+                <Route path="/teacher/assignments" component={TeacherAssignments} />
                 <Route path="/teacher/new/assignment" component={TeacherNewAssignment} />
                 <Route path="/teacher/assignment/:id" component={SpecificAssignment} />
                 <Route path="/teacher/category/assignment/:sectionid/:assignmentid/:category" component={GradeACategory} />
                 <Route path="/teacher/grading/assignment/:id/student/:reportid" component={GradeAStudent} />
-                <IndexRoute component={TeacherDashboard}/>
+                <IndexRoute component={TeacherDashboard} />
             </Route>
         </Router>
     </Provider>
 )
 
 let route;
-if(location.pathname == '/' || location.pathname == '/register' || location.pathname == '/login') {
+if (location.pathname == '/' || location.pathname == '/register' || location.pathname == '/login') {
     route = loggedOutRouter;
-} else if (location.pathname.substring(0,8) == '/student') {
+} else if (location.pathname.substring(0, 8) == '/student') {
     console.log('using student router');
     route = studentRouter;
-} else if (location.pathname.substring(0,8) == '/teacher') {
+} else if (location.pathname.substring(0, 8) == '/teacher') {
     console.log('using teacher router');
     route = teacherRouter;
 }
