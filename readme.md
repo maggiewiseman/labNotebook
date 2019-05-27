@@ -3,6 +3,8 @@
 
 **Contributors:** Maggie Wiseman & Ingrid Majdalani
 
+[Live version](https://cloudnotebook.herokuapp.com/) (can take a long time to load, might need to refresh)
+
 ## Summary:
 Lab notebooks are notoriously annoying for most high school teachers and students.  The rules such as only writing in indelible ink, not crossing things out (no white out), only writing on one side, remembering your name and date on every page, etc. seem archaic and unjustified to many students.  Do today's scientists really use such old technology? Maybe some do, but many more are using online lab notebook systems that allow them to connect with other researchers, databases, chemical drawing tools and other features that make their work more efficient. However, high school and undergraduate students often still experience the requirement to keep paper lab notebooks. The purpose of this project was to create an online lab notebook system geared towards high school students and teachers.
 
